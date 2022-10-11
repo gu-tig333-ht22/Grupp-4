@@ -41,7 +41,7 @@ class MovieDetails extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(
-              Icons.watch_later,
+              Icons.bookmark_outlined,
               color: Colors.white,
             ),
             onPressed: () {},
@@ -59,60 +59,62 @@ class MovieDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _image(),
-          Padding(
-            padding: const EdgeInsets.only(left: 40, bottom: 50, top: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.watch_later_outlined,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: const Text(
-                        "148 min",
-                        style: TextStyle(fontSize: 16),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 40, bottom: 50, top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.watch_later_outlined,
+                        color: Colors.white,
+                        size: 18,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star_border_outlined,
-                      color: Colors.white,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: const Text(
-                        "9.5",
-                        style: TextStyle(fontSize: 16),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: const Text(
+                          "148 min",
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.category_outlined,
-                      color: Colors.white,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: const Text(
-                        "Action",
-                        style: TextStyle(fontSize: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.star_border_outlined,
+                        color: Colors.white,
                       ),
-                    ),
-                  ],
-                )
-              ],
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: const Text(
+                          "9.5",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.category_outlined,
+                        color: Colors.white,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: const Text(
+                          "Action",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           )
         ],
@@ -121,10 +123,25 @@ class MovieDetails extends StatelessWidget {
   }
 
   Widget _image() {
+    return Expanded(
+      child: Container(
+        height: 300,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+            image: DecorationImage(
+                image: AssetImage("./assets/spiderman.jpg"),
+                fit: BoxFit.cover)),
+      ),
+    );
+  }
+
+/*
+
+  Widget _image() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(40),
       child: SizedBox.fromSize(
-        size: Size.fromRadius(100),
+        size: Size.fromRadius(150),
         child: Image.asset(
           './assets/spiderman.jpg',
           fit: BoxFit.cover,
@@ -132,6 +149,7 @@ class MovieDetails extends StatelessWidget {
       ),
     );
   }
+*/
 
   Widget _headLine(String text) {
     return Container(
