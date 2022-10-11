@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 import 'package:template/FavoriteView.dart';
 import 'package:template/RatingView.dart';
+import 'package:template/WatchListOverview.dart';
 import 'package:template/screens/home_screen.dart';
 
 
@@ -56,7 +57,7 @@ class _SessionScaffoldState extends State<SessionScaffold> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -83,6 +84,7 @@ class _SessionScaffoldState extends State<SessionScaffold> with SingleTickerProv
             Tab(icon: Icon(Icons.home, color: Colors.black)),
             Tab(icon: Icon(Icons.favorite, color: Colors.black)),
             Tab(icon: Icon(Icons.list, color: Colors.black)),
+            Tab(icon: Icon(Icons.star, color: Colors.black)),
           ],
           
         ),
@@ -92,6 +94,7 @@ class _SessionScaffoldState extends State<SessionScaffold> with SingleTickerProv
         children: const [
           HomeScreen(),
           FavoriteView(),
+          WatchListOverview(),
           RatingView()
         ]
         )
