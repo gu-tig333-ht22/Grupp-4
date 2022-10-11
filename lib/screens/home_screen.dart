@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:template/MovieDetails.dart';
+import 'package:template/models/movie.dart';
 // import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0,55,0,15),
+                padding: const EdgeInsets.fromLTRB(0,15,0,15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,59 +84,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ],
       ),
-      //bottomNavigationBar: bottomNavTabBar()//bottomNavBar(),
     );
   }
-
-  // Widget bottomNavBar() {
-  //   return Container(
-  //     decoration: const BoxDecoration(
-  //       boxShadow: [BoxShadow(
-  //           color: Color(0xFF27272D),
-  //           blurRadius: 10,
-  //           spreadRadius: 15,
-  //         )]
-  //     ),
-  //     height: 55,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: const [
-  //         Icon(Icons.home),
-  //         Icon(Icons.list),
-  //         Icon(Icons.favorite)
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  
-  //  Widget bottomNavTabBar() {
-  //   return Container(
-  //     decoration: const BoxDecoration(
-  //       boxShadow: [BoxShadow(
-  //           color: Color(0xFF27272D),
-  //           blurRadius: 10,
-  //           spreadRadius: 15,
-  //         )]
-  //     ),
-  //     height: 55,
-  //     child: TabBar(
-  //       indicator: const PointTabIndicator(
-  //         position: PointTabIndicatorPosition.bottom,
-  //         color: Color(0xFF0296E5),
-  //         insets: EdgeInsets.only(bottom: 10)
-  //       ),
-  //       controller: TabController(length: 3, vsync: this),
-  //       tabs: const [
-  //         Tab(icon: Icon(Icons.home, color: Colors.black)),
-  //         Tab(icon: Icon(Icons.list, color: Colors.black)),
-  //         Tab(icon: Icon(Icons.favorite, color: Colors.black))
-  //       ],
-  //     ),
-  //   );
-  // }
-
-
 
   Widget movieRow(String title, List<Movie> movies) {
     return Padding(
@@ -167,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GestureDetector(
-        onTap: () {}, //TODO ROUTE TO MOVIE PAGE
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (con) => const MovieDetails()));
+        }, //TODO ROUTE TO MOVIE PAGE
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOutCubic,
@@ -213,11 +166,3 @@ final List<Movie> movies = [
   const Movie(id: "1", poster: "assets/temp_movie_poster/test3.jpeg", title: "Tenet"),
   const Movie(id: "1", poster: "assets/temp_movie_poster/test4.jpeg", title: "6 Underground"),
 ];
-
-class Movie {
-  final String poster;
-  final String id;
-  final String title;
-
-  const Movie({required this.id, required this.poster, required this.title});
-}

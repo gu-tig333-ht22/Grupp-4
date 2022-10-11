@@ -31,26 +31,26 @@ class RatingView extends StatelessWidget {
         ),
       ),
       body: _list(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later),
-            label: 'watchlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.rate_review),
-            label: 'Ratings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.watch_later),
+      //       label: 'watchlist',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.rate_review),
+      //       label: 'Ratings',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite),
+      //       label: 'Favorites',
+      //     ),
+      //   ],
+      // ),
     );
   }
 

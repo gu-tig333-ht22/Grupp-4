@@ -29,29 +29,24 @@ class FavoriteView extends StatelessWidget {
             fontSize: 30,
           ),
         ),
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back,
-              color: Color.fromRGBO(2, 150, 229, 100)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
       ),
       body: _list(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Watchlist',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home_outlined),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite_border),
+      //       label: 'Favorites',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.bookmark_border),
+      //       label: 'Watchlist',
+      //     ),
+      //   ],
+      // ),
     );
   }
 

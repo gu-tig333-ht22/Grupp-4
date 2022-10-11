@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
+import 'package:template/FavoriteView.dart';
+import 'package:template/RatingView.dart';
 import 'package:template/screens/home_screen.dart';
 
 
@@ -32,7 +36,66 @@ class MyApp extends StatelessWidget {
           textTheme: Theme.of(context)
               .textTheme
               .apply(bodyColor: Colors.white, displayColor: Colors.white)),
-      home: const HomeScreen(),
+      
+      home: const SessionScaffold()
+    );
+  }
+}
+
+class SessionScaffold extends StatefulWidget {
+  const SessionScaffold({super.key});
+
+  @override
+  State<SessionScaffold> createState() => _SessionScaffoldState();
+}
+
+class _SessionScaffoldState extends State<SessionScaffold> with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar:  Container(
+        decoration: const BoxDecoration(
+          boxShadow: [BoxShadow(
+              color: Color(0xFF27272D),
+              blurRadius: 10,
+              spreadRadius: 15,
+            )]
+        ),
+        height: 55,
+        child: TabBar(
+          indicator: const PointTabIndicator(
+            position: PointTabIndicatorPosition.bottom,
+            color: Color(0xFF0296E5),
+            insets: EdgeInsets.only(bottom: 10)
+          ),
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.home, color: Colors.black)),
+            Tab(icon: Icon(Icons.favorite, color: Colors.black)),
+            Tab(icon: Icon(Icons.list, color: Colors.black)),
+          ],
+          
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          HomeScreen(),
+          FavoriteView(),
+          RatingView()
+        ]
+        )
+      ),
     );
   }
 }
