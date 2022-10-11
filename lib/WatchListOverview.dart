@@ -15,11 +15,6 @@ class WatchListOverviewState extends State<WatchListOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white)),
           actions: [
             IconButton(
                 icon: Icon(Icons.add, color: Colors.white, size: 30),
