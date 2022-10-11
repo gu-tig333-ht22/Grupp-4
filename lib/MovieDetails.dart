@@ -8,13 +8,27 @@ class MovieDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 29, 29, 33),
+        title: Center(
+          child: Text(
+            "Spiderman No Way Home",
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.bookmark_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _title(),
             _imageRow(),
             _headLine("About"),
             _textContainer(),
@@ -22,34 +36,6 @@ class MovieDetails extends StatelessWidget {
             _castRow(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _title() {
-    return Container(
-      padding: const EdgeInsets.only(top: 50, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            width: 60,
-          ),
-          const Expanded(
-            child: Text(
-              "Spiderman No Way Home",
-              style: TextStyle(fontSize: 26),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.bookmark_outlined,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-        ],
       ),
     );
   }
@@ -176,7 +162,7 @@ class MovieDetails extends StatelessWidget {
     var list = [image, image, image, image, image, image, image, image];
     return Container(
       margin: EdgeInsets.only(left: 10),
-      height: 160,
+      height: 200,
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -187,15 +173,20 @@ class MovieDetails extends StatelessWidget {
 
   Widget _item(item) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 20.0, right: 15, bottom: 20),
       child: Column(
         children: [
           CircleAvatar(
-            radius: 40,
+            radius: 45,
             backgroundImage: item,
           ),
-          Text("Tom"),
-          Text("Holland")
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Text(
+              "Tom\nHolland",
+              textAlign: TextAlign.center,
+            ),
+          )
         ],
       ),
     );
