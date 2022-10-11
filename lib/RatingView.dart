@@ -70,7 +70,6 @@ class Mainview extends StatelessWidget {
       "The Lionking (1994)",
       "Wall-E (2008)",
     ];
-    
 
     var list = List.generate(ratings.length, (index) => "${ratings[index]}");
 
@@ -90,15 +89,6 @@ class Mainview extends StatelessWidget {
       },
     );
   }
-  RatingBar( 
-    minRating: 1,
-    maxRating: 5,
-    initialRating: 3,
-    allowHalfRating: true,
-    onRatingUpdate: _saveRating,
-    updateOnDrag: true,
-)
-class _saveRating
 
   Widget _item(text) {
     return ListTile(
