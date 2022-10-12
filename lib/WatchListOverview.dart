@@ -4,6 +4,7 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:template/AddWatchList.dart';
 import 'main.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,13 @@ class WatchListOverviewState extends State<WatchListOverview> {
               icon: Icon(Icons.arrow_back_ios, color: Colors.white)),
           actions: [
             IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 30),
-                tooltip: 'Create watchlist',
-                onPressed: () {})
+              icon: Icon(Icons.add, color: Colors.white, size: 30),
+              tooltip: 'Create watchlist',
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AddWatchList())),
+            )
           ],
           backgroundColor: Color.fromARGB(255, 43, 42, 42),
           centerTitle: true,
