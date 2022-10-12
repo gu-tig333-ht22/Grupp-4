@@ -16,7 +16,6 @@ import 'package:google_fonts/google_fonts.dart';
 // }
 
 class FavoriteView extends StatelessWidget {
-
   const FavoriteView({super.key});
 
   @override
@@ -30,7 +29,7 @@ class FavoriteView extends StatelessWidget {
           ),
         ),
       ),
-      body: _list(),
+      body: _favoritelist(),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const <BottomNavigationBarItem>[
       //     BottomNavigationBarItem(
@@ -50,7 +49,7 @@ class FavoriteView extends StatelessWidget {
     );
   }
 
-  Widget _list() {
+  Widget _favoritelist() {
     var favorites = [
       "Forrest Gump",
       "The Godfather",

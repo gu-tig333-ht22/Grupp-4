@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:template/models/movie.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MovieDetails extends StatelessWidget {
-  const MovieDetails({Key? key}) : super(key: key);
+  final Movie movie;
+
+  MovieDetails(this.movie);
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +15,7 @@ class MovieDetails extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 29, 29, 33),
         title: Center(
-          child: Text(
-            "Spiderman No Way Home",
-            style: TextStyle(fontSize: 24),
-          ),
+          child: Text(movie.title),
         ),
         actions: [
           IconButton(
@@ -79,8 +82,8 @@ class MovieDetails extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
-                        child: const Text(
-                          "9.5",
+                        child: Text(
+                          movie.rating.toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -116,10 +119,13 @@ class MovieDetails extends StatelessWidget {
       child: Container(
         height: 300,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            image: DecorationImage(
-                image: AssetImage("./assets/spiderman.jpg"),
-                fit: BoxFit.cover)),
+          borderRadius: BorderRadius.circular(40),
+          image: DecorationImage(
+            image:
+                NetworkImage('https://image.tmdb.org/t/p/w500/${movie.poster}'),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }
@@ -139,7 +145,6 @@ class MovieDetails extends StatelessWidget {
     );
   }
 */
-
   Widget _headLine(String text) {
     return Container(
       margin: EdgeInsets.only(left: 20),
@@ -153,8 +158,7 @@ class MovieDetails extends StatelessWidget {
   Widget _textContainer() {
     return Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
-        child: Text(
-            "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear, forcing Peter to discover what it truly means to be Spider-Man."));
+        child: Text(movie.overview));
   }
 
   Widget _castRow() {
