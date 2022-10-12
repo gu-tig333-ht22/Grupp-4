@@ -90,6 +90,7 @@ class _SessionScaffoldState extends State<SessionScaffold> with SingleTickerProv
         ),
       ),
       body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: const [
           HomeScreen(),
