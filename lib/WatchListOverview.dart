@@ -2,6 +2,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:template/AddWatchList.dart';
+import 'main.dart';
+import 'package:provider/provider.dart';
+
 
 class WatchListOverview extends StatefulWidget {
   const WatchListOverview({super.key});
@@ -17,9 +21,13 @@ class WatchListOverviewState extends State<WatchListOverview> {
       appBar: AppBar(
           actions: [
             IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 30),
-                tooltip: 'Create watchlist',
-                onPressed: () {})
+              icon: Icon(Icons.add, color: Colors.white, size: 30),
+              tooltip: 'Create watchlist',
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AddWatchList())),
+            )
           ],
           backgroundColor: Color.fromARGB(255, 43, 42, 42),
           centerTitle: true,
