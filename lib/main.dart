@@ -5,10 +5,19 @@ import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 import 'package:template/FavoriteView.dart';
 import 'package:template/RatingView.dart';
 import 'package:template/WatchListOverview.dart';
+import 'package:template/models/movie.dart';
 import 'package:template/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  var state = MyState();
+  state.getMovie();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -83,14 +92,14 @@ class _SessionScaffoldState extends State<SessionScaffold>
             ),
           ),
           body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _tabController, 
-            children: const [
-            HomeScreen(),
-            FavoriteView(),
-            WatchListOverview(),
-            RatingView()
-          ])),
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: const [
+                HomeScreen(),
+                FavoriteView(),
+                WatchListOverview(),
+                RatingView()
+              ])),
     );
   }
 }
