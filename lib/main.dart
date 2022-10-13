@@ -86,17 +86,20 @@ class _SessionScaffoldState extends State<SessionScaffold>
               tabs: const [
                 Tab(icon: Icon(Icons.home, color: Colors.black)),
                 Tab(icon: Icon(Icons.favorite, color: Colors.black)),
-                Tab(icon: Icon(Icons.list, color: Colors.black)),
+                Tab(icon: Icon(Icons.bookmark, color: Colors.black)),
                 Tab(icon: Icon(Icons.star, color: Colors.black)),
               ],
             ),
           ),
-          body: TabBarView(controller: _tabController, children: const [
-            HomeScreen(),
-            FavoriteView(),
-            WatchListOverview(),
-            RatingView()
-          ])),
+          body: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: const [
+                HomeScreen(),
+                FavoriteView(),
+                WatchListOverview(),
+                RatingView()
+              ])),
     );
   }
 }
