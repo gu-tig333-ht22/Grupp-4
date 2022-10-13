@@ -6,18 +6,22 @@ import 'package:template/FavoriteView.dart';
 import 'package:template/RatingView.dart';
 import 'package:template/WatchListOverview.dart';
 import 'package:template/models/movie.dart';
+import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   var state = MyState();
   state.getMovie();
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => state,
-      child: MyApp(),
-    ),
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => state,
+      ),
+      ChangeNotifierProvider<SearchProvider>(create: (context) => SearchProvider())
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

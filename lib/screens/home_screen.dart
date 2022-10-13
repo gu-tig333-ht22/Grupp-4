@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/MovieDetails.dart';
 import 'package:template/models/movie.dart';
+import 'package:template/providers/search_provider.dart';
+import 'package:template/widgets/shimmer_loader.dart';
 // import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,8 +14,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  PageController pageController = PageController(viewportFraction: 0.5);
-  int activeMove = 0;
+  PageController pageController =
+      PageController(viewportFraction: 0.5, initialPage: 2);
+  int activeMove = 2;
   TextEditingController serachController = TextEditingController();
 
   @override
@@ -23,66 +26,119 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color.fromARGB(255, 76, 76, 82),
-                        ),
-                        child: TextField(
-                          controller: serachController,
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Color(0xFF92929D)),
-                              fillColor: Colors.amber,
-                              prefixIcon:
-                                  Icon(Icons.search, color: Color(0xFF92929D)),
-                              hintText: "Serach"),
-                          onChanged:
-                              (_) {}, //TODO POPULATE SEARCH LIST AND UPDATE UI
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 300,
-                      child: PageView.builder(
-                          onPageChanged: (page) {
-                            setState(() {
-                              activeMove = page;
-                            });
-                          },
-                          pageSnapping: true,
-                          itemCount: movies.length,
-                          controller: pageController,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return moviePoster(
-                                movies[index], index == activeMove);
-                          }),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            child: Consumer<MyState>(
+              builder: (context, homeScreenValue, child) {
+                if (homeScreenValue.loadingHomeScreen) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...movies
-                            .asMap()
-                            .entries
-                            .map((e) => pageIndication(e.key == activeMove))
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color.fromARGB(255, 76, 76, 82),
+                            ),
+                            child: TextField(
+                              controller: serachController,
+                              decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        Provider.of<SearchProvider>(context,
+                                                listen: false)
+                                            .disposeSerach();
+                                      },
+                                      icon: const Icon(Icons.close)),
+                                  border: InputBorder.none,
+                                  hintStyle:
+                                      const TextStyle(color: Color(0xFF92929D)),
+                                  fillColor: Colors.amber,
+                                  prefixIcon: const Icon(Icons.search,
+                                      color: Color(0xFF92929D)),
+                                  hintText: "Serach"),
+                              onChanged: (input) {
+                                if (input.isEmpty) {
+                                  Provider.of<SearchProvider>(context,
+                                          listen: false)
+                                      .disposeSerach();
+                                } else {
+                                  Provider.of<SearchProvider>(context,
+                                          listen: false)
+                                      .getSearchResult(input);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        Consumer<SearchProvider>( // TODO HANDLE EMPTY SEARCHES, PADDING AND STYLING
+                            builder: (context, searchValue, child) {
+                          if (searchValue.isSearching) {
+                            return const CircularProgressIndicator();
+                          } else if (searchValue.serachHits != null) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: GridView.builder(
+                                  itemCount: searchValue.serachHits!.length,
+                                  itemBuilder: ((context, index) => moviePoster(
+                                      searchValue.serachHits![index], true)),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                  )),
+                            );
+                          }
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 300,
+                                child: PageView.builder(
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        activeMove = page;
+                                      });
+                                    },
+                                    pageSnapping: true,
+                                    itemCount: 5,
+                                    controller: pageController,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return moviePoster(
+                                          homeScreenValue
+                                              .nowPlayingMovies[index],
+                                          index == activeMove);
+                                    }),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  for (var i = 0; i < 5; i++)
+                                    pageIndication(i == activeMove)
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  movieRow(
+                                      "Popular", homeScreenValue.popularMovies),
+                                  movieRow("Top rated",
+                                      homeScreenValue.topRatedMovies),
+                                  movieRow("Upcoming",
+                                      homeScreenValue.upComingMovies)
+                                ],
+                              )
+                            ],
+                          );
+                        })
                       ],
                     ),
-                    movieRow("Nyheter", movies),
-                    movieRow("Topplistan", movies),
-                    movieRow("Komedi", movies),
-                    movieRow("Barnfilmer", movies)
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -106,9 +162,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           SizedBox(
               height: 200,
-              child: ListView(
+              child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                children: [...movies.map((movie) => moviePoster(movie, true))],
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    ...movies.map((movie) => moviePoster(movie, true))
+                  ],
+                ),
               ))
         ],
       ),
@@ -117,27 +180,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget moviePoster(Movie movie, bool active) {
     return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Consumer<MyState>(
-            builder: (context, state, child) => GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (con) => MovieDetails(state.movie)));
-                  }, //TODO ROUTE TO MOVIE PAGE
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOutCubic,
-                    margin: EdgeInsets.all(active ? 0 : 15),
-                    child: AnimatedOpacity(
-                      opacity: active ? 1.0 : 0.2,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(movie.poster)),
-                    ),
-                  ),
-                )));
+      padding: const EdgeInsets.all(10),
+      child: Consumer<MyState>(
+        builder: (context, state, child) => GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (con) => MovieDetails(state.movie)));
+          },
+          child: AnimatedContainer(
+            width: 120,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOutCubic,
+            margin: EdgeInsets.all(active ? 0 : 15),
+            child: AnimatedOpacity(
+              opacity: active ? 1.0 : 0.2,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOutCubic,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  'https://image.tmdb.org/t/p/original/${movie.poster}',
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const SizedBox(child: ShimmerLoader());
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget pageIndication(bool active) {
@@ -163,38 +236,3 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
-
-final List<Movie> movies = [
-  const Movie(
-      id: 1,
-      poster: "assets/temp_movie_poster/test.jpeg",
-      title: "Mortal Combat",
-      overview: '',
-      rating: 1,
-      runTime: 12,
-      genre: ''),
-  const Movie(
-      id: 1,
-      poster: "assets/temp_movie_poster/test2.jpeg",
-      title: "Ant Man",
-      overview: '',
-      rating: 1,
-      runTime: 12,
-      genre: ''),
-  const Movie(
-      id: 1,
-      poster: "assets/temp_movie_poster/test3.jpeg",
-      title: "Tenet",
-      overview: '',
-      rating: 1,
-      runTime: 12,
-      genre: ''),
-  const Movie(
-      id: 1,
-      poster: "assets/temp_movie_poster/test4.jpeg",
-      title: "6 Underground",
-      overview: '',
-      rating: 1,
-      runTime: 12,
-      genre: ''),
-];
