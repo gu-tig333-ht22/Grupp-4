@@ -2,15 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-class AddWatchList extends StatefulWidget {
-  const AddWatchList({super.key});
+class AddMovie extends StatefulWidget {
+  const AddMovie({super.key});
 
   @override
-  State<AddWatchList> createState() => AddWatchListState();
+  State<AddMovie> createState() => AddMovieState();
 }
 
-class AddWatchListState extends State<AddWatchList> {
-  TextEditingController itemController = TextEditingController();
+class AddMovieState extends State<AddMovie> {
   TextEditingController filmController = TextEditingController();
 
   @override
@@ -25,7 +24,7 @@ class AddWatchListState extends State<AddWatchList> {
           backgroundColor: Color(0xFF27272D),
           centerTitle: true,
           title: const Text(
-            'Create watchlist',
+            'Add movie',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -38,15 +37,6 @@ class AddWatchListState extends State<AddWatchList> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextField(
-                  controller: itemController,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(8),
-                      fillColor: Colors.white,
-                      labelText: 'Enter list name...',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[500],
-                      ))),
               TextField(
                   controller: filmController,
                   decoration: InputDecoration(
