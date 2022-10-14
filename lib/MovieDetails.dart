@@ -142,21 +142,6 @@ class MovieDetails extends StatelessWidget {
     );
   }
 
-/*
-
-  Widget _image() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: SizedBox.fromSize(
-        size: Size.fromRadius(150),
-        child: Image.asset(
-          './assets/spiderman.jpg',
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-*/
   Widget _headLine(String text) {
     return Container(
       margin: const EdgeInsets.only(left: 20),
