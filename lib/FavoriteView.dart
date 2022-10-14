@@ -30,6 +30,7 @@ class Mainview extends StatelessWidget {
             fontSize: 30,
           ),
         ),
+        backgroundColor: Color.fromARGB(255, 29, 29, 33),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back,
               color: Color.fromRGBO(2, 150, 229, 100)),
