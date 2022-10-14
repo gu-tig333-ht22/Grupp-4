@@ -5,7 +5,7 @@ import 'package:template/MovieDetails.dart';
 import 'package:template/models/ApiCalls.dart';
 
 class Movie {
-  final String poster;
+  final String? poster;
   final int id;
   final String title;
   final String overview;

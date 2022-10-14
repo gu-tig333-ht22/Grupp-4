@@ -5,7 +5,6 @@ import 'package:template/models/movie.dart';
 import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/widgets/shimmer_loader.dart';
-// import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -50,9 +49,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                       onPressed: () {
-                                        Provider.of<SearchStateProvider>(context,
+                                        Provider.of<SearchStateProvider>(
+                                                context,
                                                 listen: false)
                                             .disposeSerach();
+                                        serachController.text = "";
                                       },
                                       icon: const Icon(Icons.close)),
                                   border: InputBorder.none,
@@ -76,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Consumer<SearchStateProvider>( // TODO HANDLE EMPTY SEARCHES, PADDING AND STYLING
+                        Consumer<SearchStateProvider>(
+                            // TODO HANDLE EMPTY SEARCHES, PADDING AND STYLING
                             builder: (context, searchValue, child) {
                           if (searchValue.isSearching) {
                             return const CircularProgressIndicator();
@@ -185,8 +187,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Consumer<MyState>(
         builder: (context, state, child) => GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (con) => MovieDetails(state.movie)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (con) =>
+                    MovieDetails(state.movie))); //TODO PUSH TO CORRECT MOVIE
           },
           child: AnimatedContainer(
             width: 120,
@@ -199,13 +202,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               curve: Curves.easeInOutCubic,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  'https://image.tmdb.org/t/p/original/${movie.poster}',
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return const SizedBox(child: ShimmerLoader());
-                  },
-                ),
+                child: movie.poster == null
+                    ? Image.asset(
+                        "/Users/majanilsson/development/skola/Grupp-4/assets/temp_movie_poster/movieDefualt.jpeg")
+                    : Image.network(
+                        'https://image.tmdb.org/t/p/w500/${movie.poster}',
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const SizedBox(child: ShimmerLoader());
+                        },
+                      ),
               ),
             ),
           ),
