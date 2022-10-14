@@ -19,8 +19,10 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => state,
       ),
-      ChangeNotifierProvider<SearchStateProvider>(create: (context) => SearchStateProvider()),
-      ChangeNotifierProvider<HomeScreenStateProvider>(create: (context) => HomeScreenStateProvider())
+      ChangeNotifierProvider<SearchStateProvider>(
+          create: (context) => SearchStateProvider()),
+      ChangeNotifierProvider<HomeScreenStateProvider>(
+          create: (context) => HomeScreenStateProvider())
     ],
     child: const MyApp(),
   ));
