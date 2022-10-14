@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/MovieDetails.dart';
 import 'package:template/models/movie.dart';
+import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/widgets/shimmer_loader.dart';
 // import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: Column(
         children: [
           Expanded(
-            child: Consumer<MyState>(
+            child: Consumer<HomeScreenStateProvider>(
               builder: (context, homeScreenValue, child) {
                 if (homeScreenValue.loadingHomeScreen) {
                   return const Center(child: CircularProgressIndicator());
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                       onPressed: () {
-                                        Provider.of<SearchProvider>(context,
+                                        Provider.of<SearchStateProvider>(context,
                                                 listen: false)
                                             .disposeSerach();
                                       },
@@ -63,11 +64,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   hintText: "Serach"),
                               onChanged: (input) {
                                 if (input.isEmpty) {
-                                  Provider.of<SearchProvider>(context,
+                                  Provider.of<SearchStateProvider>(context,
                                           listen: false)
                                       .disposeSerach();
                                 } else {
-                                  Provider.of<SearchProvider>(context,
+                                  Provider.of<SearchStateProvider>(context,
                                           listen: false)
                                       .getSearchResult(input);
                                 }
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Consumer<SearchProvider>( // TODO HANDLE EMPTY SEARCHES, PADDING AND STYLING
+                        Consumer<SearchStateProvider>( // TODO HANDLE EMPTY SEARCHES, PADDING AND STYLING
                             builder: (context, searchValue, child) {
                           if (searchValue.isSearching) {
                             return const CircularProgressIndicator();

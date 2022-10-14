@@ -19,54 +19,9 @@ class ApiCalls {
     return newMovie;
   }
 
-  static Future<List<Movie>> getPopularMovies() async {
+  static Future<List<Movie>> getHomeScreenMovies(String query) async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/popular?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
-    if (response.statusCode == 200) {
-      var jsonData = response.body;
-      Map data = jsonDecode(jsonData);
-      List<Movie> movies = data['results'].map<Movie>((movieData) {
-        return Movie.fromJson(movieData);
-      }).toList();
-      return movies;
-    } else {
-      throw Exception('Couldnt get movies');
-    }
-  }
-
-  static Future<List<Movie>> getTopRatedMovies() async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/top_rated?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
-    if (response.statusCode == 200) {
-      var jsonData = response.body;
-      Map data = jsonDecode(jsonData);
-      List<Movie> movies = data['results'].map<Movie>((movieData) {
-        return Movie.fromJson(movieData);
-      }).toList();
-      return movies;
-    } else {
-      throw Exception('Couldnt get movies');
-    }
-  }
-
-  static Future<List<Movie>> getUpcomingMovies() async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/upcoming?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
-    if (response.statusCode == 200) {
-      var jsonData = response.body;
-      Map data = jsonDecode(jsonData);
-      List<Movie> movies = data['results'].map<Movie>((movieData) {
-        return Movie.fromJson(movieData);
-      }).toList();
-      return movies;
-    } else {
-      throw Exception('Couldnt get movies');
-    }
-  }
-
-    static Future<List<Movie>> getNowPlayingMovies() async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/now_playing?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
+        'https://api.themoviedb.org/3/movie/$query?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);

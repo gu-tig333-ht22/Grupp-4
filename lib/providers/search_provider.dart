@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:template/models/ApiCalls.dart';
 import 'package:template/models/movie.dart';
 
-class SearchProvider extends ChangeNotifier {
+class SearchStateProvider extends ChangeNotifier {
 
   bool _isSearching = false;
   List<Movie>? _serachHits;
@@ -10,7 +10,7 @@ class SearchProvider extends ChangeNotifier {
   bool get isSearching => _isSearching;
   List<Movie>? get serachHits => _serachHits;
 
-  SearchProvider();
+  SearchStateProvider();
 
   Future<void> getSearchResult(String search) async {
     _isSearching = true;
