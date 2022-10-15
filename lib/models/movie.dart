@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:template/MovieDetails.dart';
 import 'package:template/models/ApiCalls.dart';
@@ -53,16 +53,19 @@ class Cast {
 class MyState extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Cast> _castList = [];
+  List<Movie> _favorite = [];
 
   late Movie _movie;
 
   List<Movie> get movies => _movies;
   Movie get movie => _movie;
   List<Cast> get castList => _castList;
+  List<Movie> get favorite => _favorite;
 
   MyState() {
     //getPopularMovies();
     getCast();
+    getFavorites();
   }
 
   void getMovie() async {
@@ -75,6 +78,26 @@ class MyState extends ChangeNotifier {
     var cast = await ApiCalls.getCast(120);
     _castList = cast;
     notifyListeners();
+  }
+
+  void getFavorites() async {
+    var favorite = await ApiCalls.getFavorites();
+    _favorite = favorite;
+    notifyListeners();
+  }
+
+  void addFavorites() async {
+    http.Response response = await ApiCalls.addFavorites(true);
+    getFavorites();
+    notifyListeners();
+    print(response.body);
+  }
+
+  void deleteFavorites() async {
+    http.Response response = await ApiCalls.addFavorites(false);
+    getFavorites();
+    notifyListeners();
+    print(response.body);
   }
 
   // void getPopularMovies() async {

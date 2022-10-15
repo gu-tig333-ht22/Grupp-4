@@ -21,10 +21,12 @@ class MovieDetails extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(
-              Icons.bookmark_outlined,
+              Icons.favorite_outlined,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<MyState>(context, listen: false).addFavorites();
+            },
           )
         ],
       ),
@@ -105,7 +107,16 @@ class MovieDetails extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.bookmark_outlined,
+                        ),
+                        onPressed: () {},
+                        label: const Text("Add to watchlist")),
+                  ),
                 ],
               ),
             ),
@@ -131,21 +142,6 @@ class MovieDetails extends StatelessWidget {
     );
   }
 
-/*
-
-  Widget _image() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: SizedBox.fromSize(
-        size: Size.fromRadius(150),
-        child: Image.asset(
-          './assets/spiderman.jpg',
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-*/
   Widget _headLine(String text) {
     return Container(
       margin: const EdgeInsets.only(left: 20),

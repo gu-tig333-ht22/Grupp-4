@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(15),
                 child: movie.poster == null
                     ? Image.asset(
-                        "/Users/majanilsson/development/skola/Grupp-4/assets/temp_movie_poster/movieDefualt.jpeg")
+                        "./assets/temp_movie_poster/movieDefualt.jpeg")
                     : Image.network(
                         'https://image.tmdb.org/t/p/w500/${movie.poster}',
                         loadingBuilder: (context, child, loadingProgress) {
