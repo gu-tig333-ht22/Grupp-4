@@ -1,85 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'models/movie.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class FavoriteView extends StatelessWidget {
+  const FavoriteView({super.key});
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        visualDensity: VisualDensity(horizontal: 2.0, vertical: 2.0),
-      ),
-      home: Mainview(),
-    );
-  }
-}
-
-class Mainview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Favorites",
-          style: GoogleFonts.oswald(
-            fontSize: 30,
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+          title: Center(
+            child: Text('Favorites'),
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 29, 29, 33),
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back,
-              color: Color.fromRGBO(2, 150, 229, 100)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: _list(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Watchlist',
-          ),
-        ],
-      ),
-    );
+        body: Consumer<MyState>(
+          builder: ((context, state, child) => _favoritelist(state.favorite)),
+        ));
   }
 
-  Widget _list() {
-    var favorites = [
-      "Forrest Gump",
-      "The Godfather",
-      "Parasite",
-      "The Square",
-      "Turist",
-      "Seven",
-    ];
-
+  Widget _favoritelist(favorites) {
     var list =
-        List.generate(favorites.length, (index) => "${favorites[index]}");
+        List.generate(favorites.length, (index) => "${favorites[index].title}");
 
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: 20,
-        bottom: kFloatingActionButtonMargin + 45,
       ),
       itemCount: favorites.length,
       itemBuilder: (context, index) {
         return Column(
           children: <Widget>[
-            _item(list[index]),
+            _item(list[index], context),
             const Divider(height: 10, thickness: 1),
           ],
         );
@@ -87,7 +40,7 @@ class Mainview extends StatelessWidget {
     );
   }
 
-  Widget _item(text) {
+  Widget _item(text, context) {
     return ListTile(
       title: Text(
         text,
@@ -96,7 +49,9 @@ class Mainview extends StatelessWidget {
       trailing: IconButton(
         icon: Icon(Icons.favorite),
         color: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          Provider.of<MyState>(context, listen: false).deleteFavorites();
+        },
       ),
     );
   }

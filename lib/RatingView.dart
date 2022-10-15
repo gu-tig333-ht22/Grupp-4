@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/icons.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         brightness: Brightness.dark,
+//         primarySwatch: Colors.grey,
+//       ),
+//       home: Mainview(),
+//     );
+//   }
+// }
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.grey,
-      ),
-      home: Mainview(),
-    );
-  }
-}
+class RatingView extends StatelessWidget {
 
-class Mainview extends StatelessWidget {
+  const RatingView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,26 +31,26 @@ class Mainview extends StatelessWidget {
           ),
           backgroundColor: Theme.of(context).backgroundColor),
       body: _list(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later),
-            label: 'watchlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.rate_review),
-            label: 'Ratings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.watch_later),
+      //       label: 'watchlist',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.rate_review),
+      //       label: 'Ratings',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite),
+      //       label: 'Favorites',
+      //     ),
+      //   ],
+      // ),
     );
   }
 
