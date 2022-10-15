@@ -55,27 +55,26 @@ class MyState extends ChangeNotifier {
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
 
-  late Movie _movie;
+  Movie? _movie;
 
   List<Movie> get movies => _movies;
-  Movie get movie => _movie;
+  Movie? get movie => _movie;
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
 
   MyState() {
     //getPopularMovies();
-    getCast();
     getFavorites();
   }
 
-  void getMovie() async {
-    var movie = await ApiCalls.fetchMovie(120);
+  void getMovie(int id) async {
+    var movie = await ApiCalls.fetchMovie(id);
     _movie = movie;
     notifyListeners();
   }
 
-  void getCast() async {
-    var cast = await ApiCalls.getCast(120);
+  void getCast(int movieId) async {
+    var cast = await ApiCalls.getCast(movieId);
     _castList = cast;
     notifyListeners();
   }
@@ -87,10 +86,9 @@ class MyState extends ChangeNotifier {
   }
 
   void addFavorites() async {
-    http.Response response = await ApiCalls.addFavorites(true);
+    await ApiCalls.addFavorites(true);
     getFavorites();
     notifyListeners();
-    print(response.body);
   }
 
   void deleteFavorites() async {
