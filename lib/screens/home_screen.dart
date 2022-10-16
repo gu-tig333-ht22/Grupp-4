@@ -187,9 +187,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Consumer<MyState>(
         builder: (context, state, child) => GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (con) =>
-                    MovieDetails(state.movie))); //TODO PUSH TO CORRECT MOVIE
+            state.getMovie(movie.id);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
           },
           child: AnimatedContainer(
             width: 120,
