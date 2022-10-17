@@ -19,14 +19,13 @@ import 'package:flutter/src/material/icons.dart';
 // }
 
 class RatingView extends StatelessWidget {
-
   const RatingView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Ratings",
           ),
           backgroundColor: Theme.of(context).backgroundColor),
@@ -105,5 +104,10 @@ class RatingView extends StatelessWidget {
 }
 
 class GoogleFonts {
-  static oswald({required int fontSize}) {}
+  static oswald(
+      {required int fontSize,
+      required TextStyle headline2,
+      required TextStyle headline6,
+      required TextStyle bodyText2,
+      required TextStyle button}) {}
 }
