@@ -26,7 +26,7 @@ Widget build(BuildContext context) {
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
-      fontSize: 25,
+      fontSize: 25,  //Ändra,,
     ),
 //      textTheme: GoogleFonts.oswald(fontSize: 20)(
 //        Theme.of(context).textTheme,
