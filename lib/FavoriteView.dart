@@ -21,8 +21,7 @@ class FavoriteView extends StatelessWidget {
   }
 
   Widget _favoritelist(favorites) {
-    var list =
-        List.generate(favorites.length, (index) => "${favorites[index].title}");
+    var list = List.generate(favorites.length, (index) => favorites[index]);
 
     return ListView.builder(
       padding: const EdgeInsets.only(
@@ -43,14 +42,14 @@ class FavoriteView extends StatelessWidget {
   Widget _item(text, context) {
     return ListTile(
       title: Text(
-        text,
+        text.title,
         style: TextStyle(fontSize: 20),
       ),
       trailing: IconButton(
         icon: Icon(Icons.favorite),
         color: Colors.red,
         onPressed: () {
-          Provider.of<MyState>(context, listen: false).deleteFavorites();
+          Provider.of<MyState>(context, listen: false).deleteFavorites(text.id);
         },
       ),
     );

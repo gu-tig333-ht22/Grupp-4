@@ -41,7 +41,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                     onPressed: () {
                       Provider.of<MyState>(context, listen: false)
-                          .addFavorites();
+                          .addFavorites(widget.movieId);
                     },
                   )
                 ],

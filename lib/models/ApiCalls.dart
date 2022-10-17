@@ -83,14 +83,14 @@ class ApiCalls {
     }
   }
 
-  static Future<http.Response> addFavorites(bool favorite) {
+  static Future<http.Response> addFavorites(bool favorite, int movieId) {
     return http.post(
       Uri.parse(
           'https://api.themoviedb.org/3/account/15074664/favorite?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
-        'media_id': 120,
+        'media_id': movieId,
         'favorite': favorite,
       }),
     );

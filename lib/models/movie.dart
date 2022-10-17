@@ -85,14 +85,14 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFavorites() async {
-    await ApiCalls.addFavorites(true);
+  void addFavorites(int movieId) async {
+    await ApiCalls.addFavorites(true, movieId);
     getFavorites();
     notifyListeners();
   }
 
-  void deleteFavorites() async {
-    http.Response response = await ApiCalls.addFavorites(false);
+  void deleteFavorites(int movieId) async {
+    http.Response response = await ApiCalls.addFavorites(false, movieId);
     getFavorites();
     notifyListeners();
     print(response.body);
