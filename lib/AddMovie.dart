@@ -25,6 +25,8 @@ class AddMovieState extends State<AddMovie> {
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
+                Provider.of<SearchStateProvider>(context, listen: false)
+                    .disposeSerach();
               },
               icon: Icon(Icons.arrow_back_ios, color: Colors.white)),
           backgroundColor: Color(0xFF27272D),
@@ -42,6 +44,7 @@ class AddMovieState extends State<AddMovie> {
           padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
           alignment: AlignmentDirectional.topStart,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
@@ -74,7 +77,7 @@ class AddMovieState extends State<AddMovie> {
               Consumer<SearchStateProvider>(
                   builder: (context, searchValue, child) {
                 if (searchValue.isSearching) {
-                  return const CircularProgressIndicator();
+                  return Center(child: const CircularProgressIndicator());
                 } else if (searchValue.serachHits != null) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height,

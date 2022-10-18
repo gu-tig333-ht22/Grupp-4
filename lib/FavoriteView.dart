@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'models/movie.dart';
-import 'package:template/widgets/shimmer_loader.dart';
 import 'package:template/MovieDetails.dart';
 
 class FavoriteView extends StatelessWidget {
@@ -79,7 +77,6 @@ class FavoriteView extends StatelessWidget {
                   as ImageProvider,
           fit: BoxFit.cover,
         ),
-
       ),
     );
   }

@@ -2,11 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:template/models/ApiCalls.dart';
 import 'package:template/models/movie.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:collection/collection.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
