@@ -11,10 +11,6 @@ import 'package:collection/collection.dart';
 class MovieDetails extends StatefulWidget {
   final int movieId;
 
-
-class MovieDetails extends StatefulWidget {
-  final int movieId;
-
   MovieDetails(this.movieId);
 
   @override
