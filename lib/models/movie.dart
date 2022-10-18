@@ -94,6 +94,7 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
+
   void deleteFavorites(id) async {
     http.Response response = await ApiCalls.addFavorites(id, false);
     getFavorites();

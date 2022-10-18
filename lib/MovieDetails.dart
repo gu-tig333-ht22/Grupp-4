@@ -11,7 +11,11 @@ import 'package:collection/collection.dart';
 class MovieDetails extends StatefulWidget {
   final int movieId;
 
-  const MovieDetails(this.movieId, {super.key});
+
+class MovieDetails extends StatefulWidget {
+  final int movieId;
+
+  MovieDetails(this.movieId);
 
   @override
   State<MovieDetails> createState() => _MovieDetailsState();
@@ -20,10 +24,12 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
+  
     super.initState();
     Provider.of<MyState>(context, listen: false).getMovie(widget.movieId);
     Provider.of<MyState>(context, listen: false).getCast(widget.movieId);
     Provider.of<MyState>(context, listen: false).getWatchList();
+
   }
 
   @override
@@ -40,6 +46,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 actions: [
                   IconButton(
+
                     icon: movieIdInFavoriteList(widget.movieId, state)
                         ? const Icon(
                             Icons.favorite_outlined,
@@ -57,6 +64,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         Provider.of<MyState>(context, listen: false)
                             .addFavorites(widget.movieId);
                       }
+
                     },
                   )
                 ],
@@ -179,7 +187,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -193,6 +201,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           borderRadius: BorderRadius.circular(40),
           image: DecorationImage(
             image: poster != null
+
                 ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
                 : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
                     as ImageProvider,
@@ -260,9 +269,11 @@ class _MovieDetailsState extends State<MovieDetails> {
                     Container(
                         margin: EdgeInsets.only(left: 10, top: 10),
                         width: 85,
-                        child: Text(state.castList[index].character,
-                            style: TextStyle(fontSize: 12),
-                            textAlign: TextAlign.center)),
+                        child: Text(
+                          state.castList[index].character,
+                          style: TextStyle(fontSize: 12),
+                          textAlign: TextAlign.center,
+                        )),
                   ],
                 );
               },

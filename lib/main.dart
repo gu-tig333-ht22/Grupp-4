@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 
 void main() {
   var state = MyState();
-  state;
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(

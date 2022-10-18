@@ -79,6 +79,7 @@ class FavoriteView extends StatelessWidget {
                   as ImageProvider,
           fit: BoxFit.cover,
         ),
+
       ),
     );
   }

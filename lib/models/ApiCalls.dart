@@ -82,6 +82,7 @@ class ApiCalls {
     }
   }
 
+
   static Future<http.Response> addFavorites(int id, bool favorite) {
     return http.post(
       Uri.parse(

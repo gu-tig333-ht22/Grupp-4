@@ -19,17 +19,16 @@ import 'package:flutter/src/material/icons.dart';
 // }
 
 class RatingView extends StatelessWidget {
-
   const RatingView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Ratings",
-        ),
-      ),
+          title: const Text(
+            "Ratings",
+          ),
+          backgroundColor: Theme.of(context).backgroundColor),
       body: _list(),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const <BottomNavigationBarItem>[
@@ -70,7 +69,7 @@ class RatingView extends StatelessWidget {
       "Wall-E (2008)",
     ];
 
-    var list = List.generate(ratings.length, (index) => "${ratings[index]}");
+    var list = List.generate(ratings.length, (index) => ratings[index]);
 
     return ListView.builder(
       padding: const EdgeInsets.only(
@@ -96,8 +95,8 @@ class RatingView extends StatelessWidget {
         style: TextStyle(fontSize: 20),
       ),
       trailing: IconButton(
-        icon: Icon(Icons.star),
-        color: Colors.yellow,
+        icon: const Icon(Icons.star),
+        color: Colors.yellowAccent,
         onPressed: () {},
       ),
     );
@@ -105,5 +104,10 @@ class RatingView extends StatelessWidget {
 }
 
 class GoogleFonts {
-  static oswald({required int fontSize}) {}
+  static oswald(
+      {required int fontSize,
+      required TextStyle headline2,
+      required TextStyle headline6,
+      required TextStyle bodyText2,
+      required TextStyle button}) {}
 }
