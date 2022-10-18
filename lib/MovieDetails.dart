@@ -11,10 +11,6 @@ import 'package:collection/collection.dart';
 class MovieDetails extends StatefulWidget {
   final int movieId;
 
-
-class MovieDetails extends StatefulWidget {
-  final int movieId;
-
   MovieDetails(this.movieId);
 
   @override
@@ -24,12 +20,10 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
-  
     super.initState();
     Provider.of<MyState>(context, listen: false).getMovie(widget.movieId);
     Provider.of<MyState>(context, listen: false).getCast(widget.movieId);
     Provider.of<MyState>(context, listen: false).getWatchList();
-
   }
 
   @override
@@ -46,7 +40,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 actions: [
                   IconButton(
-
                     icon: movieIdInFavoriteList(widget.movieId, state)
                         ? const Icon(
                             Icons.favorite_outlined,
@@ -64,7 +57,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                         Provider.of<MyState>(context, listen: false)
                             .addFavorites(widget.movieId);
                       }
-
                     },
                   )
                 ],
@@ -201,7 +193,6 @@ class _MovieDetailsState extends State<MovieDetails> {
           borderRadius: BorderRadius.circular(40),
           image: DecorationImage(
             image: poster != null
-
                 ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
                 : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
                     as ImageProvider,
@@ -234,7 +225,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 250,
+            height: 280,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -267,8 +258,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                     ),
                     Container(
+                        alignment: Alignment.bottomCenter,
                         margin: EdgeInsets.only(left: 10, top: 10),
-                        width: 85,
+                        width: 90,
                         child: Text(
                           state.castList[index].character,
                           style: TextStyle(fontSize: 12),
