@@ -6,6 +6,7 @@ import 'package:template/models/ApiCalls.dart';
 import 'package:template/models/movie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:collection/collection.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -39,13 +40,23 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 actions: [
                   IconButton(
-                    icon: const Icon(
-                      Icons.favorite_outlined,
-                      color: Colors.white,
-                    ),
+                    icon: movieIdInFavoriteList(widget.movieId, state)
+                        ? const Icon(
+                            Icons.favorite_outlined,
+                            color: Colors.red,
+                          )
+                        : const Icon(
+                            Icons.favorite_outline,
+                            color: Colors.white,
+                          ),
                     onPressed: () {
-                      Provider.of<MyState>(context, listen: false)
-                          .addFavorites();
+                      if (movieIdInFavoriteList(widget.movieId, state)) {
+                        Provider.of<MyState>(context, listen: false)
+                            .deleteFavorites(widget.movieId);
+                      } else {
+                        Provider.of<MyState>(context, listen: false)
+                            .addFavorites(widget.movieId);
+                      }
                     },
                   )
                 ],
@@ -73,6 +84,8 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _imageRow(context, state, movie) {
+    List movieidlist =
+        [].asMap().entries.map((e) => '${e.key}:${e.value}').toList();
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 40),
       child: Row(
@@ -136,20 +149,32 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: ElevatedButton.icon(
+                    child: TextButton.icon(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 29, 29, 33))),
-                        icon: (MyState().watchList.contains(movie
-                                .id)) // TO DO: Fixa så att bookmark-knappen förändras beroende på ifall filmen redan finns i bookmarks eller ej; ändra även texten till "Remove"
-                            ? Icon(Icons.bookmark_outlined)
-                            : Icon(Icons.bookmark_outline),
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          alignment: Alignment.centerLeft,
+                          //backgroundColor: MaterialStateProperty.all(
+                          //Color.fromARGB(255, 29, 29, 33))),
+                        ),
+                        icon: (movieIdInWatchList(movie, state))
+                            ? Icon(Icons.bookmark_outlined, color: Colors.white)
+                            : Icon(Icons.bookmark_outline, color: Colors.white),
                         onPressed: () {
-                          Provider.of<MyState>(context, listen: false)
-                              .addToWatchList(movie!.id);
+                          if (movieIdInWatchList(movie, state)) {
+                            (Provider.of<MyState>(context, listen: false)
+                                .removeFromWatchList(movie!.id));
+                          } else {
+                            (Provider.of<MyState>(context, listen: false)
+                                .addToWatchList(movie!.id));
+                          }
                         },
-                        label: const Text("Add to watchlist",
-                            style: TextStyle(fontSize: 12))),
+                        label: (movieIdInWatchList(movie, state))
+                            ? Text("Delete from watchlist",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white))
+                            : const Text("Add to watchlist",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white))),
                   ),
                 ],
               ),
@@ -246,5 +271,23 @@ class _MovieDetailsState extends State<MovieDetails> {
         ],
       ),
     );
+  }
+
+  bool movieIdInWatchList(movie, state) {
+    for (var i = 0; i < state.watchList.length; i++) {
+      if (movie.id == state.watchList[i].id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool movieIdInFavoriteList(movie, state) {
+    for (var i = 0; i < state.favorite.length; i++) {
+      if (movie == state.favorite[i].id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

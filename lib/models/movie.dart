@@ -88,14 +88,14 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFavorites() async {
-    await ApiCalls.addFavorites(true);
+  void addFavorites(id) async {
+    await ApiCalls.addFavorites(id, true);
     getFavorites();
     notifyListeners();
   }
 
-  void deleteFavorites() async {
-    http.Response response = await ApiCalls.addFavorites(false);
+  void deleteFavorites(id) async {
+    http.Response response = await ApiCalls.addFavorites(id, false);
     getFavorites();
     notifyListeners();
     print(response.body);
@@ -115,7 +115,7 @@ class MyState extends ChangeNotifier {
 
   void removeFromWatchList(mediaID) async {
     await ApiCalls.addToWatchList(mediaID, false);
-    getWatchList;
+    getWatchList();
     notifyListeners();
   }
 
