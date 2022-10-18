@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (con) =>
-                    MovieDetails(state.movie))); //TODO PUSH TO CORRECT MOVIE
+                    MovieDetails(movie.id))); //TODO PUSH TO CORRECT MOVIE
           },
           child: AnimatedContainer(
             width: 120,
