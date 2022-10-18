@@ -1,9 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/ApiCalls.dart';
 import 'package:template/models/movie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:collection/collection.dart';
+
+class MovieDetails extends StatefulWidget {
+  final int movieId;
+
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -17,8 +24,12 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
+  
+    super.initState();
     Provider.of<MyState>(context, listen: false).getMovie(widget.movieId);
     Provider.of<MyState>(context, listen: false).getCast(widget.movieId);
+    Provider.of<MyState>(context, listen: false).getWatchList();
+
   }
 
   @override
@@ -35,13 +46,25 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 actions: [
                   IconButton(
-                    icon: const Icon(
-                      Icons.favorite_outlined,
-                      color: Colors.white,
-                    ),
+
+                    icon: movieIdInFavoriteList(widget.movieId, state)
+                        ? const Icon(
+                            Icons.favorite_outlined,
+                            color: Colors.red,
+                          )
+                        : const Icon(
+                            Icons.favorite_outline,
+                            color: Colors.white,
+                          ),
                     onPressed: () {
-                      Provider.of<MyState>(context, listen: false)
-                          .addFavorites(widget.movieId);
+                      if (movieIdInFavoriteList(widget.movieId, state)) {
+                        Provider.of<MyState>(context, listen: false)
+                            .deleteFavorites(widget.movieId);
+                      } else {
+                        Provider.of<MyState>(context, listen: false)
+                            .addFavorites(widget.movieId);
+                      }
+
                     },
                   )
                 ],
@@ -53,7 +76,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _imageRow(state.movie),
+                        _imageRow(context, state, state.movie),
                         _headLine("About"),
                         _textContainer(state.movie!.overview),
                         _headLine("Cast"),
@@ -68,7 +91,9 @@ class _MovieDetailsState extends State<MovieDetails> {
             ));
   }
 
-  Widget _imageRow(movie) {
+  Widget _imageRow(context, state, movie) {
+    List movieidlist =
+        [].asMap().entries.map((e) => '${e.key}:${e.value}').toList();
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 40),
       child: Row(
@@ -132,18 +157,32 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: ElevatedButton.icon(
+                    child: TextButton.icon(
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.grey)),
-                        icon: Icon(
-                          Icons.bookmark_outlined,
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          alignment: Alignment.centerLeft,
+                          //backgroundColor: MaterialStateProperty.all(
+                          //Color.fromARGB(255, 29, 29, 33))),
                         ),
-                        onPressed: () {},
-                        label: const Text(
-                          "Add to watchlist",
-                          style: TextStyle(fontSize: 12),
-                        )),
+                        icon: (movieIdInWatchList(movie, state))
+                            ? Icon(Icons.bookmark_outlined, color: Colors.white)
+                            : Icon(Icons.bookmark_outline, color: Colors.white),
+                        onPressed: () {
+                          if (movieIdInWatchList(movie, state)) {
+                            (Provider.of<MyState>(context, listen: false)
+                                .removeFromWatchList(movie!.id));
+                          } else {
+                            (Provider.of<MyState>(context, listen: false)
+                                .addToWatchList(movie!.id));
+                          }
+                        },
+                        label: (movieIdInWatchList(movie, state))
+                            ? Text("Delete from watchlist",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white))
+                            : const Text("Add to watchlist",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white))),
                   ),
                 ],
               ),
@@ -162,7 +201,8 @@ class _MovieDetailsState extends State<MovieDetails> {
           borderRadius: BorderRadius.circular(40),
           image: DecorationImage(
             image: poster != null
-                ? NetworkImage('https://image.tmdb.org/t/p/w500/${poster}')
+
+                ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
                 : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
                     as ImageProvider,
             fit: BoxFit.cover,
@@ -242,5 +282,23 @@ class _MovieDetailsState extends State<MovieDetails> {
         ],
       ),
     );
+  }
+
+  bool movieIdInWatchList(movie, state) {
+    for (var i = 0; i < state.watchList.length; i++) {
+      if (movie.id == state.watchList[i].id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool movieIdInFavoriteList(movie, state) {
+    for (var i = 0; i < state.favorite.length; i++) {
+      if (movie == state.favorite[i].id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

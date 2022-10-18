@@ -5,6 +5,7 @@ import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 import 'package:template/FavoriteView.dart';
 import 'package:template/RatingView.dart';
 import 'package:template/WatchListOverview.dart';
+import 'package:template/WatchListSession.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/search_provider.dart';
@@ -104,7 +105,7 @@ class _SessionScaffoldState extends State<SessionScaffold>
               children: const [
                 HomeScreen(),
                 FavoriteView(),
-                WatchListOverview(),
+                WatchListSession(),
                 RatingView()
               ])),
     );

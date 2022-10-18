@@ -19,7 +19,6 @@ class ApiCalls {
     var jsonData = response.body;
     var obj = jsonDecode(jsonData);
     var newMovie = Movie.fromJson(obj);
-    print(newMovie);
     return newMovie;
   }
 
@@ -83,20 +82,51 @@ class ApiCalls {
     }
   }
 
-  static Future<http.Response> addFavorites(bool favorite, int movieId) {
+
+  static Future<http.Response> addFavorites(int id, bool favorite) {
     return http.post(
       Uri.parse(
           'https://api.themoviedb.org/3/account/15074664/favorite?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
-        'media_id': movieId,
+        'media_id': id,
         'favorite': favorite,
       }),
     );
   }
+
+  static Future<http.Response> addToWatchList(int mediaID, bool watchlist) {
+    return http.post(
+      Uri.parse(
+          'https://api.themoviedb.org/3/account/15074664/watchlist?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      headers: {'Content-Type': 'application/json;charset=utf-8'},
+      body: jsonEncode(<String, dynamic>{
+        'media_type': 'movie',
+        'media_id': mediaID,
+        'watchlist': watchlist,
+      }),
+    );
+  }
+
+  static Future<List<Movie>> getWatchList() async {
+    http.Response response = await http.get(Uri.parse(
+        'https://api.themoviedb.org/3/account/15074664/watchlist/movies?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&sort_by=created_at.asc&page=1'));
+    if (response.statusCode == 200) {
+      var jsonData = response.body;
+      Map data = jsonDecode(jsonData);
+      List<Movie> movies = data['results'].map<Movie>((movieData) {
+        return Movie.fromJson(movieData);
+      }).toList();
+      return movies;
+    } else {
+      throw Exception('Couldnt get movies');
+    }
+  }
 }
 
+
+  
 
 /*
 class ApiCalls {

@@ -54,6 +54,7 @@ class MyState extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
+  List<Movie> _watchList = [];
 
   Movie? _movie;
 
@@ -61,10 +62,12 @@ class MyState extends ChangeNotifier {
   Movie? get movie => _movie;
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
+  List<Movie> get watchList => _watchList;
 
   MyState() {
     //getPopularMovies();
     getFavorites();
+    getWatchList();
   }
 
   void getMovie(int id) async {
@@ -85,17 +88,36 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFavorites(int movieId) async {
-    await ApiCalls.addFavorites(true, movieId);
+  void addFavorites(id) async {
+    await ApiCalls.addFavorites(id, true);
     getFavorites();
     notifyListeners();
   }
 
-  void deleteFavorites(int movieId) async {
-    http.Response response = await ApiCalls.addFavorites(false, movieId);
+
+  void deleteFavorites(id) async {
+    http.Response response = await ApiCalls.addFavorites(id, false);
     getFavorites();
     notifyListeners();
     print(response.body);
+  }
+
+  void getWatchList() async {
+    var watchList = await ApiCalls.getWatchList();
+    _watchList = watchList;
+    notifyListeners();
+  }
+
+  void addToWatchList(mediaID) async {
+    await ApiCalls.addToWatchList(mediaID, true);
+    getWatchList();
+    notifyListeners();
+  }
+
+  void removeFromWatchList(mediaID) async {
+    await ApiCalls.addToWatchList(mediaID, false);
+    getWatchList();
+    notifyListeners();
   }
 
   // void getPopularMovies() async {
