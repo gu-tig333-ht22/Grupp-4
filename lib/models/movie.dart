@@ -12,7 +12,7 @@ class Movie {
   final num rating;
   final runTime;
   final genre;
-  final int genreId;
+  final List<dynamic>? genreId;
 
   const Movie(
       {required this.id,
@@ -33,7 +33,7 @@ class Movie {
       rating: json['vote_average'] ?? "",
       runTime: json['runtime'] ?? "",
       genre: json['genres'],
-      genreId: json['genre_ids'],
+      genreId: json['genre_ids'] ?? [1],
     );
   }
 }

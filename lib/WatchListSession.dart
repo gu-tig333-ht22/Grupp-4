@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:template/AddMovie.dart';
+import 'package:template/models/Filter.dart';
 import 'package:template/models/movie.dart';
 import 'package:provider/provider.dart';
 import 'package:template/widgets/shimmer_loader.dart';
@@ -20,6 +21,7 @@ class WatchListSessionState extends State<WatchListSession> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            leading: MenuButton(),
             actions: [
               IconButton(
                 icon: Icon(Icons.add, color: Colors.white, size: 30),
@@ -40,7 +42,8 @@ class WatchListSessionState extends State<WatchListSession> {
                   color: Color.fromARGB(255, 255, 255, 255)),
             )),
         body: Consumer<MyState>(
-          builder: ((context, state, child) => _watchList(state.watchList)),
+          builder: ((context, state, child) => _watchList(
+              FilterList.filterList(state.watchList, state.filterBy))),
         ));
   }
 

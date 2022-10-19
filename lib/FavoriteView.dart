@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'models/Filter.dart';
 import 'models/movie.dart';
 import 'package:template/widgets/shimmer_loader.dart';
 import 'package:template/MovieDetails.dart';
@@ -16,30 +17,13 @@ class FavoriteView extends StatelessWidget {
           title: Center(
             child: Text('Favorites'),
           ),
-          actions: [
-            PopupMenuButton(
-                color: Colors.black,
-                onSelected: (int genreId) {
-                  Provider.of<MyState>(context, listen: false)
-                      .setFilterBy(genreId);
-                },
-                itemBuilder: (context) => [
-                      PopupMenuItem(child: Text('All'), value: 0),
-                      PopupMenuItem(child: Text('Action'), value: 28),
-                      PopupMenuItem(child: Text('Adventure'), value: 12),
-                      PopupMenuItem(child: Text('Comedy'), value: 35),
-                      PopupMenuItem(child: Text('Drama'), value: 18),
-                      PopupMenuItem(child: Text('Fantasy'), value: 14),
-                      PopupMenuItem(child: Text('Horror'), value: 27),
-                      PopupMenuItem(child: Text('Romance'), value: 10749),
-                      PopupMenuItem(child: Text('Science Fiction'), value: 878),
-                      PopupMenuItem(child: Text('Thriller'), value: 53),
-                    ]),
+          actions: const [
+            MenuButton(),
           ],
         ),
         body: Consumer<MyState>(
-          builder: (context, state, child) =>
-              _favoritelist(_filterList(state.favorite, state.filterBy)),
+          builder: (context, state, child) => _favoritelist(
+              FilterList.filterList(state.favorite, state.filterBy)),
         ));
   }
 
@@ -102,37 +86,5 @@ class FavoriteView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<Movie> _filterList(list, value) {
-    if (value == 0) return list;
-    if (value == 28) {
-      return list.where((movie) => movie.genreId == 28).toList();
-    }
-    if (value == 12) {
-      return list.where((movie) => movie.genreId == 12).toList();
-    }
-    if (value == 35) {
-      return list.where((movie) => movie.genreId == 35).toList();
-    }
-    if (value == 18) {
-      return list.where((movie) => movie.genreId == 18).toList();
-    }
-    if (value == 14) {
-      return list.where((movie) => movie.genreId == 14).toList();
-    }
-    if (value == 27) {
-      return list.where((movie) => movie.genreId == 27).toList();
-    }
-    if (value == 10749) {
-      return list.where((movie) => movie.genreId == 10749).toList();
-    }
-    if (value == 878) {
-      return list.where((movie) => movie.genreId == 878).toList();
-    } else if (value == 53) {
-      return list.where((movie) => movie.genreId == 53).toList();
-    }
-
-    return list;
   }
 }

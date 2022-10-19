@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/AddWatchList.dart';
 import 'package:template/WatchListSession.dart';
+import 'package:template/models/Filter.dart';
 
 class WatchListOverview extends StatefulWidget {
   const WatchListOverview({super.key});
@@ -18,6 +19,7 @@ class WatchListOverviewState extends State<WatchListOverview> {
     return Scaffold(
       appBar: AppBar(
           actions: [
+            MenuButton(),
             IconButton(
               icon: Icon(Icons.add, color: Colors.white, size: 30),
               tooltip: 'Create watchlist',
