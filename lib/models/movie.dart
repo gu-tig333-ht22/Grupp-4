@@ -11,7 +11,7 @@ class Movie {
   final String overview;
   final num rating;
   final runTime;
-  final genre;
+  final List<dynamic>? genres;
   final List<dynamic>? genreId;
 
   const Movie(
@@ -21,7 +21,7 @@ class Movie {
       required this.overview,
       required this.rating,
       required this.runTime,
-      required this.genre,
+      required this.genres,
       required this.genreId});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -32,7 +32,7 @@ class Movie {
       overview: json['overview'],
       rating: json['vote_average'] ?? "",
       runTime: json['runtime'] ?? "",
-      genre: json['genres'],
+      genres: json['genres'] ?? [1],
       genreId: json['genre_ids'] ?? [1],
     );
   }

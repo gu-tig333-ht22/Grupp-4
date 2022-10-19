@@ -137,13 +137,14 @@ class _MovieDetailsState extends State<MovieDetails> {
                         color: Colors.white,
                       ),
                       Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: movie!.genre[0] != null
-                              ? Text(
-                                  movie!.genre[0]['name'].toString(),
-                                  style: const TextStyle(fontSize: 16),
-                                )
-                              : Text("")),
+                        margin: const EdgeInsets.only(left: 10),
+                        child: movie!.genres.isEmpty
+                            ? Text("")
+                            : Text(
+                                movie!.genres[0]['name'].toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                      )
                     ],
                   ),
                   Padding(
