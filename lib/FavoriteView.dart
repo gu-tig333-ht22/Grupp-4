@@ -17,7 +17,10 @@ class FavoriteView extends StatelessWidget {
           title: Center(
             child: Text('Favorites'),
           ),
-          actions: const [
+          actions: [
+            Consumer<MyState>(
+                builder: (context, state, child) =>
+                    Center(child: Text(state.filterBy))),
             MenuButton(),
           ],
         ),

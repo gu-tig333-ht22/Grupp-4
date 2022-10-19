@@ -5,58 +5,62 @@ import 'movie.dart';
 
 class FilterList {
   static List<Movie> filterList(list, value) {
-    if (value == 0) return list;
-    if (value == 28) {
+    if (value == 'All') return list;
+    if (value == 'Action') {
       return list.where((movie) => movie.genreId[0] == 28).toList();
     }
-    if (value == 12) {
+    if (value == 'Adventure') {
       return list.where((movie) => movie.genreId[0] == 12).toList();
     }
-    if (value == 16) {
+    if (value == 'Animation') {
       return list.where((movie) => movie.genreId[0] == 16).toList();
     }
-    if (value == 35) {
+    if (value == 'Comedy') {
       return list.where((movie) => movie.genreId[0] == 35).toList();
     }
-    if (value == 80) {
+    if (value == 'Crime') {
       return list.where((movie) => movie.genreId[0] == 80).toList();
     }
-    if (value == 99) {
+    if (value == 'Documentary') {
       return list.where((movie) => movie.genreId[0] == 99).toList();
     }
-    if (value == 18) {
+    if (value == 'Drama') {
       return list.where((movie) => movie.genreId[0] == 18).toList();
     }
-    if (value == 10751) {
+    if (value == 'Family') {
       return list.where((movie) => movie.genreId[0] == 10751).toList();
     }
-    if (value == 14) {
+    if (value == 'Fantasy') {
       return list.where((movie) => movie.genreId[0] == 14).toList();
     }
-    if (value == 36) {
+    if (value == 'History') {
       return list.where((movie) => movie.genreId[0] == 36).toList();
     }
-    if (value == 27) {
+    if (value == 'Horror') {
       return list.where((movie) => movie.genreId[0] == 27).toList();
     }
-    if (value == 10402) {
+    if (value == 'Music') {
       return list.where((movie) => movie.genreId[0] == 10402).toList();
     }
-    if (value == 9648) {
+    if (value == 'Mystery') {
       return list.where((movie) => movie.genreId[0] == 9648).toList();
     }
-    if (value == 10749) {
+    if (value == 'Romance') {
       return list.where((movie) => movie.genreId[0] == 10749).toList();
     }
-    if (value == 878) {
+    if (value == 'Science Fiction') {
       return list.where((movie) => movie.genreId[0] == 878).toList();
     }
-    if (value == 53) {
+    if (value == 'TV Movie') {
+      return list.where((movie) => movie.genreId[0] == 10770).toList();
+    }
+    if (value == 'Thriller') {
       return list.where((movie) => movie.genreId[0] == 53).toList();
     }
-    if (value == 10752) {
+
+    if (value == 'War') {
       return list.where((movie) => movie.genreId[0] == 10752).toList();
-    } else if (value == 37) {
+    } else if (value == 'Western') {
       return list.where((movie) => movie.genreId[0] == 37).toList();
     }
 
@@ -71,30 +75,31 @@ class MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton(
         color: Colors.black,
-        onSelected: (int genreId) {
-          Provider.of<MyState>(context, listen: false).setFilterBy(genreId);
+        onSelected: (String value) {
+          Provider.of<MyState>(context, listen: false).setFilterBy(value);
         },
-        itemBuilder: (context) => [
-              PopupMenuItem(child: Text('All'), value: 0),
-              PopupMenuItem(child: Text('Action'), value: 28),
-              PopupMenuItem(child: Text('Adventure'), value: 12),
-              PopupMenuItem(child: Text('Animation'), value: 16),
-              PopupMenuItem(child: Text('Comedy'), value: 35),
-              PopupMenuItem(child: Text('Crime'), value: 80),
-              PopupMenuItem(child: Text('Documentary'), value: 99),
-              PopupMenuItem(child: Text('Drama'), value: 18),
-              PopupMenuItem(child: Text('Family'), value: 10751),
-              PopupMenuItem(child: Text('Fantasy'), value: 14),
-              PopupMenuItem(child: Text('History'), value: 36),
-              PopupMenuItem(child: Text('Horror'), value: 27),
-              PopupMenuItem(child: Text('Music'), value: 10402),
-              PopupMenuItem(child: Text('Mystery'), value: 9648),
-              PopupMenuItem(child: Text('Romance'), value: 10749),
-              PopupMenuItem(child: Text('Science Fiction'), value: 878),
-              PopupMenuItem(child: Text('TV Moive'), value: 10770),
-              PopupMenuItem(child: Text('Thriller'), value: 53),
-              PopupMenuItem(child: Text('War'), value: 10752),
-              PopupMenuItem(child: Text('Western'), value: 37),
+        itemBuilder: (context) => const [
+              PopupMenuItem(value: 'All', child: Text('All')),
+              PopupMenuItem(value: 'Action', child: Text('Action')),
+              PopupMenuItem(value: 'Adventure', child: Text('Adventure')),
+              PopupMenuItem(value: 'Animation', child: Text('Animation')),
+              PopupMenuItem(value: 'Comedy', child: Text('Comedy')),
+              PopupMenuItem(value: 'Crime', child: Text('Crime')),
+              PopupMenuItem(value: 'Documentary', child: Text('Documentary')),
+              PopupMenuItem(value: 'Drama', child: Text('Drama')),
+              PopupMenuItem(value: 'Family', child: Text('Family')),
+              PopupMenuItem(value: 'Fantasy', child: Text('Fantasy')),
+              PopupMenuItem(value: 'History', child: Text('History')),
+              PopupMenuItem(value: 'Horror', child: Text('Horror')),
+              PopupMenuItem(value: 'Music', child: Text('Music')),
+              PopupMenuItem(value: 'Mystery', child: Text('Mystery')),
+              PopupMenuItem(value: 'Romance', child: Text('Romance')),
+              PopupMenuItem(
+                  value: 'Science Fiction', child: Text('Science Fiction')),
+              PopupMenuItem(value: 'TV Movie', child: Text('TV Movie')),
+              PopupMenuItem(value: 'Thriller', child: Text('Thriller')),
+              PopupMenuItem(value: 'War', child: Text('War')),
+              PopupMenuItem(value: 'Western', child: Text('Western')),
             ]);
   }
 }
