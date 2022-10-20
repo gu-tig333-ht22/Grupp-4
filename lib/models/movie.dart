@@ -58,7 +58,7 @@ class MyState extends ChangeNotifier {
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
   List<Movie> _watchList = [];
-  String _filterBy = 'All';
+  int _filterBy = 0;
 
   Movie? _movie;
 
@@ -67,7 +67,7 @@ class MyState extends ChangeNotifier {
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
   List<Movie> get watchList => _watchList;
-  String get filterBy => _filterBy;
+  int get filterBy => _filterBy;
 
   MyState() {
     //getPopularMovies();
@@ -124,7 +124,7 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setFilterBy(String filterBy) {
+  void setFilterBy(int filterBy) {
     this._filterBy = filterBy;
     notifyListeners();
   }

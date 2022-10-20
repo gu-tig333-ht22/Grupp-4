@@ -18,7 +18,7 @@ class FavoriteView extends StatelessWidget {
           actions: [
             Consumer<MyState>(
                 builder: (context, state, child) =>
-                    Center(child: Text(state.filterBy))),
+                    Center(child: Text("TODO"))),
             MenuButton(),
           ],
         ),
