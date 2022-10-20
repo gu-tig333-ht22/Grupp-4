@@ -21,16 +21,20 @@ class WatchListSessionState extends State<WatchListSession> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            leading: MenuButton(),
+            leading: IconButton(
+              icon: Icon(Icons.add, color: Colors.white, size: 30),
+              tooltip: 'Add movie',
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AddMovie())),
+            ),
             actions: [
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 30),
-                tooltip: 'Add movie',
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddMovie())),
-              )
+              Consumer<MyState>(
+                  builder: (context, state, child) => Center(
+                      child: Text(
+                          GenreListMap.genreMap[state.WatchListFilterBy]))),
+              MenuButtonTwo(),
             ],
             backgroundColor: Color(0xFF27272D),
             centerTitle: true,
@@ -43,7 +47,7 @@ class WatchListSessionState extends State<WatchListSession> {
             )),
         body: Consumer<MyState>(
           builder: ((context, state, child) => _watchList(
-              FilterList.filterList(state.watchList, state.filterBy))),
+              FilterList.filterList(state.watchList, state.WatchListFilterBy))),
         ));
   }
 

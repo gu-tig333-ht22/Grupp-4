@@ -9,6 +9,7 @@ import 'package:template/providers/review_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:template/theme.dart';
 
 void main() {
   var state = MyState();
@@ -21,7 +22,8 @@ void main() {
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
           create: (context) => HomeScreenStateProvider()),
-      ChangeNotifierProvider<ReviewProvider>(create: (context) => ReviewProvider())
+      ChangeNotifierProvider<ReviewProvider>(
+          create: (context) => ReviewProvider())
     ],
     child: const MyApp(),
   ));

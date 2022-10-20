@@ -112,7 +112,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (con) => ReviewFeed(movie: movie))),
                     child: Row(
                       children: [
                         const Icon(
@@ -141,7 +142,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         child: movie!.genres.isEmpty
                             ? Text("")
                             : Text(
-                                movie!.genres[0]['name'].toString(),
+                                _genres(movie),
                                 style: const TextStyle(fontSize: 16),
                               ),
                       )
@@ -151,11 +152,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: TextButton.icon(
                         style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                          alignment: Alignment.centerLeft,
-                          //backgroundColor: MaterialStateProperty.all(
-                          //Color.fromARGB(255, 29, 29, 33))),
-                        ),
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            alignment: Alignment.centerLeft),
                         icon: (movieIdInWatchList(movie, state))
                             ? Icon(Icons.bookmark_outlined, color: Colors.white)
                             : Icon(Icons.bookmark_outline, color: Colors.white),
@@ -273,6 +271,15 @@ class _MovieDetailsState extends State<MovieDetails> {
         ],
       ),
     );
+  }
+
+  _genres(movie) {
+    List<dynamic> genreList = [];
+    for (var genre in movie!.genres) {
+      genreList.add(genre['name']);
+    }
+    var genreListMapped = genreList.map;
+    return genreList.join('\n');
   }
 
   bool movieIdInWatchList(movie, state) {
