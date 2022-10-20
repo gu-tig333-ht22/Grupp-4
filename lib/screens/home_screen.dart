@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF27272D),
+      //backgroundColor: const Color(0xFF27272D),
       body: Column(
         children: [
           Expanded(
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   fillColor: Colors.amber,
                                   prefixIcon: const Icon(Icons.search,
                                       color: Color(0xFF92929D)),
-                                  hintText: "Serach"),
+                                  hintText: "Search"),
                               onChanged: (input) {
                                 if (input.isEmpty) {
                                   Provider.of<SearchStateProvider>(context,
@@ -90,19 +90,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   GridView(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                      // itemCount: searchValue.serachHits!.length,
-                                      // itemBuilder: ((context, index) => moviePoster(
-                                      //     searchValue.serachHits![index], true)),
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        childAspectRatio: 1/1.4
-                                      ),
-                                      children: [
-                                      ...searchValue.serachHits!.map((movie) => 
-                                      moviePoster(movie, true))
+                                    // itemCount: searchValue.serachHits!.length,
+                                    // itemBuilder: ((context, index) => moviePoster(
+                                    //     searchValue.serachHits![index], true)),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            childAspectRatio: 1 / 1.4),
+                                    children: [
+                                      ...searchValue.serachHits!.map(
+                                          (movie) => moviePoster(movie, true))
                                     ],
-                                      ),
+                                  ),
                                 ],
                               ),
                             );
