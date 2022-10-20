@@ -7,6 +7,7 @@ import 'package:template/RatingView.dart';
 import 'package:template/WatchListOverview.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/home_screen_provider.dart';
+import 'package:template/providers/review_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,8 @@ void main() {
       ChangeNotifierProvider<SearchStateProvider>(
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
-          create: (context) => HomeScreenStateProvider())
+          create: (context) => HomeScreenStateProvider()),
+      ChangeNotifierProvider<ReviewProvider>(create: (context) => ReviewProvider())
     ],
     child: const MyApp(),
   ));

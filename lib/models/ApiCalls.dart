@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:template/models/movie.dart';
+import 'package:template/models/review.dart';
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const apiKey = 'api_key=f70ecb57844925f70e0596d29bc2b37a';
@@ -95,6 +96,24 @@ class ApiCalls {
       }),
     );
   }
+
+  static Future<List<Review>> getMovieReviews(int movieId) async {
+    http.Response response = await http.get(Uri.parse(
+      'https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&language=en-US&sort_by=created_at.asc&page=1'
+    ));
+    if(response.statusCode == 200) {
+      var jsonData = response.body;
+      Map data = jsonDecode(jsonData);
+      List<Review> reviews = data['results'].map<Review>((movieData) {
+        return Review.fromJson(movieData);
+      }).toList();
+      return reviews;
+    } else {
+      throw Exception('Couldnt get movies');
+    }
+
+  }
+
 }
 
 

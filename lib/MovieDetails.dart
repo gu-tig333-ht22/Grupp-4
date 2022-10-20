@@ -5,6 +5,8 @@ import 'package:template/models/movie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:template/screens/raings_feed.dart';
+
 class MovieDetails extends StatelessWidget {
   final Movie movie;
 
@@ -35,7 +37,7 @@ class MovieDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _imageRow(),
+            _imageRow(context),
             _headLine("About"),
             _textContainer(),
             _headLine("Cast"),
@@ -46,7 +48,7 @@ class MovieDetails extends StatelessWidget {
     );
   }
 
-  Widget _imageRow() {
+  Widget _imageRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 40),
       child: Row(
@@ -77,20 +79,23 @@ class MovieDetails extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.star_border_outlined,
-                        color: Colors.white,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          movie.rating.toString(),
-                          style: const TextStyle(fontSize: 16),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.star_border_outlined,
+                          color: Colors.white,
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            movie.rating.toString(),
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 30),
                   Row(

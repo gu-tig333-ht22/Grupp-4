@@ -84,15 +84,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             return const CircularProgressIndicator();
                           } else if (searchValue.serachHits != null) {
                             return SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              child: GridView.builder(
-                                  itemCount: searchValue.serachHits!.length,
-                                  itemBuilder: ((context, index) => moviePoster(
-                                      searchValue.serachHits![index], true)),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                  )),
+                              height: searchValue.serachHits!.length * 300,
+                              child: ListView(
+                                children: [
+                                  GridView(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                      // itemCount: searchValue.serachHits!.length,
+                                      // itemBuilder: ((context, index) => moviePoster(
+                                      //     searchValue.serachHits![index], true)),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        childAspectRatio: 1/1.4
+                                      ),
+                                      children: [
+                                      ...searchValue.serachHits!.map((movie) => 
+                                      moviePoster(movie, true))
+                                    ],
+                                      ),
+                                ],
+                              ),
                             );
                           }
                           return Column(
