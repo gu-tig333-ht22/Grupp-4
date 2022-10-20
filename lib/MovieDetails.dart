@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
@@ -136,11 +134,13 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          movie!.genre[0]['name'].toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
+                        child: movie!.genres.isEmpty
+                            ? Text("")
+                            : Text(
+                                movie!.genres[0]['name'].toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                      )
                     ],
                   ),
                   Padding(
@@ -221,7 +221,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 280,
+            height: 250,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -254,9 +254,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                     ),
                     Container(
-                        alignment: Alignment.bottomCenter,
                         margin: EdgeInsets.only(left: 10, top: 10),
-                        width: 90,
+                        width: 85,
                         child: Text(
                           state.castList[index].character,
                           style: TextStyle(fontSize: 12),

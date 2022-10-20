@@ -11,7 +11,8 @@ class Movie {
   final String overview;
   final num rating;
   final runTime;
-  final genre;
+  final List<dynamic>? genres;
+  final List<dynamic>? genreId;
 
   const Movie(
       {required this.id,
@@ -20,7 +21,8 @@ class Movie {
       required this.overview,
       required this.rating,
       required this.runTime,
-      required this.genre});
+      required this.genres,
+      required this.genreId});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
@@ -30,7 +32,8 @@ class Movie {
       overview: json['overview'],
       rating: json['vote_average'] ?? "",
       runTime: json['runtime'] ?? "",
-      genre: json['genres'],
+      genres: json['genres'] ?? [1],
+      genreId: json['genre_ids'] ?? [1],
     );
   }
 }
@@ -55,6 +58,7 @@ class MyState extends ChangeNotifier {
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
   List<Movie> _watchList = [];
+  String _filterBy = 'All';
 
   Movie? _movie;
 
@@ -63,6 +67,7 @@ class MyState extends ChangeNotifier {
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
   List<Movie> get watchList => _watchList;
+  String get filterBy => _filterBy;
 
   MyState() {
     //getPopularMovies();
@@ -94,7 +99,6 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void deleteFavorites(id) async {
     http.Response response = await ApiCalls.addFavorites(id, false);
     getFavorites();
@@ -117,6 +121,11 @@ class MyState extends ChangeNotifier {
   void removeFromWatchList(mediaID) async {
     await ApiCalls.addToWatchList(mediaID, false);
     getWatchList();
+    notifyListeners();
+  }
+
+  void setFilterBy(String filterBy) {
+    this._filterBy = filterBy;
     notifyListeners();
   }
 

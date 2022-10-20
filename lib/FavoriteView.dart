@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'models/Filter.dart';
 import 'models/movie.dart';
 import 'package:template/MovieDetails.dart';
 
@@ -14,9 +15,16 @@ class FavoriteView extends StatelessWidget {
           title: Center(
             child: Text('Favorites'),
           ),
+          actions: [
+            Consumer<MyState>(
+                builder: (context, state, child) =>
+                    Center(child: Text(state.filterBy))),
+            MenuButton(),
+          ],
         ),
         body: Consumer<MyState>(
-          builder: ((context, state, child) => _favoritelist(state.favorite)),
+          builder: (context, state, child) => _favoritelist(
+              FilterList.filterList(state.favorite, state.filterBy)),
         ));
   }
 
