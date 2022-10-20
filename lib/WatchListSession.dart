@@ -3,7 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:template/AddMovie.dart';
-import 'package:template/AddWatchList.dart';
+import 'package:template/models/Filter.dart';
+import 'package:template/models/movie.dart';
+import 'package:provider/provider.dart';
+import 'package:template/widgets/shimmer_loader.dart';
+import 'package:template/MovieDetails.dart';
 
 class WatchListSession extends StatefulWidget {
   const WatchListSession({super.key});
@@ -17,6 +21,7 @@ class WatchListSessionState extends State<WatchListSession> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            leading: MenuButton(),
             actions: [
               IconButton(
                 icon: Icon(Icons.add, color: Colors.white, size: 30),
@@ -30,34 +35,64 @@ class WatchListSessionState extends State<WatchListSession> {
             backgroundColor: Color(0xFF27272D),
             centerTitle: true,
             title: const Text(
-              'My First Watchlist',
+              'My Watchlist',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Color.fromARGB(255, 255, 255, 255)),
             )),
-        body: Container(
-            color: Color(0xFF27272D),
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            alignment: AlignmentDirectional.topStart,
-            child: Column(
-              children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Image.asset("./assets/spiderman.jpg",
-                      width: 125, height: 125),
-                  Image.asset("./assets/thor.jpeg", width: 125, height: 125),
-                  Image.asset("./assets/spiderman.jpg",
-                      width: 125, height: 125),
-                  Image.asset("./assets/thor.jpeg", width: 125, height: 125),
-                ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("./assets/spiderman.jpg",
-                        width: 125, height: 125),
-                  ],
-                )
-              ],
-            )));
+        body: Consumer<MyState>(
+          builder: ((context, state, child) => _watchList(
+              FilterList.filterList(state.watchList, state.filterBy))),
+        ));
+  }
+
+  Widget moviePoster(Movie movie, bool active) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Consumer<MyState>(
+        builder: (context, state, child) => GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
+          },
+          child: AnimatedContainer(
+            width: 120,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOutCubic,
+            margin: EdgeInsets.all(active ? 0 : 15),
+            child: AnimatedOpacity(
+              opacity: active ? 1.0 : 0.2,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOutCubic,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: movie.poster == null
+                    ? Image.asset("./assets/spiderman.jpg")
+                    : Image.network(
+                        'https://image.tmdb.org/t/p/w500/${movie.poster}',
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const SizedBox(child: ShimmerLoader());
+                        },
+                      ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _watchList(watchlist) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: GridView.builder(
+          itemCount: watchlist.length,
+          itemBuilder: ((context, index) =>
+              moviePoster(watchlist![index], true)),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3)),
+    );
   }
 }

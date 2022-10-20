@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
 import 'package:template/FavoriteView.dart';
 import 'package:template/RatingView.dart';
-import 'package:template/WatchListOverview.dart';
+import 'package:template/WatchListSession.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/review_provider.dart';
@@ -14,7 +12,6 @@ import 'package:provider/provider.dart';
 
 void main() {
   var state = MyState();
-  state.getMovie();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -107,7 +104,7 @@ class _SessionScaffoldState extends State<SessionScaffold>
               children: const [
                 HomeScreen(),
                 FavoriteView(),
-                WatchListOverview(),
+                WatchListSession(),
                 RatingView()
               ])),
     );

@@ -11,7 +11,8 @@ class Movie {
   final String overview;
   final num rating;
   final runTime;
-  final genre;
+  final List<dynamic>? genres;
+  final List<dynamic>? genreId;
 
   const Movie(
       {required this.id,
@@ -20,7 +21,8 @@ class Movie {
       required this.overview,
       required this.rating,
       required this.runTime,
-      required this.genre});
+      required this.genres,
+      required this.genreId});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
@@ -30,7 +32,8 @@ class Movie {
       overview: json['overview'],
       rating: json['vote_average'] ?? "",
       runTime: json['runtime'] ?? "",
-      genre: json['genres'],
+      genres: json['genres'] ?? [1],
+      genreId: json['genre_ids'] ?? [1],
     );
   }
 }
@@ -54,28 +57,32 @@ class MyState extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
+  List<Movie> _watchList = [];
+  String _filterBy = 'All';
 
-  late Movie _movie;
+  Movie? _movie;
 
   List<Movie> get movies => _movies;
-  Movie get movie => _movie;
+  Movie? get movie => _movie;
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
+  List<Movie> get watchList => _watchList;
+  String get filterBy => _filterBy;
 
   MyState() {
     //getPopularMovies();
-    getCast();
     getFavorites();
+    getWatchList();
   }
 
-  void getMovie() async {
-    var movie = await ApiCalls.fetchMovie(120);
+  void getMovie(int id) async {
+    var movie = await ApiCalls.fetchMovie(id);
     _movie = movie;
     notifyListeners();
   }
 
-  void getCast() async {
-    var cast = await ApiCalls.getCast(120);
+  void getCast(int movieId) async {
+    var cast = await ApiCalls.getCast(movieId);
     _castList = cast;
     notifyListeners();
   }
@@ -86,18 +93,40 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFavorites() async {
-    http.Response response = await ApiCalls.addFavorites(true);
+  void addFavorites(id) async {
+    await ApiCalls.addFavorites(id, true);
+    getFavorites();
+    notifyListeners();
+  }
+
+  void deleteFavorites(id) async {
+    http.Response response = await ApiCalls.addFavorites(id, false);
     getFavorites();
     notifyListeners();
     print(response.body);
   }
 
-  void deleteFavorites() async {
-    http.Response response = await ApiCalls.addFavorites(false);
-    getFavorites();
+  void getWatchList() async {
+    var watchList = await ApiCalls.getWatchList();
+    _watchList = watchList;
     notifyListeners();
-    print(response.body);
+  }
+
+  void addToWatchList(mediaID) async {
+    await ApiCalls.addToWatchList(mediaID, true);
+    getWatchList();
+    notifyListeners();
+  }
+
+  void removeFromWatchList(mediaID) async {
+    await ApiCalls.addToWatchList(mediaID, false);
+    getWatchList();
+    notifyListeners();
+  }
+
+  void setFilterBy(String filterBy) {
+    this._filterBy = filterBy;
+    notifyListeners();
   }
 
   // void getPopularMovies() async {

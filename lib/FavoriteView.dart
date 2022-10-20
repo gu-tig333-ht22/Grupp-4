@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'models/Filter.dart';
 import 'models/movie.dart';
+import 'package:template/MovieDetails.dart';
 
 class FavoriteView extends StatelessWidget {
   const FavoriteView({super.key});
@@ -14,15 +15,21 @@ class FavoriteView extends StatelessWidget {
           title: Center(
             child: Text('Favorites'),
           ),
+          actions: [
+            Consumer<MyState>(
+                builder: (context, state, child) =>
+                    Center(child: Text(state.filterBy))),
+            MenuButton(),
+          ],
         ),
         body: Consumer<MyState>(
-          builder: ((context, state, child) => _favoritelist(state.favorite)),
+          builder: (context, state, child) => _favoritelist(
+              FilterList.filterList(state.favorite, state.filterBy)),
         ));
   }
 
   Widget _favoritelist(favorites) {
-    var list =
-        List.generate(favorites.length, (index) => "${favorites[index].title}");
+    var list = List.generate(favorites.length, (index) => favorites[index]);
 
     return ListView.builder(
       padding: const EdgeInsets.only(
@@ -40,18 +47,44 @@ class FavoriteView extends StatelessWidget {
     );
   }
 
-  Widget _item(text, context) {
-    return ListTile(
-      title: Text(
-        text,
-        style: TextStyle(fontSize: 20),
+  Widget _item(movie, context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
+      },
+      child: ListTile(
+        visualDensity: VisualDensity(vertical: 4),
+        leading: _image(movie.poster),
+        title: Text(
+          movie.title,
+          style: TextStyle(fontSize: 20),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.favorite),
+          color: Colors.red,
+          onPressed: () {
+            Provider.of<MyState>(context, listen: false)
+                .deleteFavorites(movie.id);
+          },
+        ),
       ),
-      trailing: IconButton(
-        icon: Icon(Icons.favorite),
-        color: Colors.red,
-        onPressed: () {
-          Provider.of<MyState>(context, listen: false).deleteFavorites();
-        },
+    );
+  }
+
+  Widget _image(poster) {
+    return Container(
+      height: 90,
+      width: 50,
+      decoration: BoxDecoration(
+        //borderRadius: BorderRadius.circular(10),
+        image: DecorationImage(
+          image: poster != null
+              ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
+              : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
+                  as ImageProvider,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
