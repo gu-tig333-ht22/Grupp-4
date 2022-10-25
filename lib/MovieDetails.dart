@@ -28,7 +28,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return Consumer<MyState>(
         builder: (context, state, child) => Scaffold(
               appBar: AppBar(
-                backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+                backgroundColor: const Color(0xFF27272D),
                 title: Center(
                   child:
                       state.movie != null && state.movie!.id == widget.movieId

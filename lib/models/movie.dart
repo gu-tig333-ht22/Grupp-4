@@ -80,6 +80,7 @@ class MyState extends ChangeNotifier {
     //getPopularMovies();
     getFavorites();
     getWatchList();
+    getRatedMovies();
   }
 
   void getMovie(int id) async {
