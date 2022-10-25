@@ -18,50 +18,21 @@ class FilterList {
 }
 
 class MenuButton extends StatelessWidget {
-  const MenuButton({Key? key}) : super(key: key);
+  var view;
+
+  MenuButton(this.view);
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
         color: Colors.black,
         onSelected: (int value) {
-          Provider.of<MyState>(context, listen: false).setFilterBy(value);
-        },
-        itemBuilder: (context) => const [
-              PopupMenuItem(value: 0, child: Text('All')),
-              PopupMenuItem(value: 28, child: Text('Action')),
-              PopupMenuItem(value: 12, child: Text('Adventure')),
-              PopupMenuItem(value: 16, child: Text('Animation')),
-              PopupMenuItem(value: 35, child: Text('Comedy')),
-              PopupMenuItem(value: 80, child: Text('Crime')),
-              PopupMenuItem(value: 99, child: Text('Documentary')),
-              PopupMenuItem(value: 18, child: Text('Drama')),
-              PopupMenuItem(value: 10751, child: Text('Family')),
-              PopupMenuItem(value: 14, child: Text('Fantasy')),
-              PopupMenuItem(value: 36, child: Text('History')),
-              PopupMenuItem(value: 27, child: Text('Horror')),
-              PopupMenuItem(value: 10402, child: Text('Music')),
-              PopupMenuItem(value: 9648, child: Text('Mystery')),
-              PopupMenuItem(value: 10749, child: Text('Romance')),
-              PopupMenuItem(value: 878, child: Text('Science Fiction')),
-              PopupMenuItem(value: 10770, child: Text('TV Movie')),
-              PopupMenuItem(value: 53, child: Text('Thriller')),
-              PopupMenuItem(value: 10752, child: Text('War')),
-              PopupMenuItem(value: 37, child: Text('Western')),
-            ]);
-  }
-}
-
-class MenuButtonTwo extends StatelessWidget {
-  const MenuButtonTwo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-        color: Colors.black,
-        onSelected: (int value) {
-          Provider.of<MyState>(context, listen: false)
-              .setWatchListFilterBy(value);
+          if (view == 1) {
+            Provider.of<MyState>(context, listen: false).setFilterBy(value);
+          } else if (view == 2) {
+            Provider.of<MyState>(context, listen: false)
+                .setWatchListFilterBy(value);
+          }
         },
         itemBuilder: (context) => const [
               PopupMenuItem(value: 0, child: Text('All')),

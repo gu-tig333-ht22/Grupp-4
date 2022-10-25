@@ -83,7 +83,6 @@ class ApiCalls {
     }
   }
 
-
   static Future<http.Response> addFavorites(int id, bool favorite) {
     return http.post(
       Uri.parse(
@@ -125,11 +124,10 @@ class ApiCalls {
     }
   }
 
-    static Future<List<Review>> getMovieReviews(int movieId) async {
+  static Future<List<Review>> getMovieReviews(int movieId) async {
     http.Response response = await http.get(Uri.parse(
-      'https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&language=en-US&sort_by=created_at.asc&page=1'
-    ));
-    if(response.statusCode == 200) {
+        'https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&language=en-US&sort_by=created_at.asc&page=1'));
+    if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
       List<Review> reviews = data['results'].map<Review>((movieData) {
@@ -139,8 +137,35 @@ class ApiCalls {
     } else {
       throw Exception('Couldnt get movies');
     }
+  }
 
-}
+  static Future<http.Response> postRating(movieId, value) {
+    return http.post(
+      Uri.parse(
+          'https://api.themoviedb.org/3/movie/$movieId/rating?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      headers: {'Content-Type': 'application/json;charset=utf-8'},
+      body: jsonEncode(
+        <String, dynamic>{
+          "value": value,
+        },
+      ),
+    );
+  }
+
+  static Future<List<Movie>> getRatedMovies() async {
+    http.Response response = await http.get(Uri.parse(
+        'https://api.themoviedb.org/3/account/15074664/rated/movies?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&sort_by=created_at.asc&page=1'));
+    if (response.statusCode == 200) {
+      var jsonData = response.body;
+      Map data = jsonDecode(jsonData);
+      List<Movie> movies = data['results'].map<Movie>((movieData) {
+        return Movie.fromJson(movieData);
+      }).toList();
+      return movies;
+    } else {
+      throw Exception('Couldnt get movies');
+    }
+  }
 }
 
 
