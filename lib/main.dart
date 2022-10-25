@@ -80,7 +80,7 @@ class _SessionScaffoldState extends State<SessionScaffold>
           bottomNavigationBar: Container(
             decoration: const BoxDecoration(boxShadow: [
               BoxShadow(
-                color: Color(0xFF27272D),
+                color: Color.fromARGB(255, 29, 29, 33),
                 blurRadius: 10,
                 spreadRadius: 15,
               )

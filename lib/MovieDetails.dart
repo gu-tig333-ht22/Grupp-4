@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
-import 'package:template/screens/raings_feed.dart';
+import 'package:template/screens/review_feed.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -112,8 +112,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (con) => ReviewFeed(movie: movie))),
+                    onTap: () {_showRatingDialog();}, //PUSH TO REVIW STAR?
                     child: Row(
                       children: [
                         const Icon(
@@ -169,11 +168,23 @@ class _MovieDetailsState extends State<MovieDetails> {
                         label: (movieIdInWatchList(movie, state))
                             ? Text("Delete from watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white))
+                                    fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal))
                             : const Text("Add to watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white))),
+                                    fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal))),
                   ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (con) => ReviewFeed(movie: movie))),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.reviews, color: Colors.white),
+                        SizedBox(width: 10),
+                        Text("Read reviews", style: TextStyle(fontSize: 16),),
+                      ],
+                    )
+                  )
                 ],
               ),
             ),
@@ -299,4 +310,22 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
     return false;
   }
+ 
+
+ //NOT DONE!
+  _showRatingDialog() {
+    return showDialog(context: context, builder: (con) {
+      return Dialog(
+        backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [for(int i = 0; i < 5; i++) const Icon(Icons.star, color: Colors.white)]
+          ),
+        )
+      );
+    });
+  }
+
 }
