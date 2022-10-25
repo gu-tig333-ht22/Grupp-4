@@ -9,6 +9,7 @@ import 'package:template/providers/review_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'Theme.dart';
 
 void main() {
   var state = MyState();
@@ -21,7 +22,8 @@ void main() {
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
           create: (context) => HomeScreenStateProvider()),
-      ChangeNotifierProvider<ReviewProvider>(create: (context) => ReviewProvider())
+      ChangeNotifierProvider<ReviewProvider>(
+          create: (context) => ReviewProvider())
     ],
     child: const MyApp(),
   ));
@@ -44,12 +46,26 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
-            scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
-            fontFamily: 'Roboto',
-            textTheme: Theme.of(context)
-                .textTheme
-                .apply(bodyColor: Colors.white, displayColor: Colors.white)),
+          primarySwatch: Colors.blueGrey,
+          scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
+          fontFamily: 'Roboto',
+//          textTheme: const TextTheme(
+//            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+//            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.normal),
+//            bodyText2: TextStyle(fontSize: 14.0,),
+//          ),
+//          appBarTheme: const AppBarTheme(
+//            centerTitle: true,
+//            elevation: 0,
+//          ),
+//          iconTheme: const IconThemeData(
+//            color: Colors.white,
+//            size: 17,
+  //        ),
+  //      ),
+           textTheme: Theme.of(context)
+               .textTheme
+               .apply(bodyColor: Colors.white, displayColor: Colors.white)),
         home: const SessionScaffold());
   }
 }
