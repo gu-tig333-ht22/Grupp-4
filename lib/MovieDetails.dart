@@ -161,7 +161,10 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   RatingBar.builder(
                     itemSize: 28,
-                    initialRating: movieInRatedMovies(movie, state),
+                    initialRating:
+                        movieInRatedMovies(state.ratedMovies, movie) != null
+                            ? movieInRatedMovies(state.ratedMovies, movie) / 2
+                            : 0,
                     minRating: 0.5,
                     maxRating: 10,
                     direction: Axis.horizontal,
@@ -361,10 +364,11 @@ class _MovieDetailsState extends State<MovieDetails> {
     return false;
   }
 
-  double movieInRatedMovies(movie, state) {
-    for (var i = 0; i < state.ratedMovies.length; i++) {
-      if (movie == state.ratedMovies[i].id) {
-        return state.ratedMovies[i].ownRating;
+  double movieInRatedMovies(list, movie) {
+    for (var i = 0; i < list.length; i++) {
+      if (movie.id == list[i].id) {
+        double value = list[i].ownRating;
+        return value;
       }
     }
     return 0;
