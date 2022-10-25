@@ -27,7 +27,7 @@ class RatingView extends StatelessWidget {
           title: const Text(
             "Ratings",
           ),
-          backgroundColor: Theme.of(context).backgroundColor),
+          backgroundColor: Color(0xFF27272D),),
       body: _list(),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const <BottomNavigationBarItem>[
@@ -95,7 +95,7 @@ class RatingView extends StatelessWidget {
       ),
       trailing: IconButton(
         icon: const Icon(Icons.star),
-        color: Colors.yellowAccent,
+        color: Colors.white,
         onPressed: () {},
       ),
     );

@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
           fontFamily: 'Roboto',
+          backgroundColor: const Color(0xFF27272D),
 //          textTheme: const TextTheme(
 //            headline1: TextStyle(fontSize: 96.0, fontWeight: FontWeight.bold),
 //            headline2: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w400),

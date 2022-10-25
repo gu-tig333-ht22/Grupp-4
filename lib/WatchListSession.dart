@@ -40,10 +40,10 @@ class WatchListSessionState extends State<WatchListSession> {
             centerTitle: true,
             title: const Text(
               'My Watchlist',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 255, 255, 255)),
+//              style: TextStyle(
+//                  fontWeight: FontWeight.bold,
+//                  fontSize: 20,
+//                  color: Color.fromARGB(255, 255, 255, 255)),
             )),
         body: Consumer<MyState>(
           builder: ((context, state, child) => _watchList(
