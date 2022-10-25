@@ -19,13 +19,22 @@ class FavoriteView extends StatelessWidget {
             Consumer<MyState>(
                 builder: (context, state, child) =>
                     Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
-            MenuButton(),
+            MenuButton(1),
           ],
         ),
-        body: Consumer<MyState>(
-          builder: (context, state, child) => _favoritelist(
-              FilterList.filterList(state.favorite, state.filterBy)),
-        ));
+        body: Consumer<MyState>(builder: (context, state, child) {
+          if (state.favorite.isEmpty) {
+            return Center(child: Text("You have no favorite movies"));
+          }
+          if (FilterList.filterList(state.favorite, state.filterBy).isEmpty) {
+            return Center(
+              child: Text("You have no favorite movies of this genre"),
+            );
+          } else {
+            return _favoritelist(
+                FilterList.filterList(state.favorite, state.filterBy));
+          }
+        }));
   }
 
   Widget _favoritelist(favorites) {

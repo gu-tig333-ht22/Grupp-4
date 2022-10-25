@@ -33,8 +33,8 @@ class WatchListSessionState extends State<WatchListSession> {
               Consumer<MyState>(
                   builder: (context, state, child) => Center(
                       child: Text(
-                          GenreListMap.genreMap[state.WatchListFilterBy]))),
-              MenuButtonTwo(),
+                          GenreListMap.genreMap[state.watchListFilterBy]))),
+              MenuButton(2),
             ],
             backgroundColor: Color(0xFF27272D),
             centerTitle: true,
@@ -45,10 +45,21 @@ class WatchListSessionState extends State<WatchListSession> {
                   fontSize: 20,
                   color: Color.fromARGB(255, 255, 255, 255)),
             )),
-        body: Consumer<MyState>(
-          builder: ((context, state, child) => _watchList(
-              FilterList.filterList(state.watchList, state.WatchListFilterBy))),
-        ));
+        body: Consumer<MyState>(builder: ((context, state, child) {
+          if (state.watchList.isEmpty) {
+            return Center(child: Text("You have no movies in your watchlist."));
+          }
+          if (FilterList.filterList(state.watchList, state.watchListFilterBy)
+              .isEmpty) {
+            return Center(
+              child:
+                  Text("You have no movies of this genre in your watchlist."),
+            );
+          } else {
+            return _watchList(FilterList.filterList(
+                state.watchList, state.watchListFilterBy));
+          }
+        })));
   }
 
   Widget moviePoster(Movie movie, bool active) {

@@ -13,6 +13,7 @@ class Movie {
   final runTime;
   final List<dynamic>? genres;
   final List<dynamic>? genreId;
+  final double ownRating;
 
   const Movie(
       {required this.id,
@@ -22,7 +23,8 @@ class Movie {
       required this.rating,
       required this.runTime,
       required this.genres,
-      required this.genreId});
+      required this.genreId,
+      required this.ownRating});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
@@ -34,6 +36,7 @@ class Movie {
       runTime: json['runtime'] ?? "",
       genres: json['genres'] ?? [1],
       genreId: json['genre_ids'] ?? [1],
+      ownRating: json['rating'] ?? 5,
     );
   }
 }
@@ -58,8 +61,9 @@ class MyState extends ChangeNotifier {
   List<Cast> _castList = [];
   List<Movie> _favorite = [];
   List<Movie> _watchList = [];
+  List<Movie> _ratedMovies = [];
   int _filterBy = 0;
-  int _WatchListFilterBy = 0;
+  int _watchListFilterBy = 0;
 
   Movie? _movie;
 
@@ -68,8 +72,9 @@ class MyState extends ChangeNotifier {
   List<Cast> get castList => _castList;
   List<Movie> get favorite => _favorite;
   List<Movie> get watchList => _watchList;
+  List<Movie> get ratedMovies => _ratedMovies;
   int get filterBy => _filterBy;
-  int get WatchListFilterBy => _WatchListFilterBy;
+  int get watchListFilterBy => _watchListFilterBy;
 
   MyState() {
     //getPopularMovies();
@@ -126,13 +131,26 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getRatedMovies() async {
+    var ratedMovies = await ApiCalls.getRatedMovies();
+    _ratedMovies = ratedMovies;
+    notifyListeners();
+  }
+
+  void postRating(mediaID, value) async {
+    http.Response response = await ApiCalls.postRating(mediaID, value);
+    getRatedMovies();
+    print(response.body);
+    notifyListeners();
+  }
+
   void setFilterBy(int filterBy) {
     this._filterBy = filterBy;
     notifyListeners();
   }
 
-  void setWatchListFilterBy(int WatchListFilterBy) {
-    this._WatchListFilterBy = WatchListFilterBy;
+  void setWatchListFilterBy(int watchListFilterBy) {
+    this._watchListFilterBy = watchListFilterBy;
     notifyListeners();
   }
 

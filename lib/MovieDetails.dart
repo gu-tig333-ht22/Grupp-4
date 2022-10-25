@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/screens/review_feed.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -19,6 +20,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     Provider.of<MyState>(context, listen: false).getMovie(widget.movieId);
     Provider.of<MyState>(context, listen: false).getCast(widget.movieId);
     Provider.of<MyState>(context, listen: false).getWatchList();
+    Provider.of<MyState>(context, listen: false).getRatedMovies();
   }
 
   @override
@@ -64,6 +66,13 @@ class _MovieDetailsState extends State<MovieDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _imageRow(context, state, state.movie),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _readReviews(state.movie),
+                            _addToWatchList(state.movie, state),
+                          ],
+                        ),
                         _headLine("About"),
                         _textContainer(state.movie!.overview),
                         _headLine("Cast"),
@@ -79,13 +88,11 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _imageRow(context, state, movie) {
-    List movieidlist =
-        [].asMap().entries.map((e) => '${e.key}:${e.value}').toList();
     return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 40),
+      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _image(movie.poster),
           Expanded(
@@ -149,50 +156,27 @@ class _MovieDetailsState extends State<MovieDetails> {
                       )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: TextButton.icon(
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all(EdgeInsets.zero),
-                            alignment: Alignment.centerLeft),
-                        icon: (movieIdInWatchList(movie, state))
-                            ? Icon(Icons.bookmark_outlined, color: Colors.white)
-                            : Icon(Icons.bookmark_outline, color: Colors.white),
-                        onPressed: () {
-                          if (movieIdInWatchList(movie, state)) {
-                            (Provider.of<MyState>(context, listen: false)
-                                .removeFromWatchList(movie!.id));
-                          } else {
-                            (Provider.of<MyState>(context, listen: false)
-                                .addToWatchList(movie!.id));
-                          }
-                        },
-                        label: (movieIdInWatchList(movie, state))
-                            ? Text("Delete from watchlist",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal))
-                            : const Text("Add to watchlist",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal))),
+                  Container(
+                    height: 20,
                   ),
-                  const SizedBox(height: 30),
-                  GestureDetector(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (con) => ReviewFeed(movie: movie))),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.reviews, color: Colors.white),
-                          SizedBox(width: 10),
-                          Text(
-                            "Read reviews",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ))
+                  RatingBar.builder(
+                    itemSize: 28,
+                    initialRating: movieInRatedMovies(movie, state),
+                    minRating: 0.5,
+                    maxRating: 10,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.white,
+                    ),
+                    onRatingUpdate: (rating) {
+                      Provider.of<MyState>(context, listen: false)
+                          .postRating(movie.id, rating * 2);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -217,6 +201,64 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _addToWatchList(movie, state) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 0.0, left: 10, bottom: 15),
+        child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 29, 29, 33),
+              elevation: 5,
+            ),
+            icon: (movieIdInWatchList(movie, state))
+                ? const Icon(Icons.bookmark_outlined, color: Colors.white)
+                : const Icon(Icons.bookmark_outline, color: Colors.white),
+            onPressed: () {
+              if (movieIdInWatchList(movie, state)) {
+                (Provider.of<MyState>(context, listen: false)
+                    .removeFromWatchList(movie!.id));
+              } else {
+                (Provider.of<MyState>(context, listen: false)
+                    .addToWatchList(movie!.id));
+              }
+            },
+            label: (movieIdInWatchList(movie, state))
+                ? const Text("Delete from watchlist",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal))
+                : const Text("Add to watchlist",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal))),
+      ),
+    );
+  }
+
+  Widget _readReviews(movie) {
+    // const SizedBox(height: 30),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              elevation: 5, backgroundColor: Color.fromARGB(255, 29, 29, 33)),
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
+          child: Row(
+            children: const [
+              Icon(Icons.reviews, color: Colors.white),
+              SizedBox(width: 10),
+              Text(
+                "Read reviews",
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          )),
     );
   }
 
@@ -317,6 +359,15 @@ class _MovieDetailsState extends State<MovieDetails> {
       }
     }
     return false;
+  }
+
+  double movieInRatedMovies(movie, state) {
+    for (var i = 0; i < state.ratedMovies.length; i++) {
+      if (movie == state.ratedMovies[i].id) {
+        return state.ratedMovies[i].ownRating;
+      }
+    }
+    return 0;
   }
 
   //NOT DONE!
