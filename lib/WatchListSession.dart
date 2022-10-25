@@ -47,13 +47,14 @@ class WatchListSessionState extends State<WatchListSession> {
             )),
         body: Consumer<MyState>(builder: ((context, state, child) {
           if (state.watchList.isEmpty) {
-            return Center(child: Text("You have no movies in your watchlist."));
+            return Center(
+                child: Text("You have no movies in your watchlist yet."));
           }
           if (FilterList.filterList(state.watchList, state.watchListFilterBy)
               .isEmpty) {
             return Center(
-              child:
-                  Text("You have no movies of this genre in your watchlist."),
+              child: Text(
+                  "You have no movies of this genre in your watchlist yet."),
             );
           } else {
             return _watchList(FilterList.filterList(

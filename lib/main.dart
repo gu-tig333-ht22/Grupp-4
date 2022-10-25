@@ -22,7 +22,8 @@ void main() {
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
           create: (context) => HomeScreenStateProvider()),
-      ChangeNotifierProvider<ReviewProvider>(create: (context) => ReviewProvider())
+      ChangeNotifierProvider<ReviewProvider>(
+          create: (context) => ReviewProvider())
     ],
     child: const MyApp(),
   ));
@@ -45,10 +46,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-          scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
-          fontFamily: 'Roboto',
-          backgroundColor: const Color(0xFF27272D),
+            primarySwatch: Colors.blueGrey,
+            scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
+            fontFamily: 'Roboto',
+            backgroundColor: const Color(0xFF27272D),
 //          textTheme: const TextTheme(
 //            headline1: TextStyle(fontSize: 96.0, fontWeight: FontWeight.bold),
 //            headline2: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w400),
@@ -62,11 +63,11 @@ class MyApp extends StatelessWidget {
 //          iconTheme: const IconThemeData(
 //            color: Colors.white,
 //            size: 17,
-  //        ),
-  //      ),
-           textTheme: Theme.of(context)
-               .textTheme
-               .apply(bodyColor: Colors.white, displayColor: Colors.white)),
+            //        ),
+            //      ),
+            textTheme: Theme.of(context)
+                .textTheme
+                .apply(bodyColor: Colors.white, displayColor: Colors.white)),
         home: const SessionScaffold());
   }
 }

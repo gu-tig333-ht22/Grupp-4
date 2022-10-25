@@ -12,20 +12,21 @@ class RatingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: const Text(
+        title: const Center(
+          child: Text(
             "My Ratings",
           ),
         ),
-        backgroundColor: Color(0xFF27272D),
+        backgroundColor: const Color(0xFF27272D),
       ),
       body: Consumer<MyState>(builder: (context, state, child) {
         if (state.ratedMovies.isEmpty) {
-          return Center(child: Text("You have not rated any movies yet."));
+          return const Center(
+              child: Text("You have not rated any movies yet."));
         }
         if (FilterList.filterList(state.ratedMovies, state.filterBy).isEmpty) {
-          return Center(
-            child: Text("You have no favorite movies of this genre"),
+          return const Center(
+            child: Text("You have not rated any movies of this genre yet."),
           );
         } else {
           return _ratingList(
@@ -37,7 +38,6 @@ class RatingView extends StatelessWidget {
 
   Widget _ratingList(rateList, state) {
     var list = List.generate(rateList.length, (index) => rateList[index]);
-
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: 20,
@@ -46,7 +46,49 @@ class RatingView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Column(
           children: <Widget>[
-            _item(list[index], context, state),
+            Dismissible(
+                direction: DismissDirection.endToStart,
+                key: UniqueKey(),
+                background: Container(
+                  color: Colors.red,
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Icon(Icons.delete),
+                    ),
+                  ),
+                ),
+                confirmDismiss: (direction) async {
+                  if (direction == DismissDirection.startToEnd) {
+                  } else {
+                    bool delete = true;
+                    final snackBarController =
+                        ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(seconds: 8),
+                        margin: const EdgeInsets.only(bottom: 10),
+                        behavior: SnackBarBehavior.floating,
+                        clipBehavior: Clip.hardEdge,
+                        elevation: 4,
+                        backgroundColor: const Color(0xFF27272D),
+                        content: Text('Deleted ${list[index].title}',
+                            style: const TextStyle(color: Colors.white)),
+                        action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () => delete = false,
+                            textColor: Colors.white),
+                      ),
+                    );
+                    await snackBarController.closed;
+                    return delete;
+                  }
+                },
+                onDismissed: (_) {
+                  Provider.of<MyState>(context, listen: false)
+                      .deleteRating(list[index].id);
+                },
+                child: _item(list[index], context, state)),
             const Divider(height: 10, thickness: 1),
           ],
         );
@@ -61,14 +103,15 @@ class RatingView extends StatelessWidget {
             .push(MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
       },
       child: ListTile(
-        visualDensity: VisualDensity(vertical: 4),
+        visualDensity: const VisualDensity(vertical: 4),
         leading: _image(movie.poster),
         title: Text(
           movie.title,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         trailing: RatingBar.builder(
-          //unratedColor: Color.fromARGB(255, 29, 29, 33),
+          ignoreGestures: true,
+          unratedColor: Color.fromARGB(255, 29, 29, 33),
           itemSize: 28,
           initialRating: movieInRatedMovies(state.ratedMovies, movie) != null
               ? movieInRatedMovies(state.ratedMovies, movie) / 2
@@ -78,7 +121,7 @@ class RatingView extends StatelessWidget {
           direction: Axis.horizontal,
           allowHalfRating: true,
           itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 0),
+          itemPadding: const EdgeInsets.symmetric(horizontal: 0),
           itemBuilder: (context, _) => const Icon(
             Icons.star,
             color: Colors.white,
