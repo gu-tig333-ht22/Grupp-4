@@ -112,7 +112,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () {_showRatingDialog();}, //PUSH TO REVIW STAR?
+                    onTap: () {
+                      _showRatingDialog();
+                    }, //PUSH TO REVIW STAR?
                     child: Row(
                       children: [
                         const Icon(
@@ -168,23 +170,29 @@ class _MovieDetailsState extends State<MovieDetails> {
                         label: (movieIdInWatchList(movie, state))
                             ? Text("Delete from watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal))
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal))
                             : const Text("Add to watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal))),
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal))),
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (con) => ReviewFeed(movie: movie))),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.reviews, color: Colors.white),
-                        SizedBox(width: 10),
-                        Text("Read reviews", style: TextStyle(fontSize: 16),),
-                      ],
-                    )
-                  )
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (con) => ReviewFeed(movie: movie))),
+                      child: Row(
+                        children: const [
+                          Icon(Icons.reviews, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text(
+                            "Read reviews",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -234,7 +242,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 250,
+            height: 260,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -310,22 +318,23 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
     return false;
   }
- 
 
- //NOT DONE!
+  //NOT DONE!
   _showRatingDialog() {
-    return showDialog(context: context, builder: (con) {
-      return Dialog(
-        backgroundColor: const Color.fromARGB(255, 29, 29, 33),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [for(int i = 0; i < 5; i++) const Icon(Icons.star, color: Colors.white)]
-          ),
-        )
-      );
-    });
+    return showDialog(
+        context: context,
+        builder: (con) {
+          return Dialog(
+              backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0; i < 5; i++)
+                        const Icon(Icons.star, color: Colors.white)
+                    ]),
+              ));
+        });
   }
-
 }
