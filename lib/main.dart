@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color.fromARGB(255, 29, 29, 33),
           fontFamily: 'Roboto',
 //          textTheme: const TextTheme(
-//            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+//            headline1: TextStyle(fontSize: 96.0, fontWeight: FontWeight.bold),
+//            headline2: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w400),
 //            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.normal),
 //            bodyText2: TextStyle(fontSize: 14.0,),
 //          ),
