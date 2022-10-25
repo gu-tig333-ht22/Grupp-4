@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
-import 'package:template/screens/raings_feed.dart';
+import 'package:template/screens/review_feed.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -112,7 +112,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
+                    onTap: () {
+                      _showRatingDialog();
+                    }, //PUSH TO REVIW STAR?
                     child: Row(
                       children: [
                         const Icon(
@@ -141,7 +143,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         child: movie!.genres.isEmpty
                             ? Text("")
                             : Text(
-                                movie!.genres[0]['name'].toString(),
+                                _genres(movie),
                                 style: const TextStyle(fontSize: 16),
                               ),
                       )
@@ -151,11 +153,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: TextButton.icon(
                         style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                          alignment: Alignment.centerLeft,
-                          //backgroundColor: MaterialStateProperty.all(
-                          //Color.fromARGB(255, 29, 29, 33))),
-                        ),
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            alignment: Alignment.centerLeft),
                         icon: (movieIdInWatchList(movie, state))
                             ? Icon(Icons.bookmark_outlined, color: Colors.white)
                             : Icon(Icons.bookmark_outline, color: Colors.white),
@@ -171,11 +170,29 @@ class _MovieDetailsState extends State<MovieDetails> {
                         label: (movieIdInWatchList(movie, state))
                             ? Text("Delete from watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white))
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal))
                             : const Text("Add to watchlist",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white))),
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal))),
                   ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (con) => ReviewFeed(movie: movie))),
+                      child: Row(
+                        children: const [
+                          Icon(Icons.reviews, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text(
+                            "Read reviews",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -225,7 +242,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 250,
+            height: 260,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -275,6 +292,15 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
+  _genres(movie) {
+    List<dynamic> genreList = [];
+    for (var genre in movie!.genres) {
+      genreList.add(genre['name']);
+    }
+    var genreListMapped = genreList.map;
+    return genreList.join('\n');
+  }
+
   bool movieIdInWatchList(movie, state) {
     for (var i = 0; i < state.watchList.length; i++) {
       if (movie.id == state.watchList[i].id) {
@@ -291,5 +317,24 @@ class _MovieDetailsState extends State<MovieDetails> {
       }
     }
     return false;
+  }
+
+  //NOT DONE!
+  _showRatingDialog() {
+    return showDialog(
+        context: context,
+        builder: (con) {
+          return Dialog(
+              backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0; i < 5; i++)
+                        const Icon(Icons.star, color: Colors.white)
+                    ]),
+              ));
+        });
   }
 }

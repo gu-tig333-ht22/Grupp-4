@@ -9,7 +9,7 @@ import 'package:template/providers/review_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'Theme.dart';
+import 'package:template/theme.dart';
 
 void main() {
   var state = MyState();
@@ -22,8 +22,7 @@ void main() {
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
           create: (context) => HomeScreenStateProvider()),
-      ChangeNotifierProvider<ReviewProvider>(
-          create: (context) => ReviewProvider())
+      ChangeNotifierProvider<ReviewProvider>(create: (context) => ReviewProvider())
     ],
     child: const MyApp(),
   ));
@@ -94,7 +93,7 @@ class _SessionScaffoldState extends State<SessionScaffold>
           bottomNavigationBar: Container(
             decoration: const BoxDecoration(boxShadow: [
               BoxShadow(
-                color: Color(0xFF27272D),
+                color: Color.fromARGB(255, 29, 29, 33),
                 blurRadius: 10,
                 spreadRadius: 15,
               )

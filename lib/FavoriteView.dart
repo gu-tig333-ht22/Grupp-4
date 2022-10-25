@@ -11,14 +11,14 @@ class FavoriteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 29, 29, 33),
-          title: Center(
-            child: Text('Favorites'),
-          ),
+          centerTitle: true,
+          backgroundColor:
+              Color(0xFF27272D), // const Color.fromARGB(255, 29, 29, 33),
+          title: Text('Favorites'),
           actions: [
             Consumer<MyState>(
                 builder: (context, state, child) =>
-                    Center(child: Text("TODO"))),
+                    Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
             MenuButton(),
           ],
         ),

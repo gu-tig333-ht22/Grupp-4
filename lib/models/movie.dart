@@ -59,6 +59,7 @@ class MyState extends ChangeNotifier {
   List<Movie> _favorite = [];
   List<Movie> _watchList = [];
   int _filterBy = 0;
+  int _WatchListFilterBy = 0;
 
   Movie? _movie;
 
@@ -68,6 +69,7 @@ class MyState extends ChangeNotifier {
   List<Movie> get favorite => _favorite;
   List<Movie> get watchList => _watchList;
   int get filterBy => _filterBy;
+  int get WatchListFilterBy => _WatchListFilterBy;
 
   MyState() {
     //getPopularMovies();
@@ -126,6 +128,11 @@ class MyState extends ChangeNotifier {
 
   void setFilterBy(int filterBy) {
     this._filterBy = filterBy;
+    notifyListeners();
+  }
+
+  void setWatchListFilterBy(int WatchListFilterBy) {
+    this._WatchListFilterBy = WatchListFilterBy;
     notifyListeners();
   }
 
