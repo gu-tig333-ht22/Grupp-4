@@ -77,7 +77,6 @@ class MyState extends ChangeNotifier {
   int get watchListFilterBy => _watchListFilterBy;
 
   MyState() {
-    //getPopularMovies();
     getFavorites();
     getWatchList();
     getRatedMovies();
@@ -108,10 +107,9 @@ class MyState extends ChangeNotifier {
   }
 
   void deleteFavorites(id) async {
-    http.Response response = await ApiCalls.addFavorites(id, false);
+    await ApiCalls.addFavorites(id, false);
     getFavorites();
     notifyListeners();
-    print(response.body);
   }
 
   void getWatchList() async {
@@ -139,19 +137,24 @@ class MyState extends ChangeNotifier {
   }
 
   void postRating(mediaID, value) async {
-    http.Response response = await ApiCalls.postRating(mediaID, value);
+    await ApiCalls.postRating(mediaID, value);
     getRatedMovies();
-    print(response.body);
+    notifyListeners();
+  }
+
+  void deleteRating(mediaID) async {
+    await ApiCalls.deleteRating(mediaID);
+    getRatedMovies();
     notifyListeners();
   }
 
   void setFilterBy(int filterBy) {
-    this._filterBy = filterBy;
+    _filterBy = filterBy;
     notifyListeners();
   }
 
   void setWatchListFilterBy(int watchListFilterBy) {
-    this._watchListFilterBy = watchListFilterBy;
+    _watchListFilterBy = watchListFilterBy;
     notifyListeners();
   }
 

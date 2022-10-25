@@ -24,11 +24,11 @@ class FavoriteView extends StatelessWidget {
         ),
         body: Consumer<MyState>(builder: (context, state, child) {
           if (state.favorite.isEmpty) {
-            return Center(child: Text("You have no favorite movies"));
+            return Center(child: Text("You have no favorite movies yet."));
           }
           if (FilterList.filterList(state.favorite, state.filterBy).isEmpty) {
             return Center(
-              child: Text("You have no favorite movies of this genre"),
+              child: Text("You have no favorite movies of this genre yet."),
             );
           } else {
             return _favoritelist(
