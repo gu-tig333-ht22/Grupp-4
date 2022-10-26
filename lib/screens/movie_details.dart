@@ -159,6 +159,23 @@ class _MovieDetailsState extends State<MovieDetails> {
                   Container(
                     height: 20,
                   ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.date_range_outlined,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          movie.releaseDate,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(height: 20),
                   RatingBar.builder(
                     itemSize: 28,
                     initialRating:
@@ -198,7 +215,8 @@ class _MovieDetailsState extends State<MovieDetails> {
           image: DecorationImage(
             image: poster != null
                 ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-                : Image.asset('./assets/temp_movie_poster/movie_default_poster.jpeg')
+                : Image.asset(
+                        './assets/temp_movie_poster/movie_default_poster.jpeg')
                     as ImageProvider,
             fit: BoxFit.cover,
           ),
@@ -249,7 +267,8 @@ class _MovieDetailsState extends State<MovieDetails> {
       padding: const EdgeInsets.only(bottom: 15),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              elevation: 5, backgroundColor: const Color.fromARGB(255, 29, 29, 33)),
+              elevation: 5,
+              backgroundColor: const Color.fromARGB(255, 29, 29, 33)),
           onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
           child: Row(

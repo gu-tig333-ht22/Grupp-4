@@ -8,6 +8,7 @@ class Movie {
   final List<dynamic>? genres;
   final List<dynamic>? genreId;
   final double ownRating;
+  final String releaseDate;
 
   const Movie(
       {required this.id,
@@ -18,7 +19,8 @@ class Movie {
       required this.runTime,
       required this.genres,
       required this.genreId,
-      required this.ownRating});
+      required this.ownRating,
+      required this.releaseDate});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
@@ -31,6 +33,7 @@ class Movie {
       genres: json['genres'] ?? [1],
       genreId: json['genre_ids'] ?? [1],
       ownRating: json['rating'] ?? 5,
+      releaseDate: json['release_date'] ?? "",
     );
   }
 }
@@ -48,4 +51,3 @@ class FilterList {
     return returnMovies;
   }
 }
-
