@@ -1,38 +1,17 @@
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'movie.dart';
-
-class FilterList {
-  static List<Movie> filterList(list, value) {
-    if (value == 0) return list;
-
-    List<Movie> returnMovies = [];
-
-    for (Movie movie in list) {
-      if (movie.genreId!.contains(value)) returnMovies.add(movie);
-    }
-
-    return returnMovies;
-  }
-}
 
 class MenuButton extends StatelessWidget {
-  var view;
+  final Function(int value) onSelectedFunctionCallback;
 
-  MenuButton(this.view);
+  const MenuButton({required this.onSelectedFunctionCallback, super.key});
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
         color: Colors.black,
         onSelected: (int value) {
-          if (view == 1) {
-            Provider.of<MyState>(context, listen: false).setFilterBy(value);
-          } else if (view == 2) {
-            Provider.of<MyState>(context, listen: false)
-                .setWatchListFilterBy(value);
-          }
+          onSelectedFunctionCallback(value);
         },
         itemBuilder: (context) => const [
               PopupMenuItem(value: 0, child: Text('All')),

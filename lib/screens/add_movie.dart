@@ -1,11 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:template/widgets/shimmer_loader.dart';
-import 'package:template/MovieDetails.dart';
-import 'package:template/models/movie.dart';
+import 'package:template/widgets/movie_poster.dart';
 
 class AddMovie extends StatefulWidget {
   const AddMovie({super.key});
@@ -28,8 +24,8 @@ class AddMovieState extends State<AddMovie> {
                 Provider.of<SearchStateProvider>(context, listen: false)
                     .disposeSerach();
               },
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white)),
-          backgroundColor: Color(0xFF27272D),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
+          backgroundColor: const Color(0xFF27272D),
           centerTitle: true,
           title: const Text(
             'Add movie',
@@ -40,8 +36,8 @@ class AddMovieState extends State<AddMovie> {
           )),
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xFF27272D),
-          padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+          color: const Color(0xFF27272D),
+          padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
           alignment: AlignmentDirectional.topStart,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -77,16 +73,17 @@ class AddMovieState extends State<AddMovie> {
               Consumer<SearchStateProvider>(
                   builder: (context, searchValue, child) {
                 if (searchValue.isSearching) {
-                  return Center(child: const CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (searchValue.serachHits != null) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height,
                     child: GridView.builder(
                         itemCount: searchValue.serachHits!.length,
                         itemBuilder: ((context, index) =>
-                            moviePoster(searchValue.serachHits![index], true)),
+                            MoviePoster(movie: searchValue.serachHits![index], active: true)),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1/1.4,
                           crossAxisCount: 3,
                         )),
                   );
@@ -94,43 +91,6 @@ class AddMovieState extends State<AddMovie> {
                 return Column();
               }),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget moviePoster(Movie movie, bool active) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Consumer<MyState>(
-        builder: (context, state, child) => GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
-          },
-          child: AnimatedContainer(
-            width: 120,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOutCubic,
-            margin: EdgeInsets.all(active ? 0 : 15),
-            child: AnimatedOpacity(
-              opacity: active ? 1.0 : 0.2,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOutCubic,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: movie.poster == null
-                    ? Image.asset("./assets/spiderman.jpg")
-                    : Image.network(
-                        'https://image.tmdb.org/t/p/w500/${movie.poster}',
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const SizedBox(child: ShimmerLoader());
-                        },
-                      ),
-              ),
-            ),
           ),
         ),
       ),

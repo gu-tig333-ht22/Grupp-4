@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import 'MovieDetails.dart';
-import 'models/movie.dart';
-import 'models/Filter.dart';
+import 'package:template/models/movie.dart';
+import 'package:template/providers/movie_provider.dart';
+import 'movie_details.dart';
 
-class RatingView extends StatelessWidget {
-  const RatingView({super.key});
+class RatingScreen extends StatelessWidget {
+  const RatingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class RatingView extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF27272D),
       ),
-      body: Consumer<MyState>(builder: (context, state, child) {
+      body: Consumer<MovieState>(builder: (context, state, child) {
         if (state.ratedMovies.isEmpty) {
           return const Center(
               child: Text("You have not rated any movies yet."));
@@ -54,7 +54,7 @@ class RatingView extends StatelessWidget {
                   child: const Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 16),
+                      padding: EdgeInsets.only(right: 16),
                       child: Icon(Icons.delete),
                     ),
                   ),
@@ -85,7 +85,7 @@ class RatingView extends StatelessWidget {
                   }
                 },
                 onDismissed: (_) {
-                  Provider.of<MyState>(context, listen: false)
+                  Provider.of<MovieState>(context, listen: false)
                       .deleteRating(list[index].id);
                 },
                 child: _item(list[index], context, state)),
@@ -100,7 +100,7 @@ class RatingView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
+            .push(MaterialPageRoute(builder: (con) => MovieDetails(movieId: movie.id)));
       },
       child: ListTile(
         visualDensity: const VisualDensity(vertical: 4),
@@ -111,7 +111,7 @@ class RatingView extends StatelessWidget {
         ),
         trailing: RatingBar.builder(
           ignoreGestures: true,
-          unratedColor: Color.fromARGB(255, 29, 29, 33),
+          unratedColor: const Color.fromARGB(255, 29, 29, 33),
           itemSize: 28,
           initialRating: movieInRatedMovies(state.ratedMovies, movie) != null
               ? movieInRatedMovies(state.ratedMovies, movie) / 2
@@ -127,7 +127,7 @@ class RatingView extends StatelessWidget {
             color: Colors.white,
           ),
           onRatingUpdate: (rating) {
-            Provider.of<MyState>(context, listen: false)
+            Provider.of<MovieState>(context, listen: false)
                 .postRating(movie.id, rating * 2);
           },
         ),
@@ -144,7 +144,7 @@ class RatingView extends StatelessWidget {
         image: DecorationImage(
           image: poster != null
               ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-              : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
+              : Image.asset('./assets/temp_movie_poster/movie_default_poster.jpeg')
                   as ImageProvider,
           fit: BoxFit.cover,
         ),

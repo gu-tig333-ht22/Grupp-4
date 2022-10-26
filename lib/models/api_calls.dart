@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:template/models/cast.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/models/review.dart';
 

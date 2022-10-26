@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template/models/ApiCalls.dart';
+import 'package:template/models/api_calls.dart';
 import 'package:template/models/movie.dart';
 
 class SearchStateProvider extends ChangeNotifier {

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/icons.dart';
-import 'package:template/RatingView.dart';
-import 'package:template/screens/home_screen.dart';
 
 class AppTheme {
   @override

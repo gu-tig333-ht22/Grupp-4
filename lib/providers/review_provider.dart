@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:template/models/ApiCalls.dart';
+import 'package:template/models/api_calls.dart';
 import 'package:template/models/review.dart';
 
 class ReviewProvider extends ChangeNotifier {
 
   List<Review>? _reviews;
-
-  ReviewProvider();
 
   List<Review>? get reviews => _reviews;
 

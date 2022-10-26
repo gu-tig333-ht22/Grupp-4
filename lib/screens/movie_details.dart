@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:template/models/movie.dart';
+import 'package:template/providers/movie_provider.dart';
 import 'package:template/screens/review_feed.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
 
-  MovieDetails(this.movieId);
+  const MovieDetails({required this.movieId, super.key});
 
   @override
   State<MovieDetails> createState() => _MovieDetailsState();
@@ -17,15 +17,15 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
     super.initState();
-    Provider.of<MyState>(context, listen: false).getMovie(widget.movieId);
-    Provider.of<MyState>(context, listen: false).getCast(widget.movieId);
-    Provider.of<MyState>(context, listen: false).getWatchList();
-    Provider.of<MyState>(context, listen: false).getRatedMovies();
+    Provider.of<MovieState>(context, listen: false).getMovie(widget.movieId);
+    Provider.of<MovieState>(context, listen: false).getCast(widget.movieId);
+    Provider.of<MovieState>(context, listen: false).getWatchList();
+    Provider.of<MovieState>(context, listen: false).getRatedMovies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyState>(
+    return Consumer<MovieState>(
         builder: (context, state, child) => Scaffold(
               appBar: AppBar(
                 backgroundColor: const Color(0xFF27272D),
@@ -33,7 +33,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                   child:
                       state.movie != null && state.movie!.id == widget.movieId
                           ? Text(state.movie!.title)
-                          : Text(""),
+                          : const Text(""),
                 ),
                 actions: [
                   IconButton(
@@ -48,17 +48,17 @@ class _MovieDetailsState extends State<MovieDetails> {
                           ),
                     onPressed: () {
                       if (movieIdInFavoriteList(widget.movieId, state)) {
-                        Provider.of<MyState>(context, listen: false)
+                        Provider.of<MovieState>(context, listen: false)
                             .deleteFavorites(widget.movieId);
                       } else {
-                        Provider.of<MyState>(context, listen: false)
+                        Provider.of<MovieState>(context, listen: false)
                             .addFavorites(widget.movieId);
                       }
                     },
                   )
                 ],
               ),
-              body: Consumer<MyState>(builder: (context, state, child) {
+              body: Consumer<MovieState>(builder: (context, state, child) {
                 if (state.movie != null && state.movie!.id == widget.movieId) {
                   return SingleChildScrollView(
                     child: Column(
@@ -81,7 +81,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               }),
             ));
@@ -148,7 +148,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: movie!.genres.isEmpty
-                            ? Text("")
+                            ? const Text("")
                             : Text(
                                 _genres(movie),
                                 style: const TextStyle(fontSize: 16),
@@ -170,13 +170,13 @@ class _MovieDetailsState extends State<MovieDetails> {
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 0),
                     itemBuilder: (context, _) => const Icon(
                       Icons.star,
                       color: Colors.white,
                     ),
                     onRatingUpdate: (rating) {
-                      Provider.of<MyState>(context, listen: false)
+                      Provider.of<MovieState>(context, listen: false)
                           .postRating(movie.id, rating * 2);
                     },
                   ),
@@ -198,7 +198,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           image: DecorationImage(
             image: poster != null
                 ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-                : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
+                : Image.asset('./assets/temp_movie_poster/movie_default_poster.jpeg')
                     as ImageProvider,
             fit: BoxFit.cover,
           ),
@@ -213,7 +213,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         padding: const EdgeInsets.only(top: 0.0, left: 10, bottom: 15),
         child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 29, 29, 33),
+              backgroundColor: const Color.fromARGB(255, 29, 29, 33),
               elevation: 5,
             ),
             icon: (movieIdInWatchList(movie, state))
@@ -221,10 +221,10 @@ class _MovieDetailsState extends State<MovieDetails> {
                 : const Icon(Icons.bookmark_outline, color: Colors.white),
             onPressed: () {
               if (movieIdInWatchList(movie, state)) {
-                (Provider.of<MyState>(context, listen: false)
+                (Provider.of<MovieState>(context, listen: false)
                     .removeFromWatchList(movie!.id));
               } else {
-                (Provider.of<MyState>(context, listen: false)
+                (Provider.of<MovieState>(context, listen: false)
                     .addToWatchList(movie!.id));
               }
             },
@@ -249,7 +249,7 @@ class _MovieDetailsState extends State<MovieDetails> {
       padding: const EdgeInsets.only(bottom: 15),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              elevation: 5, backgroundColor: Color.fromARGB(255, 29, 29, 33)),
+              elevation: 5, backgroundColor: const Color.fromARGB(255, 29, 29, 33)),
           onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (con) => ReviewFeed(movie: movie))),
           child: Row(
@@ -282,7 +282,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _castRow() {
-    return Consumer<MyState>(
+    return Consumer<MovieState>(
       builder: (context, state, child) => Column(
         children: [
           Container(
@@ -310,21 +310,21 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                     Container(height: 10),
                     Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: const EdgeInsets.only(left: 10),
                       height: 50,
                       width: 85,
                       child: Text(
                         state.castList[index].name,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(left: 10, top: 10),
+                        margin: const EdgeInsets.only(left: 10, top: 10),
                         width: 85,
                         child: Text(
                           state.castList[index].character,
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                           textAlign: TextAlign.center,
                         )),
                   ],

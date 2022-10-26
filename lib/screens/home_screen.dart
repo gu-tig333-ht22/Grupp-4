@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:template/MovieDetails.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/search_provider.dart';
-import 'package:template/widgets/shimmer_loader.dart';
+import 'package:template/widgets/movie_poster.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: const Color(0xFF27272D),
       body: Column(
         children: [
           Expanded(
@@ -96,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         childAspectRatio: 1 / 1.4),
                                 children: [
                                   ...searchValue.serachHits!.map(
-                                      (movie) => moviePoster(movie, true)),
+                                      (movie) => MoviePoster(movie: movie, active: true)),
                                   for (int i = 0; i < 3;  i++) Container(height: 50) 
                                 ],
                               ),
@@ -117,10 +115,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     controller: pageController,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return moviePoster(
-                                          homeScreenValue
+                                      return MoviePoster(
+                                          movie: homeScreenValue
                                               .nowPlayingMovies[index],
-                                          index == activeMove);
+                                          active: index == activeMove);
                                     }),
                               ),
                               Row(
@@ -179,51 +177,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    ...movies.map((movie) => moviePoster(movie, true))
+                    ...movies.map((movie) => MoviePoster(movie: movie, active: true))
                   ],
                 ),
               ))
         ],
-      ),
-    );
-  }
-
-  Widget moviePoster(Movie movie, bool active) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Consumer<MyState>(
-        builder: (context, state, child) => GestureDetector(
-          onTap: () {
-            state.getMovie(movie.id);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
-          },
-          child: AnimatedContainer(
-            width: 120,
-            duration: const Duration(milliseconds: 500),
-            padding: EdgeInsets.all(active ? 0 : 15),
-            curve: Curves.easeInOutCubic,
-            child: AnimatedOpacity(
-              opacity: active ? 1.0 : 0.2,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOutCubic,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(active ? 15 : 25),
-                child: movie.poster == null
-                    ? Image.asset(
-                        "./assets/temp_movie_poster/movieDefualt.jpeg")
-                    : Image.network(
-                          'https://image.tmdb.org/t/p/w500/${movie.poster}',
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const SizedBox(child: ShimmerLoader());
-                          },
-                    ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

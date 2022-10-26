@@ -1,16 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
-import 'package:template/MovieDetails.dart';
-import 'package:template/models/ApiCalls.dart';
-
 class Movie {
   final String? poster;
   final int id;
   final String title;
   final String overview;
   final num rating;
-  final runTime;
+  final int runTime;
   final List<dynamic>? genres;
   final List<dynamic>? genreId;
   final double ownRating;
@@ -33,7 +27,7 @@ class Movie {
       title: json['title'],
       overview: json['overview'],
       rating: json['vote_average'] ?? "",
-      runTime: json['runtime'] ?? "",
+      runTime: json['runtime'] ?? 0,
       genres: json['genres'] ?? [1],
       genreId: json['genre_ids'] ?? [1],
       ownRating: json['rating'] ?? 5,
@@ -41,125 +35,17 @@ class Movie {
   }
 }
 
-class Cast {
-  final String name;
-  var poster;
-  final String character;
+class FilterList {
+  static List<Movie> filterList(list, value) {
+    if (value == 0) return list;
 
-  Cast({required this.name, required this.poster, required this.character});
+    List<Movie> returnMovies = [];
 
-  factory Cast.fromJson(Map<String, dynamic> json) {
-    return Cast(
-        name: json['name'],
-        poster: json['profile_path'],
-        character: json['character']);
+    for (Movie movie in list) {
+      if (movie.genreId!.contains(value)) returnMovies.add(movie);
+    }
+
+    return returnMovies;
   }
 }
 
-class MyState extends ChangeNotifier {
-  List<Movie> _movies = [];
-  List<Cast> _castList = [];
-  List<Movie> _favorite = [];
-  List<Movie> _watchList = [];
-  List<Movie> _ratedMovies = [];
-  int _filterBy = 0;
-  int _watchListFilterBy = 0;
-
-  Movie? _movie;
-
-  List<Movie> get movies => _movies;
-  Movie? get movie => _movie;
-  List<Cast> get castList => _castList;
-  List<Movie> get favorite => _favorite;
-  List<Movie> get watchList => _watchList;
-  List<Movie> get ratedMovies => _ratedMovies;
-  int get filterBy => _filterBy;
-  int get watchListFilterBy => _watchListFilterBy;
-
-  MyState() {
-    getFavorites();
-    getWatchList();
-    getRatedMovies();
-  }
-
-  void getMovie(int id) async {
-    var movie = await ApiCalls.fetchMovie(id);
-    _movie = movie;
-    notifyListeners();
-  }
-
-  void getCast(int movieId) async {
-    var cast = await ApiCalls.getCast(movieId);
-    _castList = cast;
-    notifyListeners();
-  }
-
-  void getFavorites() async {
-    var favorite = await ApiCalls.getFavorites();
-    _favorite = favorite;
-    notifyListeners();
-  }
-
-  void addFavorites(id) async {
-    await ApiCalls.addFavorites(id, true);
-    getFavorites();
-    notifyListeners();
-  }
-
-  void deleteFavorites(id) async {
-    await ApiCalls.addFavorites(id, false);
-    getFavorites();
-    notifyListeners();
-  }
-
-  void getWatchList() async {
-    var watchList = await ApiCalls.getWatchList();
-    _watchList = watchList;
-    notifyListeners();
-  }
-
-  void addToWatchList(mediaID) async {
-    await ApiCalls.addToWatchList(mediaID, true);
-    getWatchList();
-    notifyListeners();
-  }
-
-  void removeFromWatchList(mediaID) async {
-    await ApiCalls.addToWatchList(mediaID, false);
-    getWatchList();
-    notifyListeners();
-  }
-
-  void getRatedMovies() async {
-    var ratedMovies = await ApiCalls.getRatedMovies();
-    _ratedMovies = ratedMovies;
-    notifyListeners();
-  }
-
-  void postRating(mediaID, value) async {
-    await ApiCalls.postRating(mediaID, value);
-    getRatedMovies();
-    notifyListeners();
-  }
-
-  void deleteRating(mediaID) async {
-    await ApiCalls.deleteRating(mediaID);
-    getRatedMovies();
-    notifyListeners();
-  }
-
-  void setFilterBy(int filterBy) {
-    _filterBy = filterBy;
-    notifyListeners();
-  }
-
-  void setWatchListFilterBy(int watchListFilterBy) {
-    _watchListFilterBy = watchListFilterBy;
-    notifyListeners();
-  }
-
-  // void getPopularMovies() async {
-  //   _movies = await ApiCalls.getPopularMovies();
-  //   notifyListeners();
-  // }
-}

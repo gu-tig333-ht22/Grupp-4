@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_point_tab_bar/pointTabIndicator.dart';
-import 'package:template/FavoriteView.dart';
-import 'package:template/RatingView.dart';
-import 'package:template/WatchListSession.dart';
-import 'package:template/models/movie.dart';
+import 'package:template/providers/movie_provider.dart';
+import 'package:template/screens/favorite_screen.dart';
+import 'package:template/screens/rating_screen.dart';
+import 'package:template/screens/watchlist_screen.dart';
 import 'package:template/providers/home_screen_provider.dart';
 import 'package:template/providers/review_provider.dart';
 import 'package:template/providers/search_provider.dart';
 import 'package:template/screens/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:template/theme.dart';
 
 void main() {
-  var state = MyState();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (context) => state,
+        create: (context) => MovieState(),
       ),
       ChangeNotifierProvider<SearchStateProvider>(
           create: (context) => SearchStateProvider()),
@@ -121,9 +119,9 @@ class _SessionScaffoldState extends State<SessionScaffold>
               controller: _tabController,
               children: const [
                 HomeScreen(),
-                FavoriteView(),
-                WatchListSession(),
-                RatingView()
+                FavoriteScreen(),
+                WatchListScreen(),
+                RatingScreen()
               ])),
     );
   }

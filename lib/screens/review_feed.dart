@@ -65,6 +65,7 @@ class _ReviewFeedState extends State<ReviewFeed> {
                             child: Text(e.author,
                                 style: const TextStyle(color: Color(0xFF0296E5))),
                           ),
+                          const SizedBox(height: 10)
                         ],
                       ),
                     ))

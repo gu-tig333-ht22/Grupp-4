@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'models/Filter.dart';
-import 'models/movie.dart';
-import 'package:template/MovieDetails.dart';
+import 'package:template/models/movie.dart';
+import 'package:template/providers/movie_provider.dart';
+import 'package:template/widgets/menu_button.dart';
+import 'package:template/screens/movie_details.dart';
 
-class FavoriteView extends StatelessWidget {
-  const FavoriteView({super.key});
+class FavoriteScreen extends StatelessWidget {
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,21 +14,21 @@ class FavoriteView extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor:
-              Color(0xFF27272D), // const Color.fromARGB(255, 29, 29, 33),
-          title: Text('Favorites'),
+              const Color(0xFF27272D), // const Color.fromARGB(255, 29, 29, 33),
+          title: const Text('Favorites'),
           actions: [
-            Consumer<MyState>(
+            Consumer<MovieState>(
                 builder: (context, state, child) =>
                     Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
-            MenuButton(1),
+            MenuButton(onSelectedFunctionCallback: (value) => Provider.of<MovieState>(context, listen: false).setFilterBy(value),),
           ],
         ),
-        body: Consumer<MyState>(builder: (context, state, child) {
+        body: Consumer<MovieState>(builder: (context, state, child) {
           if (state.favorite.isEmpty) {
-            return Center(child: Text("You have no favorite movies yet."));
+            return const Center(child: Text("You have no favorite movies yet."));
           }
           if (FilterList.filterList(state.favorite, state.filterBy).isEmpty) {
-            return Center(
+            return const Center(
               child: Text("You have no favorite movies of this genre yet."),
             );
           } else {
@@ -60,20 +61,20 @@ class FavoriteView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (con) => MovieDetails(movie.id)));
+            .push(MaterialPageRoute(builder: (con) => MovieDetails(movieId: movie.id)));
       },
       child: ListTile(
-        visualDensity: VisualDensity(vertical: 4),
+        visualDensity: const VisualDensity(vertical: 4),
         leading: _image(movie.poster),
         title: Text(
           movie.title,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         trailing: IconButton(
-          icon: Icon(Icons.favorite),
+          icon: const Icon(Icons.favorite),
           color: Colors.red,
           onPressed: () {
-            Provider.of<MyState>(context, listen: false)
+            Provider.of<MovieState>(context, listen: false)
                 .deleteFavorites(movie.id);
           },
         ),
@@ -90,7 +91,7 @@ class FavoriteView extends StatelessWidget {
         image: DecorationImage(
           image: poster != null
               ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-              : Image.asset('./assets/temp_movie_poster/movieDefualt.jpeg')
+              : Image.asset('./assets/temp_movie_poster/movie_default_poster.jpeg')
                   as ImageProvider,
           fit: BoxFit.cover,
         ),
