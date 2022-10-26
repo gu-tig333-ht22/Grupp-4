@@ -33,7 +33,16 @@ class _ReviewFeedState extends State<ReviewFeed> {
         ),
         body: Consumer<ReviewProvider>(
           builder: (context, value, child) {
-            if (value.reviews == null) return const CircularProgressIndicator();
+            if (value.reviews == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            else if (value.reviews!.isEmpty) {
+              // ignore: sized_box_for_whitespace
+              return Container(
+                height: 50,
+                child: const Center(child: Text("No reviwes found")),
+              );
+            }
             return ListView(
               children: [
                 ...value.reviews!.map((e) => Padding(
@@ -64,4 +73,12 @@ class _ReviewFeedState extends State<ReviewFeed> {
           },
         ));
   }
+
+  @override
+  void deactivate() {
+    Provider.of<ReviewProvider>(context, listen: false)
+        .clearReviews();
+    super.deactivate();
+  }
+
 }

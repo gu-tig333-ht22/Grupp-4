@@ -15,4 +15,8 @@ class ReviewProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearReviews() {
+    _reviews = null;
+  }
+
 }
