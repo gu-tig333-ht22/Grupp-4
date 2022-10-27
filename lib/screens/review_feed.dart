@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/models/review.dart';
 import 'package:template/providers/review_provider.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ReviewFeed extends StatefulWidget {
   final Movie movie;
@@ -47,14 +48,18 @@ class _ReviewFeedState extends State<ReviewFeed> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
+                            margin: EdgeInsets.only(top: 20),
+                            height: 200,
+                            width: 600,
+                            child: Markdown(data: e.content),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: const Color.fromARGB(255, 76, 76, 82),
+                              color: const Color(0xFF27272D),
                             ),
-                            child: Padding(
+                            /*child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(e.content),
-                            ),
+                            ),*/
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),

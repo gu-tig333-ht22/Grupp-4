@@ -169,9 +169,13 @@ class RatingScreen extends StatelessWidget {
     if (order == 0) {
       return list;
     } else if (order == 1) {
-      list.sort((b, a) => a.ownRating.compareTo(b.ownRating));
+      var newList = list.toList()
+        ..sort((b, a) => a.ownRating.compareTo(b.ownRating));
+      return newList;
     } else if (order == 2) {
-      list.sort((a, b) => a.ownRating.compareTo(b.ownRating));
+      var newList = list.toList()
+        ..sort((a, b) => a.ownRating.compareTo(b.ownRating));
+      return newList;
     }
     return list;
   }

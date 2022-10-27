@@ -119,7 +119,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _imageRow(context, state, movie) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
