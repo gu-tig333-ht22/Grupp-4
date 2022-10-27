@@ -70,8 +70,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _readReviews(state.movie),
-                            _addToWatchList(state.movie, state),
+                            _readReviews(state.movie!),
+                            _addToWatchList(state.movie!, state),
                           ],
                         ),
                         _headLine("About"),
@@ -94,12 +94,10 @@ class _MovieDetailsState extends State<MovieDetails> {
             ));
   }
 
-  Widget _ratingBar(state, movie) {
+  Widget _ratingBar(MovieState state, Movie movie) {
     return RatingBar.builder(
       itemSize: 28,
-      initialRating: movieInRatedMovies(state.ratedMovies, movie) != null
-          ? movieInRatedMovies(state.ratedMovies, movie) / 2
-          : 0,
+      initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
       minRating: 0.5,
       maxRating: 10,
       direction: Axis.horizontal,
@@ -117,7 +115,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _imageRow(context, state, movie) {
+  Widget _imageRow(BuildContext context, MovieState state, Movie movie) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20),
       child: Row(
@@ -141,7 +139,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: Text(
-                          movie!.runTime == 0
+                          movie.runTime == 0
                               ? '-'
                               : '${movie.runTime.toString()} min',
                           style: const TextStyle(fontSize: 16),
@@ -150,10 +148,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  /*GestureDetector(
-                    onTap: () {
-                      _showRatingDialog();
-                    }, //PUSH TO REVIW STAR?*/
                   Row(
                     children: [
                       const Icon(
@@ -163,9 +157,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: Text(
-                          movie!.rating == 0
+                          movie.rating == 0
                               ? '-'
-                              : movie!.rating.toStringAsFixed(1),
+                              : movie.rating.toStringAsFixed(1),
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
@@ -180,7 +174,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
-                        child: movie!.genres.isEmpty
+                        child: movie.genres.isEmpty
                             ? const Text("-")
                             : Text(
                                 _genres(movie),
@@ -211,7 +205,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   Container(height: 20),
-                  _ratingBar(state, state.movie),
+                  _ratingBar(state, state.movie!),
                 ],
               ),
             ),
@@ -221,7 +215,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _image(poster) {
+  Widget _image(String? poster) {
     return Expanded(
       child: Container(
         height: 300,
@@ -239,7 +233,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _addToWatchList(movie, state) {
+  Widget _addToWatchList(Movie movie, MovieState state) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 0.0, left: 10, bottom: 15),
@@ -254,10 +248,10 @@ class _MovieDetailsState extends State<MovieDetails> {
             onPressed: () {
               if (movieIdInWatchList(movie, state)) {
                 (Provider.of<MovieState>(context, listen: false)
-                    .removeFromWatchList(movie!.id));
+                    .removeFromWatchList(movie.id));
               } else {
                 (Provider.of<MovieState>(context, listen: false)
-                    .addToWatchList(movie!.id));
+                    .addToWatchList(movie.id));
               }
             },
             label: (movieIdInWatchList(movie, state))
@@ -275,8 +269,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _readReviews(movie) {
-    // const SizedBox(height: 30),
+  Widget _readReviews(Movie movie) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: ElevatedButton(
@@ -308,10 +301,10 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _textContainer(text) {
+  Widget _textContainer(String text) {
     return Card(
       elevation: 20,
-      color: Color.fromARGB(255, 29, 29, 33),
+      color: const Color.fromARGB(255, 29, 29, 33),
       child: Container(
           margin:
               const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 20),
@@ -333,7 +326,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 20,
-                  color: Color.fromARGB(255, 29, 29, 33),
+                  color: const Color.fromARGB(255, 29, 29, 33),
                   child: Column(
                     children: [
                       Container(
@@ -386,7 +379,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return genreList.join('\n');
   }
 
-  bool movieIdInWatchList(movie, state) {
+  bool movieIdInWatchList(Movie movie, MovieState state) {
     for (var i = 0; i < state.watchList.length; i++) {
       if (movie.id == state.watchList[i].id) {
         return true;
@@ -395,7 +388,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return false;
   }
 
-  bool movieIdInFavoriteList(movie, state) {
+  bool movieIdInFavoriteList(int movie, MovieState state) {
     for (var i = 0; i < state.favorite.length; i++) {
       if (movie == state.favorite[i].id) {
         return true;
@@ -404,7 +397,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return false;
   }
 
-  double movieInRatedMovies(list, movie) {
+  double movieInRatedMovies(List<Movie> list, Movie movie) {
     for (var i = 0; i < list.length; i++) {
       if (movie.id == list[i].id) {
         double value = list[i].ownRating;
@@ -413,23 +406,4 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
     return 0;
   }
-
-  /*NOT DONE!
-  _showRatingDialog() {
-    return showDialog(
-        context: context,
-        builder: (con) {
-          return Dialog(
-              backgroundColor: const Color.fromARGB(255, 29, 29, 33),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (int i = 0; i < 5; i++)
-                        const Icon(Icons.star, color: Colors.white)
-                    ]),
-              ));
-        });
-  }*/
 }

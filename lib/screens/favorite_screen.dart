@@ -11,23 +11,23 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor:
-              const Color(0xFF27272D), // const Color.fromARGB(255, 29, 29, 33),
-          title: const Text('Favorites'),
-          actions: [
-            Consumer<MovieState>(
-                builder: (context, state, child) =>
-                    Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
-            MenuButton(
-              onSelectedFunctionCallback: (value) =>
-                  Provider.of<MovieState>(context, listen: false)
-                      .setFilterBy(value),
-            ),
-          ],
-        ),
-        body: Consumer<MovieState>(builder: (context, state, child) {
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: const Color(0xFF27272D),
+        title: const Text('Favorites'),
+        actions: [
+          Consumer<MovieState>(
+              builder: (context, state, child) =>
+                  Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
+          MenuButton(
+            onSelectedFunctionCallback: (value) =>
+                Provider.of<MovieState>(context, listen: false)
+                    .setFilterBy(value),
+          ),
+        ],
+      ),
+      body: Consumer<MovieState>(
+        builder: (context, state, child) {
           if (state.favorite.isEmpty) {
             return const Center(
                 child: Text("You have no favorite movies yet."));
@@ -40,10 +40,12 @@ class FavoriteScreen extends StatelessWidget {
             return _favoritelist(
                 FilterList.filterList(state.favorite, state.filterBy));
           }
-        }));
+        },
+      ),
+    );
   }
 
-  Widget _favoritelist(favorites) {
+  Widget _favoritelist(List<Movie> favorites) {
     var list = List.generate(favorites.length, (index) => favorites[index]);
 
     return ListView.builder(
@@ -62,7 +64,7 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-  Widget _item(movie, context) {
+  Widget _item(Movie movie, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -91,7 +93,7 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-  Widget _image(poster) {
+  Widget _image(String? poster) {
     return Container(
       height: 90,
       width: 50,

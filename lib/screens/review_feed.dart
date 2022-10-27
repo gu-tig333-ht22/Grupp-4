@@ -48,18 +48,16 @@ class _ReviewFeedState extends State<ReviewFeed> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 20),
-                            height: 200,
+                            margin: const EdgeInsets.only(top: 20),
                             width: 600,
-                            child: Markdown(data: e.content),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: const Color(0xFF27272D),
                             ),
-                            /*child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(e.content),
-                            ),*/
+                            child: Markdown(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              data: e.content),                            
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),

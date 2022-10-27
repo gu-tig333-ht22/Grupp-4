@@ -14,12 +14,14 @@ class RatingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: Consumer<MovieState>(
+        actions: [
+          Consumer<MovieState>(
             builder: (context, state, child) => SortButton(
                 onSelectedFunctionCallback: (value) =>
                     Provider.of<MovieState>(context, listen: false)
                         .setratingFilterBy(value))),
-        title: Text(
+        ],
+        title: const Text(
           "My Ratings",
         ),
         backgroundColor: const Color(0xFF27272D),
@@ -55,7 +57,7 @@ class RatingScreen extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.only(right: 16),
                       child: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
@@ -169,7 +171,7 @@ class RatingScreen extends StatelessWidget {
     return 0;
   }
 
-  List<Movie> sortedList(List<Movie> list, order) {
+  List<Movie> sortedList(List<Movie> list, int order) {
     if (order == 0) {
       return list;
     } else if (order == 1) {
