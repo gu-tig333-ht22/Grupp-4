@@ -5,8 +5,8 @@ class Movie {
   final String overview;
   final num rating;
   final int runTime;
-  final List<dynamic>? genres;
-  final List<dynamic>? genreId;
+  final List<dynamic> genres;
+  final List<dynamic> genreId;
   final double ownRating;
   final String releaseDate;
 
@@ -45,7 +45,7 @@ class FilterList {
     List<Movie> returnMovies = [];
 
     for (Movie movie in list) {
-      if (movie.genreId!.contains(value)) returnMovies.add(movie);
+      if (movie.genreId.contains(value)) returnMovies.add(movie);
     }
 
     return returnMovies;
