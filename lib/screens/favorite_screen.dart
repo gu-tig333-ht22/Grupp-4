@@ -20,12 +20,17 @@ class FavoriteScreen extends StatelessWidget {
             Consumer<MovieState>(
                 builder: (context, state, child) =>
                     Center(child: Text(GenreListMap.genreMap[state.filterBy]))),
-            MenuButton(onSelectedFunctionCallback: (value) => Provider.of<MovieState>(context, listen: false).setFilterBy(value),),
+            MenuButton(
+              onSelectedFunctionCallback: (value) =>
+                  Provider.of<MovieState>(context, listen: false)
+                      .setFilterBy(value),
+            ),
           ],
         ),
         body: Consumer<MovieState>(builder: (context, state, child) {
           if (state.favorite.isEmpty) {
-            return const Center(child: Text("You have no favorite movies yet."));
+            return const Center(
+                child: Text("You have no favorite movies yet."));
           }
           if (FilterList.filterList(state.favorite, state.filterBy).isEmpty) {
             return const Center(
@@ -60,8 +65,8 @@ class FavoriteScreen extends StatelessWidget {
   Widget _item(movie, context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (con) => MovieDetails(movieId: movie.id)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (con) => MovieDetails(movieId: movie.id)));
       },
       child: ListTile(
         visualDensity: const VisualDensity(vertical: 4),

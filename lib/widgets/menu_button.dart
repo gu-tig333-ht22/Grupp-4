@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {
@@ -29,7 +28,7 @@ class MenuButton extends StatelessWidget {
               PopupMenuItem(value: 10402, child: Text('Music')),
               PopupMenuItem(value: 9648, child: Text('Mystery')),
               PopupMenuItem(value: 10749, child: Text('Romance')),
-              PopupMenuItem(value: 878, child: Text('Science Fiction')),
+              PopupMenuItem(value: 878, child: Text('Sci-Fi')),
               PopupMenuItem(value: 10770, child: Text('TV Movie')),
               PopupMenuItem(value: 53, child: Text('Thriller')),
               PopupMenuItem(value: 10752, child: Text('War')),

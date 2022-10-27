@@ -75,9 +75,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                           ],
                         ),
                         _headLine("About"),
-                        _textContainer(state.movie!.overview),
+                        state.movie!.overview == ""
+                            ? _textContainer(
+                                'No information is available for this movie.')
+                            : _textContainer(state.movie!.overview),
                         _headLine("Cast"),
-                        _castRow(),
+                        state.castList.isEmpty
+                            ? _textContainer(
+                                'No cast information is available for this movie. ')
+                            : _castRow()
                       ],
                     ),
                   );
@@ -107,12 +113,14 @@ class _MovieDetailsState extends State<MovieDetails> {
                       const Icon(
                         Icons.watch_later_outlined,
                         color: Colors.white,
-                        size: 18,
+                        size: 23.25,
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: Text(
-                          '${movie.runTime.toString()} min',
+                          movie!.runTime == 0
+                              ? '-'
+                              : '${movie.runTime.toString()} min',
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
@@ -132,7 +140,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                         Container(
                           margin: const EdgeInsets.only(left: 10),
                           child: Text(
-                            movie.rating.toString(),
+                            movie!.rating == 0
+                                ? '-'
+                                : movie!.rating.toStringAsFixed(1),
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -148,8 +158,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
-                        child: movie.genres.isEmpty
-                            ? const Text("")
+                        child: movie!.genres.isEmpty
+                            ? const Text("-")
                             : Text(
                                 _genres(movie),
                                 style: const TextStyle(fontSize: 16),
@@ -158,19 +168,19 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   Container(
-                    height: 20,
+                    height: 30,
                   ),
                   Row(
                     children: [
                       const Icon(
                         Icons.date_range_outlined,
                         color: Colors.white,
-                        size: 18,
+                        size: 23.5,
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: Text(
-                          movie.releaseDate,
+                          movie.releaseDate.substring(0, 4),
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
@@ -211,10 +221,10 @@ class _MovieDetailsState extends State<MovieDetails> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
           image: DecorationImage(
-            image: 
-            poster != null
-            ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-            : const AssetImage('./assets/movie_default_poster.jpeg') as ImageProvider,
+            image: poster != null
+                ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
+                : const AssetImage('./assets/movie_default_poster.jpeg')
+                    as ImageProvider,
             fit: BoxFit.cover,
           ),
         ),
