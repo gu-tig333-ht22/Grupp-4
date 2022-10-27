@@ -10,6 +10,7 @@ class MovieState extends ChangeNotifier {
   List<Movie> _ratedMovies = [];
   int _filterBy = 0;
   int _watchListFilterBy = 0;
+  int _ratingFilterBy = 0;
 
   Movie? _movie;
 
@@ -20,6 +21,7 @@ class MovieState extends ChangeNotifier {
   List<Movie> get ratedMovies => _ratedMovies;
   int get filterBy => _filterBy;
   int get watchListFilterBy => _watchListFilterBy;
+  int get ratingFilterBy => _ratingFilterBy;
 
   MovieState() {
     getFavorites();
@@ -103,8 +105,8 @@ class MovieState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void getPopularMovies() async {
-  //   _movies = await ApiCalls.getPopularMovies();
-  //   notifyListeners();
-  // }
+  void setratingFilterBy(int ratingFilterBy) {
+    _ratingFilterBy = ratingFilterBy;
+    notifyListeners();
+  }
 }

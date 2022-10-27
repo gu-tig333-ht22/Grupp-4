@@ -94,7 +94,30 @@ class _MovieDetailsState extends State<MovieDetails> {
             ));
   }
 
-  Widget _imageRow(BuildContext context, MovieState state, Movie movie) {
+  Widget _ratingBar(state, movie) {
+    return RatingBar.builder(
+      itemSize: 28,
+      initialRating: movieInRatedMovies(state.ratedMovies, movie) != null
+          ? movieInRatedMovies(state.ratedMovies, movie) / 2
+          : 0,
+      minRating: 0.5,
+      maxRating: 10,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: const EdgeInsets.symmetric(horizontal: 0),
+      itemBuilder: (context, _) => const Icon(
+        Icons.star,
+        color: Colors.white,
+      ),
+      onRatingUpdate: (rating) {
+        Provider.of<MovieState>(context, listen: false)
+            .postRating(movie.id, rating * 2);
+      },
+    );
+  }
+
+  Widget _imageRow(context, state, movie) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: Row(
@@ -187,24 +210,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   Container(height: 20),
-                  RatingBar.builder(
-                    itemSize: 28,
-                    initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
-                    minRating: 0.5,
-                    maxRating: 10,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.white,
-                    ),
-                    onRatingUpdate: (rating) {
-                      Provider.of<MovieState>(context, listen: false)
-                          .postRating(movie.id, rating * 2);
-                    },
-                  ),
+                  _ratingBar(state, state.movie),
                 ],
               ),
             ),
@@ -302,9 +308,14 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _textContainer(text) {
-    return Container(
-        margin: const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 20),
-        child: Text(text));
+    return Card(
+      elevation: 20,
+      color: Color.fromARGB(255, 29, 29, 33),
+      child: Container(
+          margin:
+              const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 20),
+          child: Text(text)),
+    );
   }
 
   Widget _castRow() {
@@ -319,41 +330,44 @@ class _MovieDetailsState extends State<MovieDetails> {
               shrinkWrap: true,
               itemCount: state.castList.length,
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      height: 130,
-                      width: 85,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        image: DecorationImage(
-                            image: state.castList[index].poster != null
-                                ? NetworkImage(
-                                    'https://image.tmdb.org/t/p/w200${state.castList[index].poster}')
-                                : const AssetImage('assets/placeholder.png')
-                                    as ImageProvider),
+                return Card(
+                  elevation: 20,
+                  color: Color.fromARGB(255, 29, 29, 33),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 85,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: DecorationImage(
+                              image: state.castList[index].poster != null
+                                  ? NetworkImage(
+                                      'https://image.tmdb.org/t/p/w200${state.castList[index].poster}')
+                                  : const AssetImage('assets/placeholder.png')
+                                      as ImageProvider),
+                        ),
                       ),
-                    ),
-                    Container(height: 10),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      height: 50,
-                      width: 85,
-                      child: Text(
-                        state.castList[index].name,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10, top: 10),
+                      Container(height: 10),
+                      SizedBox(
+                        height: 50,
                         width: 85,
                         child: Text(
-                          state.castList[index].character,
-                          style: const TextStyle(fontSize: 12),
+                          state.castList[index].name,
                           textAlign: TextAlign.center,
-                        )),
-                  ],
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          width: 85,
+                          child: Text(
+                            state.castList[index].character,
+                            style: const TextStyle(fontSize: 12),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
                 );
               },
             ),
