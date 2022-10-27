@@ -75,6 +75,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         ),
                         _headLine("About"),
                         _textContainer(state.movie!.overview),
+                        Container(height: 10),
                         _headLine("Cast"),
                         _castRow(),
                       ],
@@ -286,7 +287,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _headLine(String text) {
     return Container(
-      margin: const EdgeInsets.only(left: 20),
+      margin: const EdgeInsets.only(left: 25),
       child: Text(
         text,
         style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -295,9 +296,14 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _textContainer(text) {
-    return Container(
-        margin: const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 20),
-        child: Text(text));
+    return Card(
+      elevation: 20,
+      color: Color.fromARGB(255, 29, 29, 33),
+      child: Container(
+          margin:
+              const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
+          child: Text(text)),
+    );
   }
 
   Widget _castRow() {
@@ -306,47 +312,50 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 260,
+            height: 270,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: state.castList.length,
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      height: 130,
-                      width: 85,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        image: DecorationImage(
-                            image: state.castList[index].poster != null
-                                ? NetworkImage(
-                                    'https://image.tmdb.org/t/p/w200${state.castList[index].poster}')
-                                : const AssetImage('assets/placeholder.png')
-                                    as ImageProvider),
+                return Card(
+                  elevation: 20,
+                  color: Color.fromARGB(255, 29, 29, 33),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 85,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: DecorationImage(
+                              image: state.castList[index].poster != null
+                                  ? NetworkImage(
+                                      'https://image.tmdb.org/t/p/w200${state.castList[index].poster}')
+                                  : const AssetImage('assets/placeholder.png')
+                                      as ImageProvider),
+                        ),
                       ),
-                    ),
-                    Container(height: 10),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      height: 50,
-                      width: 85,
-                      child: Text(
-                        state.castList[index].name,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10, top: 10),
+                      Container(height: 10),
+                      Container(
+                        height: 50,
                         width: 85,
                         child: Text(
-                          state.castList[index].character,
-                          style: const TextStyle(fontSize: 12),
+                          state.castList[index].name,
                           textAlign: TextAlign.center,
-                        )),
-                  ],
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          width: 85,
+                          child: Text(
+                            state.castList[index].character,
+                            style: const TextStyle(fontSize: 12),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
                 );
               },
             ),
