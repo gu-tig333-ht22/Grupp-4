@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/movie_provider.dart';
 import 'movie_details.dart';
+import 'package:template/widgets/sort_button.dart';
 
 class RatingScreen extends StatelessWidget {
   const RatingScreen({super.key});
@@ -12,10 +13,14 @@ class RatingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            "My Ratings",
-          ),
+        centerTitle: true,
+        leading: Consumer<MovieState>(
+            builder: (context, state, child) => SortButton(
+                onSelectedFunctionCallback: (value) =>
+                    Provider.of<MovieState>(context, listen: false)
+                        .setratingFilterBy(value))),
+        title: Text(
+          "My Ratings",
         ),
         backgroundColor: const Color(0xFF27272D),
       ),
@@ -23,14 +28,9 @@ class RatingScreen extends StatelessWidget {
         if (state.ratedMovies.isEmpty) {
           return const Center(
               child: Text("You have not rated any movies yet."));
-        }
-        if (FilterList.filterList(state.ratedMovies, state.filterBy).isEmpty) {
-          return const Center(
-            child: Text("You have not rated any movies of this genre yet."),
-          );
         } else {
           return _ratingList(
-              FilterList.filterList(state.ratedMovies, state.filterBy), state);
+              sortedList(state.ratedMovies, state.ratingFilterBy), state);
         }
       }),
     );
@@ -52,11 +52,18 @@ class RatingScreen extends StatelessWidget {
                 key: UniqueKey(),
                 background: Container(
                   color: Colors.red,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(right: 16),
-                      child: Icon(Icons.delete),
+                      child: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          Provider.of<MovieState>(context, listen: false)
+                              .deleteRating(list[index].id);
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -65,7 +72,7 @@ class RatingScreen extends StatelessWidget {
                   final snackBarController =
                       ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: const Duration(seconds: 8),
+                      duration: const Duration(seconds: 5),
                       margin: const EdgeInsets.only(bottom: 10),
                       behavior: SnackBarBehavior.floating,
                       clipBehavior: Clip.hardEdge,
@@ -156,5 +163,16 @@ class RatingScreen extends StatelessWidget {
       }
     }
     return 0;
+  }
+
+  List<Movie> sortedList(List<Movie> list, order) {
+    if (order == 0) {
+      return list;
+    } else if (order == 1) {
+      list.sort((b, a) => a.ownRating.compareTo(b.ownRating));
+    } else if (order == 2) {
+      list.sort((a, b) => a.ownRating.compareTo(b.ownRating));
+    }
+    return list;
   }
 }

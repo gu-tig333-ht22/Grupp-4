@@ -66,7 +66,8 @@ class WatchListScreenState extends State<WatchListScreen> {
       height: MediaQuery.of(context).size.height,
       child: GridView.builder(
         itemCount: watchlist.length,
-        itemBuilder: ((context, index) => MoviePoster(movie: watchlist![index], active: true)),
+        itemBuilder: ((context, index) =>
+            MoviePoster(movie: watchlist![index], active: true)),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1 / 1.4, crossAxisCount: 3),
       ),
