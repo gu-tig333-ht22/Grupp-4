@@ -42,10 +42,6 @@ class WatchListScreenState extends State<WatchListScreen> {
             centerTitle: true,
             title: const Text(
               'My Watchlist',
-//              style: TextStyle(
-//                  fontWeight: FontWeight.bold,
-//                  fontSize: 20,
-//                  color: Color.fromARGB(255, 255, 255, 255)),
             )),
         body: Consumer<MovieState>(builder: ((context, state, child) {
           if (state.watchList.isEmpty) {

@@ -35,7 +35,7 @@ class MoviePoster extends StatelessWidget {
                         borderRadius: BorderRadius.circular(active ? 15 : 25),
                         child: movie.poster == null
                             ? Image.asset(
-                                "./assets/temp_movie_poster/movie_default_poster.jpeg")
+                                "./assets/movie_default_poster.jpeg")
                             : Image.network(
                                   'https://image.tmdb.org/t/p/w500/${movie.poster}',
                                   fit: BoxFit.cover,

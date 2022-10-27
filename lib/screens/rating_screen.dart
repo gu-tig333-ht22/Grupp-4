@@ -36,8 +36,8 @@ class RatingScreen extends StatelessWidget {
     );
   }
 
-  Widget _ratingList(rateList, state) {
-    var list = List.generate(rateList.length, (index) => rateList[index]);
+  Widget _ratingList(List<Movie> rateList, MovieState state) {
+    List<Movie> list = List.generate(rateList.length, (index) => rateList[index]);
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: 20,
@@ -60,8 +60,6 @@ class RatingScreen extends StatelessWidget {
                   ),
                 ),
                 confirmDismiss: (direction) async {
-                  if (direction == DismissDirection.startToEnd) {
-                  } else {
                     bool delete = true;
                     final snackBarController =
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -82,7 +80,6 @@ class RatingScreen extends StatelessWidget {
                     );
                     await snackBarController.closed;
                     return delete;
-                  }
                 },
                 onDismissed: (_) {
                   Provider.of<MovieState>(context, listen: false)
@@ -96,7 +93,7 @@ class RatingScreen extends StatelessWidget {
     );
   }
 
-  Widget _item(movie, context, state) {
+  Widget _item(Movie movie, BuildContext context, MovieState state) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
@@ -113,9 +110,7 @@ class RatingScreen extends StatelessWidget {
           ignoreGestures: true,
           unratedColor: const Color.fromARGB(255, 29, 29, 33),
           itemSize: 28,
-          initialRating: movieInRatedMovies(state.ratedMovies, movie) != null
-              ? movieInRatedMovies(state.ratedMovies, movie) / 2
-              : 0,
+          initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
           minRating: 0.5,
           maxRating: 10,
           direction: Axis.horizontal,
@@ -135,7 +130,7 @@ class RatingScreen extends StatelessWidget {
     );
   }
 
-  Widget _image(poster) {
+  Widget _image(String? poster) {
     return Container(
       height: 90,
       width: 50,
@@ -152,7 +147,7 @@ class RatingScreen extends StatelessWidget {
     );
   }
 
-  double movieInRatedMovies(list, movie) {
+  double movieInRatedMovies(List<Movie> list, Movie movie) {
     for (var i = 0; i < list.length; i++) {
       if (movie.id == list[i].id) {
         double value = list[i].ownRating;

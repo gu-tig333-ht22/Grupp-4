@@ -35,15 +35,15 @@ class AddMovieState extends State<AddMovie> {
                 color: Color.fromARGB(255, 255, 255, 255)),
           )),
       body: SingleChildScrollView(
-        child: Container(
-          color: const Color(0xFF27272D),
-          padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
-          alignment: AlignmentDirectional.topStart,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: const Color(0xFF27272D),
+              padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
+              alignment: AlignmentDirectional.topStart,
+              child: TextField(
                 controller: filmController,
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -70,28 +70,29 @@ class AddMovieState extends State<AddMovie> {
                   }
                 },
               ),
-              Consumer<SearchStateProvider>(
-                  builder: (context, searchValue, child) {
-                if (searchValue.isSearching) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (searchValue.serachHits != null) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: GridView.builder(
-                        itemCount: searchValue.serachHits!.length,
-                        itemBuilder: ((context, index) =>
-                            MoviePoster(movie: searchValue.serachHits![index], active: true)),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1/1.4,
-                          crossAxisCount: 3,
-                        )),
-                  );
-                }
-                return Column();
-              }),
-            ],
-          ),
+            ),
+            Consumer<SearchStateProvider>(
+                builder: (context, searchValue, child) {
+              if (searchValue.isSearching) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (searchValue.serachHits != null) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: GridView(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1 / 1.4,
+                        crossAxisCount: 3,
+                      ),
+                      children: [
+                        ...searchValue.serachHits!.map((e) => MoviePoster(movie: e, active: true)),
+                        for (int i = 0; i < 3;  i++) Container(height: 50)
+                      ],),
+                );
+              }
+              return Column();
+            }),
+          ],
         ),
       ),
     );

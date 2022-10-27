@@ -13,8 +13,8 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-        create: (context) => MovieState(),
+      ChangeNotifierProvider<MovieState>(
+        create: (context) => MovieState()
       ),
       ChangeNotifierProvider<SearchStateProvider>(
           create: (context) => SearchStateProvider()),

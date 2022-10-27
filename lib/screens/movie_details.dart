@@ -213,11 +213,10 @@ class _MovieDetailsState extends State<MovieDetails> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
           image: DecorationImage(
-            image: poster != null
-                ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-                : Image.asset(
-                        './assets/temp_movie_poster/movie_default_poster.jpeg')
-                    as ImageProvider,
+            image: 
+            poster != null
+            ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
+            : const AssetImage('./assets/movie_default_poster.jpeg') as ImageProvider,
             fit: BoxFit.cover,
           ),
         ),
