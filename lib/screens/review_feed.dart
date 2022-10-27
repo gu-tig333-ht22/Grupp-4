@@ -35,13 +35,9 @@ class _ReviewFeedState extends State<ReviewFeed> {
           builder: (context, value, child) {
             if (value.reviews == null) {
               return const Center(child: CircularProgressIndicator());
-            }
-            else if (value.reviews!.isEmpty) {
+            } else if (value.reviews!.isEmpty) {
               // ignore: sized_box_for_whitespace
-              return Container(
-                height: 50,
-                child: const Center(child: Text("No reviwes found")),
-              );
+              return const Center(child: Text("No reviews found."));
             }
             return ListView(
               children: [
@@ -63,7 +59,8 @@ class _ReviewFeedState extends State<ReviewFeed> {
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(e.author,
-                                style: const TextStyle(color: Color(0xFF0296E5))),
+                                style:
+                                    const TextStyle(color: Color(0xFF0296E5))),
                           ),
                           const SizedBox(height: 10)
                         ],
@@ -77,9 +74,7 @@ class _ReviewFeedState extends State<ReviewFeed> {
 
   @override
   void deactivate() {
-    Provider.of<ReviewProvider>(context, listen: false)
-        .clearReviews();
+    Provider.of<ReviewProvider>(context, listen: false).clearReviews();
     super.deactivate();
   }
-
 }

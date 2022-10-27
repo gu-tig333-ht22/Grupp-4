@@ -37,7 +37,8 @@ class RatingScreen extends StatelessWidget {
   }
 
   Widget _ratingList(List<Movie> rateList, MovieState state) {
-    List<Movie> list = List.generate(rateList.length, (index) => rateList[index]);
+    List<Movie> list =
+        List.generate(rateList.length, (index) => rateList[index]);
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: 20,
@@ -60,26 +61,26 @@ class RatingScreen extends StatelessWidget {
                   ),
                 ),
                 confirmDismiss: (direction) async {
-                    bool delete = true;
-                    final snackBarController =
-                        ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(seconds: 8),
-                        margin: const EdgeInsets.only(bottom: 10),
-                        behavior: SnackBarBehavior.floating,
-                        clipBehavior: Clip.hardEdge,
-                        elevation: 4,
-                        backgroundColor: const Color(0xFF27272D),
-                        content: Text('Deleted ${list[index].title}',
-                            style: const TextStyle(color: Colors.white)),
-                        action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () => delete = false,
-                            textColor: Colors.white),
-                      ),
-                    );
-                    await snackBarController.closed;
-                    return delete;
+                  bool delete = true;
+                  final snackBarController =
+                      ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 8),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      behavior: SnackBarBehavior.floating,
+                      clipBehavior: Clip.hardEdge,
+                      elevation: 4,
+                      backgroundColor: const Color(0xFF27272D),
+                      content: Text('Deleted ${list[index].title}',
+                          style: const TextStyle(color: Colors.white)),
+                      action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () => delete = false,
+                          textColor: Colors.white),
+                    ),
+                  );
+                  await snackBarController.closed;
+                  return delete;
                 },
                 onDismissed: (_) {
                   Provider.of<MovieState>(context, listen: false)
@@ -96,8 +97,8 @@ class RatingScreen extends StatelessWidget {
   Widget _item(Movie movie, BuildContext context, MovieState state) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (con) => MovieDetails(movieId: movie.id)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (con) => MovieDetails(movieId: movie.id)));
       },
       child: ListTile(
         visualDensity: const VisualDensity(vertical: 4),
@@ -139,7 +140,7 @@ class RatingScreen extends StatelessWidget {
         image: DecorationImage(
           image: poster != null
               ? NetworkImage('https://image.tmdb.org/t/p/w500/$poster')
-              : Image.asset('./assets/temp_movie_poster/movie_default_poster.jpeg')
+              : const AssetImage('./assets/movie_default_poster.jpeg')
                   as ImageProvider,
           fit: BoxFit.cover,
         ),

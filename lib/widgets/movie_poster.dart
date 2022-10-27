@@ -14,42 +14,39 @@ class MoviePoster extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Consumer<MovieState>(
-        builder: (context, state, child) {
-          return GestureDetector(
-            onTap: () {
-                  state.getMovie(movie.id);
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (con) => MovieDetails(movieId: movie.id)));
-                },
-            child: AnimatedContainer(
-                    width: 120,
-                    duration: const Duration(milliseconds: 500),
-                    padding: EdgeInsets.all(active ? 0 : 15),
-                    curve: Curves.easeInOutCubic,
-                    child: AnimatedOpacity(
-                      opacity: active ? 1.0 : 0.2,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(active ? 15 : 25),
-                        child: movie.poster == null
-                            ? Image.asset(
-                                "./assets/movie_default_poster.jpeg")
-                            : Image.network(
-                                  'https://image.tmdb.org/t/p/w500/${movie.poster}',
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const SizedBox(child: ShimmerLoader());
-                                  },
-                            ),
+      child: Consumer<MovieState>(builder: (context, state, child) {
+        return GestureDetector(
+          onTap: () {
+            state.getMovie(movie.id);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (con) => MovieDetails(movieId: movie.id)));
+          },
+          child: AnimatedContainer(
+            width: 120,
+            duration: const Duration(milliseconds: 500),
+            padding: EdgeInsets.all(active ? 0 : 15),
+            curve: Curves.easeInOutCubic,
+            child: AnimatedOpacity(
+              opacity: active ? 1.0 : 0.2,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOutCubic,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(active ? 15 : 25),
+                child: movie.poster == null
+                    ? Image.asset("./assets/movie_default_poster.jpeg")
+                    : Image.network(
+                        'https://image.tmdb.org/t/p/w500/${movie.poster}',
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const SizedBox(child: ShimmerLoader());
+                        },
                       ),
-                    ),
-                  ),
-          );
-        }
-      ),
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }
