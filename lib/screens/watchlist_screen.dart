@@ -17,33 +17,40 @@ class WatchListScreenState extends State<WatchListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.add, color: Colors.white, size: 30),
-              tooltip: 'Add movie',
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const AddMovie())),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.add, color: Colors.white, size: 30),
+          tooltip: 'Add movie',
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const AddMovie(),
             ),
-            actions: [
-              Consumer<MovieState>(
-                  builder: (context, state, child) => Center(
-                      child: Text(
-                          GenreListMap.genreMap[state.watchListFilterBy]))),
-              MenuButton(
-                onSelectedFunctionCallback: (value) => {
-                  Provider.of<MovieState>(context, listen: false)
-                      .setWatchListFilterBy(value)
-                },
+          ),
+        ),
+        actions: [
+          Consumer<MovieState>(
+            builder: (context, state, child) => Center(
+              child: Text(
+                GenreListMap.genreMap[state.watchListFilterBy],
               ),
-            ],
-            backgroundColor: const Color(0xFF27272D),
-            centerTitle: true,
-            title: const Text(
-              'My Watchlist',
-            )),
-        body: Consumer<MovieState>(builder: ((context, state, child) {
+            ),
+          ),
+          MenuButton(
+            onSelectedFunctionCallback: (value) => {
+              Provider.of<MovieState>(context, listen: false)
+                  .setWatchListFilterBy(value)
+            },
+          ),
+        ],
+        backgroundColor: const Color(0xFF27272D),
+        centerTitle: true,
+        title: const Text(
+          'My Watchlist',
+        ),
+      ),
+      body: Consumer<MovieState>(
+        builder: ((context, state, child) {
           if (state.watchList.isEmpty) {
             return const Center(
                 child: Text("You have no movies in your watchlist yet."));
@@ -58,7 +65,9 @@ class WatchListScreenState extends State<WatchListScreen> {
             return _watchList(FilterList.filterList(
                 state.watchList, state.watchListFilterBy));
           }
-        })));
+        }),
+      ),
+    );
   }
 
   Widget _watchList(watchlist) {
@@ -66,7 +75,8 @@ class WatchListScreenState extends State<WatchListScreen> {
       height: MediaQuery.of(context).size.height,
       child: GridView.builder(
         itemCount: watchlist.length,
-        itemBuilder: ((context, index) => MoviePoster(movie: watchlist![index], active: true)),
+        itemBuilder: ((context, index) =>
+            MoviePoster(movie: watchlist![index], active: true)),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1 / 1.4, crossAxisCount: 3),
       ),

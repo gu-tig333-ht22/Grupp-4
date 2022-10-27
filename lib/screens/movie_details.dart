@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:template/models/movie.dart';
 import 'package:template/providers/movie_provider.dart';
 import 'package:template/screens/review_feed.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -65,7 +66,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _imageRow(context, state, state.movie),
+                        _imageRow(context, state, state.movie!),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -93,7 +94,7 @@ class _MovieDetailsState extends State<MovieDetails> {
             ));
   }
 
-  Widget _imageRow(context, state, movie) {
+  Widget _imageRow(BuildContext context, MovieState state, Movie movie) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: Row(
@@ -188,10 +189,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                   Container(height: 20),
                   RatingBar.builder(
                     itemSize: 28,
-                    initialRating:
-                        movieInRatedMovies(state.ratedMovies, movie) != null
-                            ? movieInRatedMovies(state.ratedMovies, movie) / 2
-                            : 0,
+                    initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
                     minRating: 0.5,
                     maxRating: 10,
                     direction: Axis.horizontal,
@@ -258,12 +256,12 @@ class _MovieDetailsState extends State<MovieDetails> {
             label: (movieIdInWatchList(movie, state))
                 ? const Text("Delete from watchlist",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.normal))
                 : const Text("Add to watchlist",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.normal))),
       ),
@@ -286,7 +284,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               SizedBox(width: 10),
               Text(
                 "Read reviews",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 14),
               ),
             ],
           )),
@@ -365,12 +363,11 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  _genres(movie) {
+  _genres(Movie movie) {
     List<dynamic> genreList = [];
-    for (var genre in movie!.genres) {
+    for (var genre in movie.genres) {
       genreList.add(genre['name']);
     }
-    var genreListMapped = genreList.map;
     return genreList.join('\n');
   }
 
