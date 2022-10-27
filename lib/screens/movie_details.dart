@@ -81,7 +81,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         _headLine("Cast"),
                         state.castList.isEmpty
                             ? _textContainer(
-                                'No cast information is available for this movie. ')
+                                'No cast information is available for this movie.')
                             : _castRow()
                       ],
                     ),
@@ -118,7 +118,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _imageRow(context, state, movie) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,27 +149,26 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  GestureDetector(
+                  /*GestureDetector(
                     onTap: () {
                       _showRatingDialog();
-                    }, //PUSH TO REVIW STAR?
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.star_border_outlined,
-                          color: Colors.white,
+                    }, //PUSH TO REVIW STAR?*/
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.star_border_outlined,
+                        color: Colors.white,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          movie!.rating == 0
+                              ? '-'
+                              : movie!.rating.toStringAsFixed(1),
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            movie!.rating == 0
-                                ? '-'
-                                : movie!.rating.toStringAsFixed(1),
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 30),
                   Row(
@@ -202,7 +201,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                       Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: Text(
-                          movie.releaseDate.substring(0, 4),
+                          movie.releaseDate != ""
+                              ? movie.releaseDate.substring(0, 4)
+                              : '-',
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
@@ -261,12 +262,13 @@ class _MovieDetailsState extends State<MovieDetails> {
             label: (movieIdInWatchList(movie, state))
                 ? const Text("Delete from watchlist",
                     style: TextStyle(
-                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.normal))
                 : const Text("Add to watchlist",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.normal))),
       ),
@@ -289,7 +291,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               SizedBox(width: 10),
               Text(
                 "Read reviews",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 14),
               ),
             ],
           )),
@@ -413,7 +415,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return 0;
   }
 
-  //NOT DONE!
+  /*NOT DONE!
   _showRatingDialog() {
     return showDialog(
         context: context,
@@ -430,5 +432,5 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ]),
               ));
         });
-  }
+  }*/
 }

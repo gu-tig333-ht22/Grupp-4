@@ -14,9 +14,9 @@ class SortButton extends StatelessWidget {
           onSelectedFunctionCallback(value);
         },
         itemBuilder: (context) => const [
-              PopupMenuItem(value: 0, child: Text('Sort by recently added.')),
-              PopupMenuItem(value: 1, child: Text('Sort by highest rating. ')),
-              PopupMenuItem(value: 2, child: Text('Sort by lowest rating. ')),
+              PopupMenuItem(value: 1, child: Text('Sort by highest rating.')),
+              PopupMenuItem(value: 2, child: Text('Sort by lowest rating.')),
+              PopupMenuItem(value: 0, child: Text('Sort by date added.')),
             ]);
   }
 }

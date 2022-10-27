@@ -28,7 +28,7 @@ class _ReviewFeedState extends State<ReviewFeed> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 29, 29, 33),
+          backgroundColor: const Color(0xFF27272D),
           title: Text(widget.movie.title),
         ),
         body: Consumer<ReviewProvider>(
