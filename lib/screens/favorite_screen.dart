@@ -68,20 +68,24 @@ class FavoriteScreen extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (con) => MovieDetails(movieId: movie.id)));
       },
-      child: ListTile(
-        visualDensity: const VisualDensity(vertical: 4),
-        leading: _image(movie.poster),
-        title: Text(
-          movie.title,
-          style: const TextStyle(fontSize: 20),
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.favorite),
-          color: Colors.red,
-          onPressed: () {
-            Provider.of<MovieState>(context, listen: false)
-                .deleteFavorites(movie.id);
-          },
+      child: Card(
+        elevation: 20,
+        color: const Color.fromARGB(255, 29, 29, 33),
+        child: ListTile(
+          visualDensity: const VisualDensity(vertical: 4),
+          leading: _image(movie.poster),
+          title: Text(
+            movie.title,
+            style: const TextStyle(fontSize: 20),
+          ),
+          trailing: IconButton(
+            icon: const Icon(Icons.favorite),
+            color: Colors.red,
+            onPressed: () {
+              Provider.of<MovieState>(context, listen: false)
+                  .deleteFavorites(movie.id);
+            },
+          ),
         ),
       ),
     );

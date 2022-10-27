@@ -107,32 +107,36 @@ class RatingScreen extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (con) => MovieDetails(movieId: movie.id)));
       },
-      child: ListTile(
-        visualDensity: const VisualDensity(vertical: 4),
-        leading: _image(movie.poster),
-        title: Text(
-          movie.title,
-          style: const TextStyle(fontSize: 20),
-        ),
-        trailing: RatingBar.builder(
-          ignoreGestures: true,
-          unratedColor: const Color.fromARGB(255, 29, 29, 33),
-          itemSize: 28,
-          initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
-          minRating: 0.5,
-          maxRating: 10,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: const EdgeInsets.symmetric(horizontal: 0),
-          itemBuilder: (context, _) => const Icon(
-            Icons.star,
-            color: Colors.white,
+      child: Card(
+        elevation: 20,
+        color: const Color.fromARGB(255, 29, 29, 33),
+        child: ListTile(
+          visualDensity: const VisualDensity(vertical: 4),
+          leading: _image(movie.poster),
+          title: Text(
+            movie.title,
+            style: const TextStyle(fontSize: 20),
           ),
-          onRatingUpdate: (rating) {
-            Provider.of<MovieState>(context, listen: false)
-                .postRating(movie.id, rating * 2);
-          },
+          trailing: RatingBar.builder(
+            ignoreGestures: true,
+            unratedColor: const Color.fromARGB(255, 29, 29, 33),
+            itemSize: 28,
+            initialRating: movieInRatedMovies(state.ratedMovies, movie) / 2,
+            minRating: 0.5,
+            maxRating: 10,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 0),
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+            onRatingUpdate: (rating) {
+              Provider.of<MovieState>(context, listen: false)
+                  .postRating(movie.id, rating * 2);
+            },
+          ),
         ),
       ),
     );
