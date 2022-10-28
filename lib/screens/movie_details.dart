@@ -307,7 +307,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _textContainer(String text) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8,10,8,0),
+      padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
       child: Card(
         elevation: 20,
         color: const Color.fromARGB(255, 29, 29, 33),
@@ -325,7 +325,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 10, left: 10),
-            height: 260,
+            height: 270,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
