@@ -10,7 +10,12 @@ class MoviePoster extends StatelessWidget {
   final bool active;
   final double width;
   final double padding;
-  const MoviePoster({required this.movie, required this.active, this.width = 120, this.padding = 10, super.key});
+  const MoviePoster(
+      {required this.movie,
+      required this.active,
+      this.width = 120,
+      this.padding = 10,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,6 @@ class MoviePoster extends StatelessWidget {
       child: Consumer<MovieState>(builder: (context, state, child) {
         return GestureDetector(
           onTap: () {
-            state.getMovie(movie.id);
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (con) => MovieDetails(movieId: movie.id)));
           },
