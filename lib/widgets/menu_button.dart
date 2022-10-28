@@ -8,6 +8,7 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+        tooltip: 'Filter movies by genre',
         color: Colors.black,
         onSelected: (int value) {
           onSelectedFunctionCallback(value);
