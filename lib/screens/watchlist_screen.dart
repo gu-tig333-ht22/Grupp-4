@@ -20,6 +20,9 @@ class WatchListScreenState extends State<WatchListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: GestureDetector(onTap: () {
+          Provider.of<MovieState>(context, listen: false).setDeleteMovieFalse();
+        }),
         leading: IconButton(
           icon: const Icon(Icons.add, color: Colors.white, size: 30),
           tooltip: 'Add movie',
