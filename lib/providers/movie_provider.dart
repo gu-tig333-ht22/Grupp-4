@@ -116,4 +116,9 @@ class MovieState extends ChangeNotifier {
     _deleteMovie = !_deleteMovie;
     notifyListeners();
   }
+
+  void setDeleteMovieFalse() {
+    _deleteMovie = false;
+    notifyListeners();
+  }
 }

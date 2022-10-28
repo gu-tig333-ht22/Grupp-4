@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:template/models/api_calls.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/movie_provider.dart';
 import 'package:template/screens/add_movie.dart';
@@ -75,39 +74,44 @@ class WatchListScreenState extends State<WatchListScreen> {
   }
 
   Widget _watchList(List<Movie> watchlist, state) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: GridView.builder(
-        itemCount: watchlist.length,
-        itemBuilder: ((context, index) => GestureDetector(
-              onLongPress: () {
-                Timer(const Duration(seconds: 1), () {
-                  Provider.of<MovieState>(context, listen: false)
-                      .setDeleteMovie();
-                });
-              },
-              child: state.deleteMovie
-                  ? Stack(children: [
-                      MoviePoster(movie: watchlist[index], active: true),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 2, 2),
-                          child: IconButton(
-                            onPressed: () {
-                              Provider.of<MovieState>(context, listen: false)
-                                  .removeFromWatchList(watchlist[index].id);
-                            },
-                            icon: Icon(Icons.close),
-                            color: Colors.white,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () =>
+          Provider.of<MovieState>(context, listen: false).setDeleteMovieFalse(),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: GridView.builder(
+          itemCount: watchlist.length,
+          itemBuilder: ((context, index) => GestureDetector(
+                onLongPress: () {
+                  Timer(const Duration(seconds: 1), () {
+                    Provider.of<MovieState>(context, listen: false)
+                        .setDeleteMovie();
+                  });
+                },
+                child: state.deleteMovie
+                    ? Stack(children: [
+                        MoviePoster(movie: watchlist[index], active: true),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 2, 2),
+                            child: IconButton(
+                              onPressed: () {
+                                Provider.of<MovieState>(context, listen: false)
+                                    .removeFromWatchList(watchlist[index].id);
+                              },
+                              icon: Icon(Icons.close),
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ])
-                  : MoviePoster(movie: watchlist[index], active: true),
-            )),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 1 / 1.4, crossAxisCount: 3),
+                      ])
+                    : MoviePoster(movie: watchlist[index], active: true),
+              )),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 1 / 1.4, crossAxisCount: 3),
+        ),
       ),
     );
   }
