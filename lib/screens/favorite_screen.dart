@@ -4,6 +4,7 @@ import 'package:template/models/movie.dart';
 import 'package:template/providers/movie_provider.dart';
 import 'package:template/widgets/menu_button.dart';
 import 'package:template/screens/movie_details.dart';
+import 'package:template/widgets/movie_favorite_item.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
@@ -48,19 +49,17 @@ class FavoriteScreen extends StatelessWidget {
   Widget _favoritelist(List<Movie> favorites) {
     var list = List.generate(favorites.length, (index) => favorites[index]);
 
-    return ListView.builder(
+    return GridView(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3, childAspectRatio: 1 / 1.4),
       padding: const EdgeInsets.only(
         top: 20,
       ),
-      itemCount: favorites.length,
-      itemBuilder: (context, index) {
-        return Column(
-          children: <Widget>[
-            _item(list[index], context),
-            const Divider(height: 10, thickness: 1),
-          ],
-        );
-      },
+      children: <Widget>[
+        ...list.map(
+          (movie) => MovieFavoriteItem(movie: movie),
+        )
+      ],
     );
   }
 

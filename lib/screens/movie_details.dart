@@ -79,6 +79,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                             ? _textContainer(
                                 'No information is available for this movie.')
                             : _textContainer(state.movie!.overview),
+                        const SizedBox(height: 25),
                         _headLine("Cast"),
                         state.castList.isEmpty
                             ? _textContainer(
@@ -172,14 +173,17 @@ class _MovieDetailsState extends State<MovieDetails> {
                         Icons.category_outlined,
                         color: Colors.white,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: movie.genres.isEmpty
-                            ? const Text("-")
-                            : Text(
-                                _genres(movie),
-                                style: const TextStyle(fontSize: 16),
-                              ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: movie.genres.isEmpty
+                              ? const Text("-")
+                              : Text(
+                                  _genres(movie),
+                                  style: const TextStyle(fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                        ),
                       )
                     ],
                   ),
@@ -302,13 +306,16 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _textContainer(String text) {
-    return Card(
-      elevation: 20,
-      color: const Color.fromARGB(255, 29, 29, 33),
-      child: Container(
-          margin:
-              const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 20),
-          child: Text(text)),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8,10,8,0),
+      child: Card(
+        elevation: 20,
+        color: const Color.fromARGB(255, 29, 29, 33),
+        child: Container(
+            margin:
+                const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
+            child: Text(text)),
+      ),
     );
   }
 
@@ -317,7 +324,7 @@ class _MovieDetailsState extends State<MovieDetails> {
       builder: (context, state, child) => Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 20, left: 10),
+            margin: const EdgeInsets.only(top: 10, left: 10),
             height: 260,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

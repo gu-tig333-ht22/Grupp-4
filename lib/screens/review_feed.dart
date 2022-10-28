@@ -51,6 +51,14 @@ class _ReviewFeedState extends State<ReviewFeed> {
                             margin: const EdgeInsets.only(top: 20),
                             width: 600,
                             decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: const Offset(5, 5),
+                                  blurRadius: 15,
+                                  spreadRadius: 5
+                                )
+                              ],
                               borderRadius: BorderRadius.circular(15),
                               color: const Color(0xFF27272D),
                             ),

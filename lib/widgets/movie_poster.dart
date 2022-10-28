@@ -8,12 +8,14 @@ import 'package:template/widgets/shimmer_loader.dart';
 class MoviePoster extends StatelessWidget {
   final Movie movie;
   final bool active;
-  const MoviePoster({required this.movie, required this.active, super.key});
+  final double width;
+  final double padding;
+  const MoviePoster({required this.movie, required this.active, this.width = 120, this.padding = 10, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(padding),
       child: Consumer<MovieState>(builder: (context, state, child) {
         return GestureDetector(
           onTap: () {
@@ -22,7 +24,7 @@ class MoviePoster extends StatelessWidget {
                 builder: (con) => MovieDetails(movieId: movie.id)));
           },
           child: AnimatedContainer(
-            width: 120,
+            width: width,
             duration: const Duration(milliseconds: 500),
             padding: EdgeInsets.all(active ? 0 : 15),
             curve: Curves.easeInOutCubic,

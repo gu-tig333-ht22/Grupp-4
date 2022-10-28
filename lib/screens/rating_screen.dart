@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:template/models/movie.dart';
 import 'package:template/providers/movie_provider.dart';
+import 'package:template/widgets/movie_rating_item.dart';
 import 'movie_details.dart';
 import 'package:template/widgets/sort_button.dart';
 
@@ -95,8 +96,19 @@ class RatingScreen extends StatelessWidget {
                   Provider.of<MovieState>(context, listen: false)
                       .deleteRating(list[index].id);
                 },
-                child: _item(list[index], context, state)),
-            const Divider(height: 10, thickness: 1),
+                child: 
+                // _item(list[index], context, state)
+                MovieRatingItem(
+                  key: UniqueKey(),
+                  movie: list[index], trailing: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  const Icon(Icons.star, color: Colors.amber),
+                  const SizedBox(width: 5),
+                  Text((movieInRatedMovies(state.ratedMovies, list[index]) / 2).toString())
+                ],))
+                ),
+                SizedBox(height: index == list.length - 1 ? 45 : 15)
           ],
         );
       },

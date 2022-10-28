@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget movieRow(String title, List<Movie> movies) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8.0,8.0,0,8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
