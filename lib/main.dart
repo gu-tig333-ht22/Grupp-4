@@ -13,9 +13,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<MovieState>(
-        create: (context) => MovieState()
-      ),
+      ChangeNotifierProvider<MovieState>(create: (context) => MovieState()),
       ChangeNotifierProvider<SearchStateProvider>(
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
@@ -101,6 +99,8 @@ class _SessionScaffoldState extends State<SessionScaffold>
             ]),
             height: 55,
             child: TabBar(
+              onTap: (value) => Provider.of<MovieState>(context, listen: false)
+                  .setDeleteMovieFalse(),
               indicator: const PointTabIndicator(
                   position: PointTabIndicatorPosition.bottom,
                   color: Color(0xFF0296E5),
