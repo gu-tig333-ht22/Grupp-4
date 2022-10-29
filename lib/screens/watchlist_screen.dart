@@ -26,15 +26,18 @@ class WatchListScreenState extends State<WatchListScreen>
           Provider.of<MovieState>(context, listen: false).setDeleteMovieFalse();
         }),
         leading: IconButton(
-          icon: const Icon(Icons.add, color: Colors.white, size: 30),
-          tooltip: 'Add movie',
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => const AddMovie(),
-            ),
-          ),
-        ),
+            icon: const Icon(Icons.add, color: Colors.white, size: 30),
+            tooltip: 'Add movie',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const AddMovie(),
+                ),
+              );
+              Provider.of<MovieState>(context, listen: false)
+                  .setDeleteMovieFalse();
+            }),
         actions: [
           Consumer<MovieState>(
             builder: (context, state, child) => Center(

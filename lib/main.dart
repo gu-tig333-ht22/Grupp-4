@@ -106,6 +106,8 @@ class _SessionScaffoldState extends State<SessionScaffold>
             ]),
             height: 55,
             child: TabBar(
+              onTap: (value) => Provider.of<MovieState>(context, listen: false)
+                  .setDeleteMovieFalse(),
               indicator: const PointTabIndicator(
                   position: PointTabIndicatorPosition.bottom,
                   color: Color(0xFF0296E5),
