@@ -6,7 +6,8 @@ import 'package:template/providers/search_provider.dart';
 import 'package:template/widgets/movie_poster.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final TextEditingController serachController;
+  const HomeScreen({required this.serachController, super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,7 +17,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   PageController pageController =
       PageController(viewportFraction: 0.5, initialPage: 2);
   int activeMove = 2;
-  TextEditingController serachController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               color: const Color.fromARGB(255, 76, 76, 82),
                             ),
                             child: TextField(
-                              controller: serachController,
+                              controller: widget.serachController,
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.only(top: 15),
                                   suffixIcon: IconButton(
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 context,
                                                 listen: false)
                                             .disposeSerach();
-                                        serachController.text = "";
+                                        widget.serachController.text = "";
                                       },
                                       icon: const Icon(Icons.close)),
                                   border: InputBorder.none,
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return Column(
                             children: [
                               SizedBox(
-                                height: 280,
+                                height: 280, //TODO CHECK FOR HEIGHT ON BIG SCREENS
                                 child: PageView.builder(
                                     onPageChanged: (page) {
                                       setState(() {

@@ -13,9 +13,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<MovieState>(
-        create: (context) => MovieState()
-      ),
+      ChangeNotifierProvider<MovieState>(create: (context) => MovieState()),
       ChangeNotifierProvider<SearchStateProvider>(
           create: (context) => SearchStateProvider()),
       ChangeNotifierProvider<HomeScreenStateProvider>(
@@ -80,11 +78,18 @@ class SessionScaffold extends StatefulWidget {
 class _SessionScaffoldState extends State<SessionScaffold>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  TextEditingController serachController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 4, vsync: this)
+      ..addListener(() {
+        serachController.text = "";
+        Future.delayed(const Duration(milliseconds: 500), 
+        () =>  Provider.of<SearchStateProvider>(context, listen: false)
+            .disposeSerach());
+      });
   }
 
   @override
@@ -117,11 +122,11 @@ class _SessionScaffoldState extends State<SessionScaffold>
           body: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _tabController,
-              children: const [
-                HomeScreen(),
-                FavoriteScreen(),
-                WatchListScreen(),
-                RatingScreen()
+              children: [
+                HomeScreen(serachController: serachController),
+                const FavoriteScreen(),
+                const WatchListScreen(),
+                const RatingScreen()
               ])),
     );
   }

@@ -79,25 +79,25 @@ class ApiCalls {
     }
   }
 
-  static Future<http.Response> addFavorites(int id, bool favorite) {
+  static Future<http.Response> addFavorites(int movieId, bool favorite) {
     return http.post(
       Uri.parse('$baseUrl/account/$accountId/favorite?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
-        'media_id': id,
+        'media_id': movieId,
         'favorite': favorite,
       }),
     );
   }
 
-  static Future<http.Response> addToWatchList(int mediaID, bool watchlist) {
+  static Future<http.Response> addToWatchList(int movieId, bool watchlist) {
     return http.post(
       Uri.parse('$baseUrl/account/$accountId/watchlist?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
-        'media_id': mediaID,
+        'media_id': movieId,
         'watchlist': watchlist,
       }),
     );
@@ -145,8 +145,8 @@ class ApiCalls {
     );
   }
 
-  static Future<http.Response> deleteRating(movieId) {
-    return http.delete(
+  static Future<void> deleteRating(movieId) async {
+    await http.delete(
       Uri.parse('$baseUrl/movie/$movieId/rating?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
     );

@@ -11,6 +11,7 @@ class MovieFavoriteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         MoviePoster(movie: movie, active: true),
         Align(

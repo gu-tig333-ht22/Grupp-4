@@ -87,15 +87,15 @@ class MovieState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void postRating(mediaID, value) async {
-    await ApiCalls.postRating(mediaID, value);
+  void postRating(movieId, value) async {
+    await ApiCalls.postRating(movieId, value);
     getRatedMovies();
     notifyListeners();
   }
 
-  void deleteRating(mediaID) async {
-    await ApiCalls.deleteRating(mediaID);
-    getRatedMovies();
+  void deleteRating(int movieId) async {
+    await ApiCalls.deleteRating(movieId);
+    _ratedMovies.removeWhere((movie) => movie.id == movieId);
     notifyListeners();
   }
 
