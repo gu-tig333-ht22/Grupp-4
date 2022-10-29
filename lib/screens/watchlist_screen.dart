@@ -35,6 +35,7 @@ class WatchListScreenState extends State<WatchListScreen>
                   builder: (BuildContext context) => const AddMovie(),
                 ),
               );
+              _animationController.reverse();
               Provider.of<MovieState>(context, listen: false)
                   .setDeleteMovieFalse();
             }),
