@@ -15,7 +15,7 @@ class FavoriteScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFF27272D),
-        title: const Text('Favorites'),
+        title: const Text('My Favorites'),
         actions: [
           Consumer<MovieState>(
               builder: (context, state, child) =>
