@@ -8,6 +8,7 @@ class SortButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+        tooltip: 'Sort movies',
         icon: const Icon(Icons.sort_outlined),
         color: Colors.black,
         onSelected: (int value) {

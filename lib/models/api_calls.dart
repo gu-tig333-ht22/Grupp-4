@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:template/models/cast.dart';
 import 'package:template/models/movie.dart';
@@ -7,17 +6,13 @@ import 'package:template/models/review.dart';
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const apiKey = 'api_key=f70ecb57844925f70e0596d29bc2b37a';
-const movieEndpoint =
-    '/movie/120?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US';
-const requestToken = 'fa955b6f6c47b4ad6365ae007b3b2f784309981c';
-const requestToken2 = '1aa79b76b6f493b8b730250a321b5cfae0deb0ac';
-const sessionId = 'fd7120cdae39265b9bcb1bbbb343193ef7aad181';
+const sessionId = 'session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181';
 const accountId = '15074664';
 
 class ApiCalls {
   static Future<Movie> fetchMovie(id) async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/$id?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US'));
+    http.Response response =
+        await http.get(Uri.parse('$baseUrl/movie/$id?$apiKey&language=en-US'));
     var jsonData = response.body;
     var obj = jsonDecode(jsonData);
     var newMovie = Movie.fromJson(obj);
@@ -25,8 +20,8 @@ class ApiCalls {
   }
 
   static Future<List<Movie>> getHomeScreenMovies(String query) async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/$query?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&page=1'));
+    http.Response response = await http
+        .get(Uri.parse('$baseUrl/movie/$query?$apiKey&language=en-US&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -41,7 +36,7 @@ class ApiCalls {
 
   static Future<List<Movie>> getSerachMovies(String search) async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/search/movie?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&query=$search&page=1'));
+        '$baseUrl/search/movie?$apiKey&language=en-US&query=$search&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -55,8 +50,8 @@ class ApiCalls {
   }
 
   static Future<List<Cast>> getCast(movieId) async {
-    http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/$movieId/credits?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US'));
+    http.Response response = await http.get(
+        Uri.parse('$baseUrl/movie/$movieId/credits?$apiKey&language=en-US'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -71,7 +66,7 @@ class ApiCalls {
 
   static Future<List<Movie>> getFavorites() async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/account/15074664/favorite/movies?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&language=en-US&sort_by=created_at.asc&page=1'));
+        '$baseUrl/account/$accountId/favorite/movies?$apiKey&$sessionId&language=en-US&sort_by=created_at.asc&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -86,8 +81,7 @@ class ApiCalls {
 
   static Future<http.Response> addFavorites(int id, bool favorite) {
     return http.post(
-      Uri.parse(
-          'https://api.themoviedb.org/3/account/15074664/favorite?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      Uri.parse('$baseUrl/account/$accountId/favorite?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
@@ -99,8 +93,7 @@ class ApiCalls {
 
   static Future<http.Response> addToWatchList(int mediaID, bool watchlist) {
     return http.post(
-      Uri.parse(
-          'https://api.themoviedb.org/3/account/15074664/watchlist?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      Uri.parse('$baseUrl/account/$accountId/watchlist?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(<String, dynamic>{
         'media_type': 'movie',
@@ -112,7 +105,7 @@ class ApiCalls {
 
   static Future<List<Movie>> getWatchList() async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/account/15074664/watchlist/movies?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&sort_by=created_at.asc&page=1'));
+        '$baseUrl/account/$accountId/watchlist/movies?$apiKey&language=en-US&$sessionId&sort_by=created_at.asc&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -127,7 +120,7 @@ class ApiCalls {
 
   static Future<List<Review>> getMovieReviews(int movieId) async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/movie/$movieId/reviews?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&language=en-US&sort_by=created_at.asc&page=1'));
+        '$baseUrl/movie/$movieId/reviews?$apiKey&$sessionId&language=en-US&sort_by=created_at.asc&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -140,10 +133,9 @@ class ApiCalls {
     }
   }
 
-  static Future<http.Response> postRating(movieId, value) {
+  static Future<http.Response> postRating(int movieId, double value) {
     return http.post(
-      Uri.parse(
-          'https://api.themoviedb.org/3/movie/$movieId/rating?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      Uri.parse('$baseUrl/movie/$movieId/rating?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: jsonEncode(
         <String, dynamic>{
@@ -155,15 +147,14 @@ class ApiCalls {
 
   static Future<http.Response> deleteRating(movieId) {
     return http.delete(
-      Uri.parse(
-          'https://api.themoviedb.org/3/movie/$movieId/rating?api_key=f70ecb57844925f70e0596d29bc2b37a&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181'),
+      Uri.parse('$baseUrl/movie/$movieId/rating?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},
     );
   }
 
   static Future<List<Movie>> getRatedMovies() async {
     http.Response response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/account/15074664/rated/movies?api_key=f70ecb57844925f70e0596d29bc2b37a&language=en-US&session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181&sort_by=created_at.asc&page=1'));
+        '$baseUrl/account/$accountId/rated/movies?$apiKey&language=en-US&$sessionId&sort_by=created_at.asc&page=1'));
     if (response.statusCode == 200) {
       var jsonData = response.body;
       Map data = jsonDecode(jsonData);
@@ -176,20 +167,3 @@ class ApiCalls {
     }
   }
 }
-
-
-  
-
-/*
-class ApiCalls {
-  static Future<List<Movie>> fetchMovie() async {
-    http.Response response = await http.get(Uri.parse(baseUrl + movieEndpoint));
-    var jsonData = response.body;
-    var obj = jsonDecode(jsonData);
-    return obj.map<Movie>((data) {
-      return Movie.fromJson(data);
-    }).toList();
-  }
-}
-
-*/

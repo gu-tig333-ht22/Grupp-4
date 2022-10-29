@@ -17,10 +17,10 @@ class RatingScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           Consumer<MovieState>(
-            builder: (context, state, child) => SortButton(
-                onSelectedFunctionCallback: (value) =>
-                    Provider.of<MovieState>(context, listen: false)
-                        .setratingFilterBy(value))),
+              builder: (context, state, child) => SortButton(
+                  onSelectedFunctionCallback: (value) =>
+                      Provider.of<MovieState>(context, listen: false)
+                          .setratingFilterBy(value))),
         ],
         title: const Text(
           "My Ratings",
@@ -96,19 +96,23 @@ class RatingScreen extends StatelessWidget {
                   Provider.of<MovieState>(context, listen: false)
                       .deleteRating(list[index].id);
                 },
-                child: 
-                // _item(list[index], context, state)
-                MovieRatingItem(
-                  key: UniqueKey(),
-                  movie: list[index], trailing: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                  const Icon(Icons.star, color: Colors.amber),
-                  const SizedBox(width: 5),
-                  Text((movieInRatedMovies(state.ratedMovies, list[index]) / 2).toString())
-                ],))
-                ),
-                SizedBox(height: index == list.length - 1 ? 45 : 15)
+                child:
+                    // _item(list[index], context, state)
+                    MovieRatingItem(
+                        key: UniqueKey(),
+                        movie: list[index],
+                        trailing: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(Icons.star, color: Colors.amber),
+                            const SizedBox(width: 5),
+                            Text((movieInRatedMovies(
+                                        state.ratedMovies, list[index]) /
+                                    2)
+                                .toString())
+                          ],
+                        ))),
+            SizedBox(height: index == list.length - 1 ? 45 : 15)
           ],
         );
       },

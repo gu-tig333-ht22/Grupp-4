@@ -11,6 +11,8 @@ class MovieState extends ChangeNotifier {
   int _filterBy = 0;
   int _watchListFilterBy = 0;
   int _ratingFilterBy = 0;
+  bool _deleteMovie = false;
+  bool _shakeMovie = false;
 
   Movie? _movie;
 
@@ -22,6 +24,8 @@ class MovieState extends ChangeNotifier {
   int get filterBy => _filterBy;
   int get watchListFilterBy => _watchListFilterBy;
   int get ratingFilterBy => _ratingFilterBy;
+  bool get deleteMovie => _deleteMovie;
+  bool get shakeMovie => _shakeMovie;
 
   MovieState() {
     getFavorites();
@@ -107,6 +111,26 @@ class MovieState extends ChangeNotifier {
 
   void setratingFilterBy(int ratingFilterBy) {
     _ratingFilterBy = ratingFilterBy;
+    notifyListeners();
+  }
+
+  void setDeleteMovie() {
+    _deleteMovie = !_deleteMovie;
+    notifyListeners();
+  }
+
+  void setDeleteMovieFalse() {
+    _deleteMovie = false;
+    notifyListeners();
+  }
+
+  void setShakeTrue() {
+    _shakeMovie = true;
+    notifyListeners();
+  }
+
+  void setShakeFalse() {
+    _shakeMovie = false;
     notifyListeners();
   }
 }
