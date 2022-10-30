@@ -51,14 +51,14 @@ class MovieState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFavorites(id) async {
-    await ApiCalls.addFavorites(id, true);
+  void addFavorites(int movieId) async {
+    await ApiCalls.addFavorites(movieId, true);
     getFavorites();
     notifyListeners();
   }
 
-  void deleteFavorites(id) async {
-    await ApiCalls.addFavorites(id, false);
+  void deleteFavorites(int movieId) async {
+    await ApiCalls.addFavorites(movieId, false);
     getFavorites();
     notifyListeners();
   }
@@ -69,14 +69,14 @@ class MovieState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addToWatchList(mediaID) async {
-    await ApiCalls.addToWatchList(mediaID, true);
+  void addToWatchList(int movieId) async {
+    await ApiCalls.addToWatchList(movieId, true);
     getWatchList();
     notifyListeners();
   }
 
-  void removeFromWatchList(mediaID) async {
-    await ApiCalls.addToWatchList(mediaID, false);
+  void removeFromWatchList(int movieId) async {
+    await ApiCalls.addToWatchList(movieId, false);
     getWatchList();
     notifyListeners();
   }
@@ -87,7 +87,7 @@ class MovieState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void postRating(movieId, value) async {
+  void postRating(int movieId, double value) async {
     await ApiCalls.postRating(movieId, value);
     getRatedMovies();
     notifyListeners();

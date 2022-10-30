@@ -45,7 +45,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             child: TextField(
                               controller: widget.serachController,
                               decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.only(top: 15),
+                                  contentPadding:
+                                      const EdgeInsets.only(top: 15),
                                   suffixIcon: IconButton(
                                       onPressed: () {
                                         Provider.of<SearchStateProvider>(
@@ -79,12 +80,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             builder: (context, searchValue, child) {
                           if (searchValue.isSearching) {
                             return Padding(
-                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height / 3, horizontal: MediaQuery.of(context).size.width / 3 ),
-                              child: const Center(child: CircularProgressIndicator()));
-                          } else if (searchValue.serachHits != null && searchValue.serachHits!.isEmpty) {
-                            return const Center(child: Padding(padding: EdgeInsets.only(top: 50), child: Text("No movies found")));
-                          }
-                          else if (searchValue.serachHits != null) {
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        MediaQuery.of(context).size.height / 3,
+                                    horizontal:
+                                        MediaQuery.of(context).size.width / 3),
+                                child: const Center(
+                                    child: CircularProgressIndicator()));
+                          } else if (searchValue.serachHits != null &&
+                              searchValue.serachHits!.isEmpty) {
+                            return const Center(
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 50),
+                                    child: Text("No movies found")));
+                          } else if (searchValue.serachHits != null) {
                             return SizedBox(
                               height: MediaQuery.of(context).size.height * 0.9,
                               child: GridView(
@@ -93,9 +102,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         crossAxisCount: 3,
                                         childAspectRatio: 1 / 1.4),
                                 children: [
-                                  ...searchValue.serachHits!.map(
-                                      (movie) => MoviePoster(movie: movie, active: true)),
-                                  for (int i = 0; i < 3;  i++) Container(height: 50) 
+                                  ...searchValue.serachHits!.map((movie) =>
+                                      MoviePoster(movie: movie, active: true)),
+                                  for (int i = 0; i < 3; i++)
+                                    Container(height: 50)
                                 ],
                               ),
                             );
@@ -103,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return Column(
                             children: [
                               SizedBox(
-                                height: 280, //TODO CHECK FOR HEIGHT ON BIG SCREENS
+                                height: 280,
                                 child: PageView.builder(
                                     onPageChanged: (page) {
                                       setState(() {
@@ -156,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget movieRow(String title, List<Movie> movies) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0,8.0,0,8),
+      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -177,7 +187,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    ...movies.map((movie) => MoviePoster(movie: movie, active: true))
+                    ...movies
+                        .map((movie) => MoviePoster(movie: movie, active: true))
                   ],
                 ),
               ))

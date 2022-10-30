@@ -10,7 +10,7 @@ const sessionId = 'session_id=fd7120cdae39265b9bcb1bbbb343193ef7aad181';
 const accountId = '15074664';
 
 class ApiCalls {
-  static Future<Movie> fetchMovie(id) async {
+  static Future<Movie> fetchMovie(int id) async {
     http.Response response =
         await http.get(Uri.parse('$baseUrl/movie/$id?$apiKey&language=en-US'));
     var jsonData = response.body;
@@ -49,7 +49,7 @@ class ApiCalls {
     }
   }
 
-  static Future<List<Cast>> getCast(movieId) async {
+  static Future<List<Cast>> getCast(int movieId) async {
     http.Response response = await http.get(
         Uri.parse('$baseUrl/movie/$movieId/credits?$apiKey&language=en-US'));
     if (response.statusCode == 200) {
@@ -145,7 +145,7 @@ class ApiCalls {
     );
   }
 
-  static Future<void> deleteRating(movieId) async {
+  static Future<void> deleteRating(int movieId) async {
     await http.delete(
       Uri.parse('$baseUrl/movie/$movieId/rating?$apiKey&$sessionId'),
       headers: {'Content-Type': 'application/json;charset=utf-8'},

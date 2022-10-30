@@ -18,10 +18,10 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
     super.initState();
-    Provider.of<MovieState>(context, listen: false).getMovie(widget.movieId);
-    Provider.of<MovieState>(context, listen: false).getCast(widget.movieId);
-    Provider.of<MovieState>(context, listen: false).getWatchList();
-    Provider.of<MovieState>(context, listen: false).getRatedMovies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MovieState>(context, listen: false).getMovie(widget.movieId);
+      Provider.of<MovieState>(context, listen: false).getCast(widget.movieId);
+    });
   }
 
   @override
@@ -325,7 +325,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 10, left: 10),
-            height: 270,
+            height: 280,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -342,6 +342,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
                           image: DecorationImage(
+                              fit: BoxFit.cover,
                               image: state.castList[index].poster != null
                                   ? NetworkImage(
                                       'https://image.tmdb.org/t/p/w200${state.castList[index].poster}')
@@ -378,7 +379,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  _genres(Movie movie) {
+  String _genres(Movie movie) {
     List<dynamic> genreList = [];
     for (var genre in movie.genres) {
       genreList.add(genre['name']);

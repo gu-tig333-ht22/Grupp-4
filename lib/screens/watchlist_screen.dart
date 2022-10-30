@@ -17,12 +17,22 @@ class WatchListScreen extends StatefulWidget {
 
 class WatchListScreenState extends State<WatchListScreen>
     with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 450));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: GestureDetector(onTap: () async {
           await _animationController.reverse();
+          if (!mounted) return;
           Provider.of<MovieState>(context, listen: false).setDeleteMovieFalse();
         }),
         leading: IconButton(
@@ -87,6 +97,7 @@ class WatchListScreenState extends State<WatchListScreen>
       behavior: HitTestBehavior.opaque,
       onTap: () async {
         await _animationController.reverse();
+        if (!mounted) return;
         Provider.of<MovieState>(context, listen: false).setDeleteMovieFalse();
       },
       child: SizedBox(
@@ -141,19 +152,4 @@ class WatchListScreenState extends State<WatchListScreen>
       ),
     );
   }
-
-  late AnimationController _animationController;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 450));
-  }
-
-  /* @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }*/
 }
