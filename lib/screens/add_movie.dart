@@ -75,19 +75,27 @@ class AddMovieState extends State<AddMovie> {
                 builder: (context, searchValue, child) {
               if (searchValue.isSearching) {
                 return const Center(child: CircularProgressIndicator());
+              } else if (searchValue.serachHits != null &&
+                  searchValue.serachHits!.isEmpty) {
+                return const Center(
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Text("No movies found.")));
               } else if (searchValue.serachHits != null) {
                 return SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: GridView(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 1 / 1.4,
-                        crossAxisCount: 3,
-                      ),
-                      children: [
-                        ...searchValue.serachHits!.map((e) => MoviePoster(movie: e, active: true)),
-                        for (int i = 0; i < 3;  i++) Container(height: 50)
-                      ],),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 1 / 1.4,
+                      crossAxisCount: 3,
+                    ),
+                    children: [
+                      ...searchValue.serachHits!
+                          .map((e) => MoviePoster(movie: e, active: true)),
+                      for (int i = 0; i < 3; i++) Container(height: 50)
+                    ],
+                  ),
                 );
               }
               return Column();
