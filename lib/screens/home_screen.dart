@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             return const Center(
                                 child: Padding(
                                     padding: EdgeInsets.only(top: 50),
-                                    child: Text("No movies found")));
+                                    child: Text("No movies found.")));
                           } else if (searchValue.serachHits != null) {
                             return SizedBox(
                               height: MediaQuery.of(context).size.height * 0.9,

@@ -119,8 +119,11 @@ class WatchListScreenState extends State<WatchListScreen>
                   });
                 },
                 child: state.deleteMovie
-                    ? Stack(children: [
-                        MoviePoster(movie: watchlist[index], active: true),
+                    ? Stack(fit: StackFit.expand, children: [
+                        MoviePoster(
+                            movie: watchlist[index],
+                            active: true,
+                            animationController: _animationController),
                         Align(
                           alignment: Alignment.topRight,
                           child: Padding(
@@ -144,7 +147,10 @@ class WatchListScreenState extends State<WatchListScreen>
                             autoPlay: true,
                             child: MoviePoster(
                                 movie: watchlist[index], active: true))
-                        : MoviePoster(movie: watchlist[index], active: true),
+                        : MoviePoster(
+                            movie: watchlist[index],
+                            active: true,
+                            animationController: _animationController),
               )),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 1 / 1.4, crossAxisCount: 3),
