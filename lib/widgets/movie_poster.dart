@@ -10,11 +10,13 @@ class MoviePoster extends StatelessWidget {
   final bool active;
   final double width;
   final double padding;
+  final AnimationController? animationController;
   const MoviePoster(
       {required this.movie,
       required this.active,
       this.width = 120,
       this.padding = 10,
+      this.animationController,
       super.key});
 
   @override
@@ -26,6 +28,11 @@ class MoviePoster extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (con) => MovieDetails(movieId: movie.id)));
+            Provider.of<MovieState>(context, listen: false)
+                .setDeleteMovieFalse();
+            if (animationController != null) {
+              animationController!.reverse();
+            }
           },
           child: AnimatedContainer(
             width: width,
